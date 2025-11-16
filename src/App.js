@@ -10,6 +10,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         {/* <Route path="/team/create" element={<TeamCreate/>}/> */}
         {/* <Route path="/team/entry" element={<TeamEntry/>}/> */}
+        {/* <Route path="/admin/members" element={<Members/>}*/}
       </Routes>
     </Router>
   );
