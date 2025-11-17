@@ -1,17 +1,27 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./components/layout/Layout";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
 
 function App() {
   return (
-    <Router>
+    // <Router>
+    //   <Routes>
+    //     <Route path="/" element={<LogIn />} />
+    //     <Route path="/signup" element={<SignUp />} />
+    //     {/* <Route path="/team/create" element={<TeamCreate/>}/> */}
+    //     {/* <Route path="/team/entry" element={<TeamEntry/>}/> */}
+    //   </Routes>
+    // </Router>
+
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LogIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        {/* <Route path="/team/create" element={<TeamCreate/>}/> */}
-        {/* <Route path="/team/entry" element={<TeamEntry/>}/> */}
+        <Route element={<Layout />}>
+          <Route path="/" element={<LogIn />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Route>
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 
