@@ -1,0 +1,100 @@
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.topbar {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: #fff;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.logo {
+  width: 180px;
+}
+
+.search-box input {
+  width: 350px;
+  height: 40px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  padding: 0 15px;
+}
+
+.content-wrapper {
+  display: flex;
+  flex: 1;
+}
+
+.sidebar {
+  width: 220px;
+  border-right: 1px solid #e5e5e5;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  background: #fafafa;
+  position: relative;
+}
+.sidebar a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.new-project-btn {
+  width: 100%;
+  margin-bottom: 20px;
+  height: 45px;
+  background: #4b4bff;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.menu-list ul {
+  padding-left: 0;
+}
+.menu-list .bottom-menu {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.menu-list li {
+  list-style: none;
+  margin-bottom: 20px;
+}
+.sidebar li {
+  width: 200px;
+  height: 50px;
+  border-radius: 10px;
+  line-height: 50px;
+  padding: 0 10px;
+  font-weight: 500;
+}
+.sidebar li:hover {
+  background-color: #bec3ffac;
+  color: rgb(78, 47, 169);
+}
+
+.bottom-menu {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+}
+.main-content {
+  flex: 1;
+  padding: 30px;
+  background: #fff;
+  overflow-y: auto;
+}

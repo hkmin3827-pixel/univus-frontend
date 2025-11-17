@@ -1,31 +1,49 @@
 import styled, { css } from "styled-components";
 
 export const Container = styled.div`
+  min-height: 100vh;
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
-  max-width: 500px;
-  margin: auto;
+  background: #ffffff;
+`;
 
-  .footer {
-    display: flex;
-    position: absolute;
-    background-color: #ccc;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 30px;
-    color: #222;
-    font-size: 0.8em;
-    justify-content: center;
-    align-items: center;
-  }
+export const TopMenu = styled.header`
+  display: flex;
+  justify-content: flex-end;
+  padding: 24px 40px;
+  gap: 8px;
+`;
+
+export const TabButton = styled.button`
+  min-width: 80px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid #dddddd;
+  background: #ffffff;
+  font-size: 13px;
+  cursor: pointer;
+
+  ${({ active }) =>
+    active &&
+    css`
+      background: #5b4bff;
+      color: #ffffff;
+      border-color: #5b4bff;
+    `}
+`;
+
+export const LoginBox = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const Items = styled.div`
+  width: 420px;
   display: flex;
   align-items: center;
-  margin: ${(props) => props.margin || "10px"};
+  margin: ${(props) => props.margin || "10px 0"};
   justify-content: ${(props) => props.justify || "flex-start"};
   font-size: ${(props) => props.fontSize || "inherit"};
   color: ${(props) => props.color || "inherit"};
@@ -33,51 +51,18 @@ export const Items = styled.div`
   ${(props) =>
     props.variant === "title" &&
     css`
-      font-size: 30px;
-      margin-top: 100px;
-      margin-bottom: 40px;
+      font-size: 28px;
+      margin-bottom: 24px;
       justify-content: center;
+      font-weight: 700;
     `}
 
   ${(props) =>
     props.variant === "hint" &&
     css`
-      margin-top: -5px;
-      margin-bottom: 10px;
+      margin-top: -6px;
       justify-content: flex-end;
       font-size: 12px;
-      color: #999;
+      color: #999999;
     `}
-
-  ${(props) =>
-    props.variant === "signup" &&
-    css`
-      justify-content: flex-end;
-      color: orange;
-      font-weight: 700;
-      margin-top: 10px;
-      margin-right: 40px;
-      font-size: 14px;
-
-      .link_style {
-        color: orange;
-        text-decoration: none;
-      }
-    `}
-`;
-
-export const Button = styled.div`
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  font-weight: bold;
-  width: 70px;
-  height: 20px;
-  color: white;
-  background-color: #a8c698;
-  font-size: 14px;
-  border-radius: 15px;
-  border: #9db98eff;
-  font-weight: 600;
-  cursor: pointer;
 `;
