@@ -4,13 +4,13 @@ export const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  max-width: 500px;
+  max-width: 700px;
   margin: auto;
 
   .footer {
     display: flex;
     position: absolute;
-    background-color: #ccc;
+    background-color: blue;
     bottom: 0;
     left: 0;
     right: 0;
@@ -20,6 +20,38 @@ export const Container = styled.div`
     justify-content: center;
     align-items: center;
   }
+`;
+
+export const TopMenu = styled.header`
+  display: flex;
+  justify-content: flex-end;
+  padding: 24px 40px;
+  gap: 8px;
+`;
+
+export const TabButton = styled.button`
+  min-width: 80px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid #dddddd;
+  background: #ffffff;
+  font-size: 13px;
+  cursor: pointer;
+
+  ${({ active }) =>
+    active &&
+    css`
+      background: #5b4bff;
+      color: #ffffff;
+      border-color: #5b4bff;
+    `}
+`;
+
+export const LoginBox = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const RoleBox = styled.div`

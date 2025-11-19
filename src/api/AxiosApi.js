@@ -13,7 +13,10 @@ const AxiosApi = {
 
   // 이메일로 가입 여부 확인
   emailcheck: async (email) => {
-    return await axios.get(DOMAIN + `/auth/exists/${email}`);
+    const res = await axios.get(
+      DOMAIN + `/auth/exists/${encodeURIComponent(email)}`
+    );
+    return res.data; // <- true 또는 false 만 리턴
   },
   // 회원 가입
   signup: async (email, pwd, name, tel, role) => {

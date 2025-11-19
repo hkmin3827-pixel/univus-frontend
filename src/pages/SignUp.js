@@ -7,6 +7,8 @@ import {
   Items,
   RoleBox,
   RoleOption,
+  TabButton,
+  TopMenu,
 } from "../components/signUp/SignUpComponent";
 import InputComponent from "../components/common/InputComponent";
 import ButtonComponent from "../components/common/ButtonComponent";
@@ -57,17 +59,21 @@ const SignUp = () => {
     }
 
     try {
-      const res = await AxiosApi.emailcheck(email); // 예: 서버에 /check-email API 호출
-      if (res.data.exists) {
+      const exists = await AxiosApi.emailcheck(email); // ← Boolean
+      console.log("이메일 중복 체크 응답:", exists);
+
+      if (exists) {
+        // 이미 DB에 있음 → 사용 불가능
         setEmailMsg("이미 사용 중인 이메일입니다.");
         setIsEmail(false);
       } else {
+        // DB에 없음 → 사용 가능
         setEmailMsg("사용 가능한 이메일입니다.");
         setIsEmail(true);
       }
     } catch (e) {
-      console.error(e);
-      setEmailMsg("이미 가입한 이메일입니다.");
+      console.error("이메일 체크 에러:", e.response?.status, e.response?.data);
+      setEmailMsg("회원 조회에 실패하였습니다.");
       setIsEmail(false);
     }
   };
@@ -114,6 +120,10 @@ const SignUp = () => {
     setIsRole(true);
   };
 
+  const onClickToLogin = () => {
+    navigate("/");
+  };
+
   const onClickSignUp = async () => {
     try {
       const res = await AxiosApi.signup(
@@ -135,6 +145,12 @@ const SignUp = () => {
 
   return (
     <Container>
+      <TopMenu>
+        <TabButton onClick={onClickToLogin} e>
+          로그인
+        </TabButton>
+        <TabButton active>회원가입</TabButton>
+      </TopMenu>
       <Items variant="title">
         <span>Sign up</span>
       </Items>
