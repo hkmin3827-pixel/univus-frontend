@@ -1,11 +1,10 @@
 import styled, { css } from "styled-components";
 
 export const Container = styled.div`
+  min-height: 100vh;
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
-  max-width: 700px;
-  margin: auto;
+  background: #ffffff;
 
   .footer {
     display: flex;
@@ -53,6 +52,13 @@ export const LoginBox = styled.div`
   align-items: center;
   justify-content: center;
 `;
+export const FormWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 500px; /* 폼 폭 */
+  margin: 0 auto; /* 가운데 배치 */
+`;
 
 export const RoleBox = styled.div`
   display: flex;
@@ -81,7 +87,7 @@ export const RoleOption = styled.label`
 export const Items = styled.div`
   display: flex;
   align-items: center;
-  margin: ${(props) => props.margin || "10px"};
+  margin: ${(props) => props.margin || "4px"};
   justify-content: ${(props) => props.justify || "flex-start"};
   font-size: ${(props) => props.fontSize || "inherit"};
   color: ${(props) => props.color || "inherit"};
@@ -89,23 +95,22 @@ export const Items = styled.div`
   ${(props) =>
     props.variant === "title" &&
     css`
-      font-size: 30px;
-      margin-top: 100px;
-      margin-bottom: 40px;
+      font-size: 28px;
+      margin-bottom: 24px;
       justify-content: center;
+      font-weight: 700;
     `}
 
   ${(props) =>
     props.variant === "hint" &&
     css`
-      margin-top: -5px;
-      margin-bottom: 10px;
-      justify-content: flex-end;
+      width: 400px; /* 입력창과 동일한 폭 */
+      margin: 2px auto 8px; /* 🔥 입력창 아래 간격 좁게 */
+      display: flex;
+      justify-content: flex-end; /* 오른쪽 정렬 */
       font-size: 12px;
-      color: #999;
     `}
-
-  ${(props) =>
+     ${(props) =>
     props.variant === "signup" &&
     css`
       justify-content: flex-end;

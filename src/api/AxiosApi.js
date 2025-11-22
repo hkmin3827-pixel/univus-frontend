@@ -1,26 +1,30 @@
-import axios from "axios"; // 비동기 통신 라이브러리를 가져 오기
+// src/api/AxiosApi.js
+import axios from "axios"; // 비동기 통신 라이브러리를 가져오기
+
 const DOMAIN = "http://localhost:8111";
-// https://192.168.219.175:3310
+
+// 🔥 공통 설정이 들어간 axios 인스턴스 생성
+const api = axios.create({
+  baseURL: DOMAIN,
+  withCredentials: true, // 세션 쿠키(JSESSIONID) 주고받기
+});
 
 const AxiosApi = {
-  // 객체 생성
   // 로그인
-
   login: async (email, pwd) => {
     // 이메일과 비밀번호를 body에 실어서 전송
-    return await axios.post(DOMAIN + "/auth/login", { email, pwd }); // 백엔드의 변수명과 동일해야 함
+    return await api.post("/auth/login", { email, pwd });
   },
 
   // 이메일로 가입 여부 확인
   emailcheck: async (email) => {
-    const res = await axios.get(
-      DOMAIN + `/auth/exists/${encodeURIComponent(email)}`
-    );
+    const res = await api.get(`/auth/exists/${encodeURIComponent(email)}`);
     return res.data; // <- true 또는 false 만 리턴
   },
+
   // 회원 가입
   signup: async (email, pwd, name, tel, role) => {
-    return await axios.post(DOMAIN + "/auth/signup", {
+    return await api.post("/auth/signup", {
       email,
       pwd,
       name,
@@ -29,16 +33,17 @@ const AxiosApi = {
     });
   },
 
-  // 회원 목록 가져 오기
+  // 회원 목록 가져오기
   members: async () => {
-    return await axios.get(DOMAIN + "/users/list");
+    return await api.get("/users/list");
   },
 
   getboard: async (boardId) => {
-    return await axios.get(DOMAIN + `/api/boards/${boardId}`);
+    return await api.get(`/api/boards/${boardId}`);
   },
+
   getpost: async (postId) => {
-    return await axios.get(DOMAIN + `/api/posts/${postId}`);
+    return await api.get(`/api/posts/${postId}`);
   },
 };
 
