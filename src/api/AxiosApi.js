@@ -38,6 +38,11 @@ const AxiosApi = {
     return await api.get("/user/list");
   },
 
+  //상세 회원 목록 가져오기
+  detailmembers: async (email) => {
+    return await api.get(`user/${email}`);
+  },
+
   getboard: async (boardId) => {
     return await api.get(`/api/boards/${boardId}`);
   },
