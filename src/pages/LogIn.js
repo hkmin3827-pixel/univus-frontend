@@ -40,7 +40,8 @@ const LogIn = () => {
       if (response.data) {
         localStorage.setItem("email", inputEmail);
         localStorage.setItem("isLogin", "TRUE");
-        navigate("/home");
+        // navigate("/home");
+        navigate("/post");
       } else {
         alert("이메일 또는 패스워드가 틀립니다.");
       }

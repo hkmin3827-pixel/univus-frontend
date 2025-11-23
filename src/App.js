@@ -2,6 +2,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
+import Post from "./pages/Post";
+import PostWrite from "./components/post/PostWrite";
+import BoardPage from "./pages/BoardPage";
+import { TeamProvider } from "./context/TeamContext";
 
 function App() {
   return (
@@ -13,16 +17,19 @@ function App() {
     //     {/* <Route path="/team/entry" element={<TeamEntry/>}/> */}
     //   </Routes>
     // </Router>
-
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LogIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route element={<Layout />}>
-          {/* 레이아웃 확인하시라고 로그인+회원가입 창 Outlet에 넣어두었습니다. 추후 로그인/회원가입은 따로 뺄 예정 */}
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <TeamProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LogIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route element={<Layout />}>
+            <Route path="team/:teamId/board/:boardId" element={<BoardPage />} />
+            <Route path="/post" element={<Post />} />
+            <Route path="/post/create" element={<PostWrite />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </TeamProvider>
   );
 }
 
