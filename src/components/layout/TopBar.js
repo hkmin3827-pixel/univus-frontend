@@ -8,9 +8,19 @@ function TopBar() {
     navigate("/profile"); // 페이지 이동
   };
 
+  const goToHome = () => {
+    navigate("/Home"); // 페이지 이동
+  };
+
   return (
     <header className="topbar">
-      <img className="logo" src={logo} alt="univus 로고" />
+      <img
+        className="logo"
+        onClick={goToHome}
+        style={{ cursor: "pointer" }}
+        src={logo}
+        alt="univus 로고"
+      />
 
       <div className="search-box">
         <input placeholder="검색어를 입력해주세요" />
