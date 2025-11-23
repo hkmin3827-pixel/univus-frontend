@@ -1,25 +1,28 @@
 // src/api/AxiosApi.js
-import axios from "axios"; // 비동기 통신 라이브러리를 가져오기
+import axios from "axios";
 
 const DOMAIN = "http://localhost:8111";
 
-// 🔥 공통 설정이 들어간 axios 인스턴스 생성
 const api = axios.create({
   baseURL: DOMAIN,
-  withCredentials: true, // 세션 쿠키(JSESSIONID) 주고받기
+  withCredentials: true,
 });
 
 const AxiosApi = {
   // 로그인
   login: async (email, pwd) => {
-    // 이메일과 비밀번호를 body에 실어서 전송
     return await api.post("/auth/login", { email, pwd });
   },
 
-  // 이메일로 가입 여부 확인
+  // 로그아웃
+  logout: async () => {
+    return await api.post("/auth/logout");
+  },
+
+  // 이메일 중복 체크
   emailcheck: async (email) => {
     const res = await api.get(`/auth/exists/${encodeURIComponent(email)}`);
-    return res.data; // <- true 또는 false 만 리턴
+    return res.data;
   },
 
   // 회원 가입
@@ -33,9 +36,43 @@ const AxiosApi = {
     });
   },
 
-  // 회원 목록 가져오기
+  // 유저 공통 정보 수정
+  updateUserProfile: async (email, payload) => {
+    return await api.put(`/user/${encodeURIComponent(email)}`, payload);
+  },
+
+  // 학생 전용
+  updateStudentProfile: async (email, payload) => {
+    return await api.put(
+      `/profile/student/${encodeURIComponent(email)}`,
+      payload
+    );
+  },
+
+  // 교수 전용
+  updateProfessorProfile: async (email, payload) => {
+    return await api.put(
+      `/profile/professor/${encodeURIComponent(email)}`,
+      payload
+    );
+  },
+
+  getStudentProfile: async (email) => {
+    return await api.get(`/profile/students/${encodeURIComponent(email)}`);
+  },
+
+  getProfessorProfile: async (email) => {
+    return await api.get(`/profile/professors/${encodeURIComponent(email)}`);
+  },
+
+  // 회원 목록
   members: async () => {
     return await api.get("/user/list");
+  },
+
+  // 상세 회원
+  detailmembers: async (email) => {
+    return await api.get(`/user/${email}`);
   },
 
   getboard: async (boardId) => {

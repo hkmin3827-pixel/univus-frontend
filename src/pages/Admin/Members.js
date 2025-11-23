@@ -55,7 +55,7 @@ const MemberEmail = styled.span`
 
 const Members = () => {
   const navigate = useNavigate();
-  const [members, setMembers] = useState("");
+  const [members, setMembers] = useState([]);
   useEffect(() => {
     const isLogin = localStorage.getItem("isLogin");
     const role = localStorage.getItem("role"); // "ADMIN" / "STUDENT" / "PROFESSOR"
@@ -81,7 +81,7 @@ const Members = () => {
   
 const onClickMember = (email) => {
     console.log("onCLick member : " + email);
-    navigate(`/user/${email}`);
+    navigate(`${email}`);
   };
 
 
