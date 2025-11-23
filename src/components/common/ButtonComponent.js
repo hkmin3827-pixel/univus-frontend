@@ -4,7 +4,7 @@ const StyledButton = styled.button`
   margin: 100px 30px 0;
   font-weight: bold;
   width: 400px;
-  height: 50px;
+  height: 52px;
   color: white;
   background-color: #999;
   font-size: 15px;
@@ -16,7 +16,7 @@ const StyledButton = styled.button`
   ${(props) =>
     props.enabled &&
     css`
-      background-color: orange;
+      background-color: #5b4bff;
     `}
 
   &:active {

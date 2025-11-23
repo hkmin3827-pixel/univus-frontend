@@ -9,6 +9,7 @@ import {
   RoleOption,
   TabButton,
   TopMenu,
+  FormWrapper,
 } from "../components/signUp/SignUpComponent";
 import InputComponent from "../components/common/InputComponent";
 import ButtonComponent from "../components/common/ButtonComponent";
@@ -151,93 +152,95 @@ const SignUp = () => {
         </TabButton>
         <TabButton active>회원가입</TabButton>
       </TopMenu>
-      <Items variant="title">
-        <span>Sign up</span>
-      </Items>
-      <Items variant="item2">
-        <InputComponent
-          type="email"
-          placeholder="이메일"
-          value={inputEmail}
-          onChange={onChangeEmail}
-        />
-      </Items>
-      <Items variant="hint">
-        <p>{emailMsg}</p>
-      </Items>
-      <Items variant="item2">
-        <InputComponent
-          type="password"
-          placeholder="비밀번호"
-          value={inputPw}
-          onChange={onChangePw}
-        />
-      </Items>
-      <Items variant="hint">
-        <p>{pwMsg}</p>
-      </Items>
-      <Items variant="item2">
-        <InputComponent
-          type="password"
-          placeholder="비밀번호 확인"
-          value={inputConPw}
-          onChange={onChangeConPw}
-        />
-      </Items>
-      <Items variant="hint">
-        <p>{conPwMsg}</p>
-      </Items>
-      <Items variant="item2">
-        <InputComponent
-          type="name"
-          placeholder="이름"
-          value={inputName}
-          onChange={onChangeName}
-        />
-      </Items>
+      <FormWrapper>
+        <Items variant="title">
+          <span>회원가입</span>
+        </Items>
+        <Items variant="item2">
+          <InputComponent
+            type="email"
+            placeholder="이메일"
+            value={inputEmail}
+            onChange={onChangeEmail}
+          />
+        </Items>
+        <Items variant="hint">
+          <p>{emailMsg}</p>
+        </Items>
+        <Items variant="item2">
+          <InputComponent
+            type="password"
+            placeholder="비밀번호"
+            value={inputPw}
+            onChange={onChangePw}
+          />
+        </Items>
+        <Items variant="hint">
+          <p>{pwMsg}</p>
+        </Items>
+        <Items variant="item2">
+          <InputComponent
+            type="password"
+            placeholder="비밀번호 확인"
+            value={inputConPw}
+            onChange={onChangeConPw}
+          />
+        </Items>
+        <Items variant="hint">
+          <p>{conPwMsg}</p>
+        </Items>
+        <Items variant="item2">
+          <InputComponent
+            type="name"
+            placeholder="이름"
+            value={inputName}
+            onChange={onChangeName}
+          />
+        </Items>
 
-      <Items variant="item2">
-        <RoleBox>
-          <RoleOption>
-            <input
-              type="radio"
-              name="role"
-              value="STUDENT"
-              checked={role === "STUDENT"}
-              onChange={onChangeRole}
-            />
-            학생
-          </RoleOption>
-          <RoleOption>
-            <input
-              type="radio"
-              name="role"
-              value="PROFESSOR"
-              checked={role === "PROFESSOR"}
-              onChange={onChangeRole}
-            />
-            교수
-          </RoleOption>
-        </RoleBox>
-      </Items>
+        <Items variant="item2">
+          <RoleBox>
+            <RoleOption>
+              <input
+                type="radio"
+                name="role"
+                value="STUDENT"
+                checked={role === "STUDENT"}
+                onChange={onChangeRole}
+              />
+              학생
+            </RoleOption>
+            <RoleOption>
+              <input
+                type="radio"
+                name="role"
+                value="PROFESSOR"
+                checked={role === "PROFESSOR"}
+                onChange={onChangeRole}
+              />
+              교수
+            </RoleOption>
+          </RoleBox>
+        </Items>
 
-      <Items className="item2">
-        <InputComponent
-          type="tel"
-          placeholder="전화번호"
-          value={inputTelNum}
-          onChange={onChangeTelNum}
-        />
-      </Items>
-      <Items variant="item2">
-        {isEmail && isPw && isConPw && isName && isTelNum && isRole ? (
-          <ButtonComponent enabled onClick={onClickSignUp}>
-            회원 가입
-          </ButtonComponent>
-        ) : (
-          <ButtonComponent disabled>회원 가입</ButtonComponent>
-        )}
-      </Items>
+        <Items className="item2">
+          <InputComponent
+            type="tel"
+            placeholder="전화번호"
+            value={inputTelNum}
+            onChange={onChangeTelNum}
+          />
+        </Items>
+        <Items variant="item2">
+          {isEmail && isPw && isConPw && isName && isTelNum && isRole ? (
+            <ButtonComponent enabled onClick={onClickSignUp}>
+              회원 가입
+            </ButtonComponent>
+          ) : (
+            <ButtonComponent disabled>회원 가입</ButtonComponent>
+          )}
+        </Items>
+      </FormWrapper>
     </Container>
   );
 };

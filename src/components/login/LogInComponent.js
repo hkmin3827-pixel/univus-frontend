@@ -1,3 +1,4 @@
+// src/components/login/LogInComponent.js
 import styled, { css } from "styled-components";
 
 export const Container = styled.div`
@@ -7,62 +8,58 @@ export const Container = styled.div`
   background: #ffffff;
 `;
 
+// 상단 오른쪽 로그인/회원가입 탭
 export const TopMenu = styled.header`
+  height: 72px;
+  padding: 0 80px;
   display: flex;
   justify-content: flex-end;
-  padding: 24px 40px;
+  align-items: center;
   gap: 8px;
 `;
 
 export const TabButton = styled.button`
-  min-width: 80px;
-  padding: 6px 14px;
-  border-radius: 6px;
-  border: 1px solid #dddddd;
-  background: #ffffff;
+  min-width: 90px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid #5b5ef7;
+  background: ${(props) => (props.active ? "#5b5ef7" : "#ffffff")};
+  color: ${(props) => (props.active ? "#ffffff" : "#5b5ef7")};
   font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
-
-  ${({ active }) =>
-    active &&
-    css`
-      background: #5b4bff;
-      color: #ffffff;
-      border-color: #5b4bff;
-    `}
 `;
 
-export const LoginBox = styled.div`
+// 로그인 박스 전체 영역 (중앙 위쪽에 위치)
+export const LoginBox = styled.main`
   flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: center; /* 가로 가운데 */
+  align-items: flex-start; /* 세로는 약간 위쪽 */
+  padding-top: 70px; /* 제목과의 거리 */
 `;
 
+// 각 줄 컨테이너
 export const Items = styled.div`
-  width: 420px;
-  display: flex;
-  align-items: center;
   margin: ${(props) => props.margin || "10px 0"};
+  display: flex;
   justify-content: ${(props) => props.justify || "flex-start"};
-  font-size: ${(props) => props.fontSize || "inherit"};
-  color: ${(props) => props.color || "inherit"};
+  width: 100%;
 
   ${(props) =>
     props.variant === "title" &&
     css`
-      font-size: 28px;
-      margin-bottom: 24px;
       justify-content: center;
+      font-size: 28px;
       font-weight: 700;
+      margin: 40px 0 32px;
     `}
 
   ${(props) =>
     props.variant === "hint" &&
     css`
-      margin-top: -6px;
-      justify-content: flex-end;
+      margin: 4px 30px 0;
       font-size: 12px;
-      color: #999999;
+      justify-content: flex-start;
     `}
 `;
