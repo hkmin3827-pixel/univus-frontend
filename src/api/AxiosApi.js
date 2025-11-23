@@ -35,7 +35,7 @@ const AxiosApi = {
 
   // 회원 목록 가져오기
   members: async () => {
-    return await api.get("/users/list");
+    return await api.get("/user/list");
   },
 
   getboard: async (boardId) => {
