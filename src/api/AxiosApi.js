@@ -45,6 +45,30 @@ const AxiosApi = {
   getpost: async (postId) => {
     return await api.get(`/api/posts/${postId}`);
   },
+
+  // 팀 생성
+  createTeam: async (teamName, description, leaderId) => {
+    return await api.post("/teams/create", {
+      teamName,
+      description,
+      leaderId,
+    });
+  },
+
+  // 초대 조회
+  getInvites: async (email) => {
+    return await api.get(`/teams/invites?email=${email}`);
+  },
+
+  // 초대 수락
+  acceptInvite: async (inviteId) => {
+    return await api.post(`/teams/invite/${inviteId}/accept`);
+  },
+
+  // 초대 거절
+  declineInvite: async (inviteId) => {
+    return await api.post(`/teams/invite/${inviteId}/decline`);
+  },
 };
 
 export default AxiosApi;
