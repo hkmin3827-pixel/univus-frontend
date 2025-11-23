@@ -36,23 +36,33 @@ const AxiosApi = {
     });
   },
 
-  getStudentProfile: async (email) => {
-    return await api.get(`/students/${encodeURIComponent(email)}`);
+  // 유저 공통 정보 수정
+  updateUserProfile: async (email, payload) => {
+    return await api.put(`/user/${encodeURIComponent(email)}`, payload);
   },
 
-  // (user 정보 + 학생 정보 일부 예시)
+  // 학생 전용
   updateStudentProfile: async (email, payload) => {
-    // payload 예: { name, tel, studentNumber, major, grade }
-    return await api.put(`/student/${encodeURIComponent(email)}`, payload);
+    return await api.put(
+      `/profile/student/${encodeURIComponent(email)}`,
+      payload
+    );
+  },
+
+  // 교수 전용
+  updateProfessorProfile: async (email, payload) => {
+    return await api.put(
+      `/profile/professor/${encodeURIComponent(email)}`,
+      payload
+    );
+  },
+
+  getStudentProfile: async (email) => {
+    return await api.get(`/profile/students/${encodeURIComponent(email)}`);
   },
 
   getProfessorProfile: async (email) => {
-    return await api.get(`/professors/${encodeURIComponent(email)}`);
-  },
-
-  updateProfessorProfile: async (email, payload) => {
-    // payload 예: { name, tel, department, position }
-    return await api.put(`/professor/${encodeURIComponent(email)}`, payload);
+    return await api.get(`/profile/professors/${encodeURIComponent(email)}`);
   },
 
   // 회원 목록

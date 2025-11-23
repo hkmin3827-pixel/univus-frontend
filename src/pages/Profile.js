@@ -33,10 +33,10 @@ const Profile = () => {
   const [department, setDepartment] = useState("");
   const [position, setPosition] = useState("");
 
-  const [password, setPassword] = useState("");
-  const [confirmPw, setConfirmPw] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [confirmPw, setConfirmPw] = useState("");
 
-  const [pwError, setPwError] = useState("");
+  // const [pwError, setPwError] = useState("");
   const [submitError, setSubmitError] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState("");
 
@@ -93,49 +93,33 @@ const Profile = () => {
     e.preventDefault();
     setSubmitError("");
     setSubmitSuccess("");
-    setPwError("");
-
-    // // 비밀번호 검증(원하면 나중에 따로 페이지로 빼도 됨)
-    // if (password || confirmPw) {
-    //   if (password !== confirmPw) {
-    //     setPwError("비밀번호가 일치하지 않습니다.");
-    //     return;
-    //   }
-    //   if (password.length < 6) {
-    //     setPwError("비밀번호는 6자 이상이어야 합니다.");
-    //     return;
-    //   }
-    // }
-
-    // 백엔드에 보낼 payload (JSON)
-    const commonPayload = {
-      name,
-      tel, // 백엔드 DTO에 없으면 무시되거나 에러날 수 있음 → 필요에 따라 빼도 됨
-      pwd: password || null, // 비밀번호 변경 안 하면 null 이거나 필드 아예 제거해도 됨
-    };
 
     try {
+      // 1) 공통 User 정보 수정
+      await AxiosApi.updateUserProfile(email, {
+        name,
+        phone: tel, // ⚠ phone 이라는 이름으로 보내야 함 (DTO 기준)
+        // profile, // 프로필 소개 텍스트 (있으면)
+        // image: imgUrl  // 이미지 문자열을 쓸 거면 여기
+      });
+
+      // 2) 학생/교수 개별 정보 수정
       if (role === "STUDENT") {
         await AxiosApi.updateStudentProfile(email, {
-          ...commonPayload,
-          studentNumber,
           major,
-          grade,
+          studentNumber,
+          grade: grade ? Number(grade) : null,
         });
       } else if (role === "PROFESSOR") {
         await AxiosApi.updateProfessorProfile(email, {
-          ...commonPayload,
           department,
           position,
         });
-      } else {
-        setSubmitError("알 수 없는 회원 유형입니다.");
-        return;
       }
 
       setSubmitSuccess("회원 정보가 수정되었습니다.");
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
+      console.error(err);
       setSubmitError("수정에 실패했습니다. 잠시 후 다시 시도해주세요.");
     }
   };
@@ -247,12 +231,10 @@ const Profile = () => {
         )}
 
         <ButtonRow>
-          <ButtonComponent text="저장" type="submit" />
-          <ButtonComponent
-            text="취소"
-            type="button"
-            onClick={() => navigate(-1)}
-          />
+          <ButtonComponent type="submit">저장</ButtonComponent>
+          <ButtonComponent type="button" onClick={() => navigate(-1)}>
+            취소
+          </ButtonComponent>
         </ButtonRow>
       </FormBox>
     </Container>
