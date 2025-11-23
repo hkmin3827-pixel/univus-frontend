@@ -59,15 +59,10 @@ const LogIn = () => {
         const { email, name, role, image, regDate } = response.data;
 
         localStorage.setItem("isLogin", "TRUE");
-<<<<<<< HEAD
-        // navigate("/home");
-        navigate("/post");
-=======
         localStorage.setItem("email", email);
         localStorage.setItem("role", role); // "ADMIN" / "STUDENT" / "PROFESSOR" 등
         // 필요하면 name, image, regDate도 저장
         navigate("/home");
->>>>>>> 501c3610a796c4669db0cd3b6926c3a782c0ff6c
       } else {
         alert("이메일 또는 패스워드가 틀립니다.");
       }

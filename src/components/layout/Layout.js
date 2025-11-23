@@ -9,7 +9,7 @@ function Layout() {
       <TopBar />
       <div className="content-wrapper">
         <SideBar />
-        <main className="main-content">
+        <main id="tailwind-root" className="main-content">
           <Outlet />
         </main>
       </div>

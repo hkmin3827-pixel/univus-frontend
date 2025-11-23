@@ -2,17 +2,10 @@
 import axios from "axios";
 
 const DOMAIN = "http://localhost:8111";
-<<<<<<< HEAD
 axios.defaults.withCredentials = true;
 const api = axios.create({
   baseURL: DOMAIN,
   withCredentials: true, // pring Security 세션 방식 필수
-=======
-
-const api = axios.create({
-  baseURL: DOMAIN,
-  withCredentials: true,
->>>>>>> 501c3610a796c4669db0cd3b6926c3a782c0ff6c
 });
 
 const AxiosApi = {
@@ -20,19 +13,16 @@ const AxiosApi = {
   login: async (email, pwd) => {
     return await api.post("/auth/login", { email, pwd });
   },
-<<<<<<< HEAD
   // 이메일로 가입 여부 확인
   emailcheck: async (email) => {
     const res = await axios.get(
       DOMAIN + `/auth/exists/${encodeURIComponent(email)}`
     );
     return res.data; // <- true 또는 false 만 리턴
-=======
-
+  },
   // 로그아웃
   logout: async () => {
     return await api.post("/auth/logout");
->>>>>>> 501c3610a796c4669db0cd3b6926c3a782c0ff6c
   },
 
   // 이메일 중복 체크
@@ -51,9 +41,7 @@ const AxiosApi = {
       role,
     });
   },
-<<<<<<< HEAD
   // 회원 목록 가져 오기
-=======
 
   // 유저 공통 정보 수정
   updateUserProfile: async (email, payload) => {
@@ -85,7 +73,6 @@ const AxiosApi = {
   },
 
   // 회원 목록
->>>>>>> 501c3610a796c4669db0cd3b6926c3a782c0ff6c
   members: async () => {
     return await api.get("/user/list");
   },
@@ -120,7 +107,6 @@ const AxiosApi = {
   getboard: async (boardId) => {
     return await api.get(`/api/boards/${boardId}`);
   },
-<<<<<<< HEAD
   // 게시글 작성
   postWrite: async (boardId, title, content, imgUrl) => {
     return await api.post("/post/create", {
@@ -139,12 +125,7 @@ const AxiosApi = {
   // 게시글 상세조회
   getPost: async (postId) => {
     return await api.get(`/post/${postId}`);
-=======
-
-  getpost: async (postId) => {
-    return await api.get(`/api/posts/${postId}`);
   },
-
   // 팀 생성
   createTeam: async (teamName, description, leaderId) => {
     return await api.post("/teams/create", {
@@ -167,7 +148,6 @@ const AxiosApi = {
   // 초대 거절
   declineInvite: async (inviteId) => {
     return await api.post(`/teams/invite/${inviteId}/decline`);
->>>>>>> 501c3610a796c4669db0cd3b6926c3a782c0ff6c
   },
 };
 
