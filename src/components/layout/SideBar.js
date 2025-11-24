@@ -93,31 +93,43 @@ function SideBar({ isOpen }) {
             )}
 
             {/* 기본 메뉴 */}
-            <li onClick={() => navigate("/app/dashboard")}>대시보드</li>
             <li onClick={() => navigate("/app/notice")}>공지사항</li>
+            <li onClick={() => navigate("/app/insight")}>인사이트</li>
             <li onClick={() => navigate("/app/messages")}>쪽지함</li>
             <li onClick={() => navigate("/app/alert")}>알림</li>
           </ul>
         </nav>
 
-        {/* 로그아웃 */}
-        <div className="bottom-menu" onClick={handleLogout}>
-          <span className="material-symbols-outlined">logout</span> 로그아웃
+        {/* 줌으로 이동, 로그아웃 */}
+        <div className="bottom-menu">
+          <ul>
+            <li id="zoom">
+              <a
+                href="https://zoom.us/ko/join"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="material-symbols-outlined">captive_portal</span>
+                ZOOM으로 이동
+              </a>
+            </li>
+            <li onClick={handleLogout}>
+              <span className="material-symbols-outlined">logout</span>로그아웃
+            </li>
+          </ul>
         </div>
       </aside>
-
       {/* 모달 */}
-      {/* <CreateBoardModal
+      <CreateBoardModal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
         teamId={selectedTeam?.teamId}
       />
-
-      <TeamSelectModal
+      {/* <TeamSelectModal
         isOpen={isTeamModalOpen}
         onClose={() => setIsTeamModalOpen(false)}
         onSelectTeam={handleTeamSelect}
-      /> */}
+      />{" "} */}
     </>
   );
 }

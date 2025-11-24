@@ -30,6 +30,12 @@ body {
   flex: 1;
 }
 
+textarea {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+}
+
 /* =========================================================
    TOPBAR
 ========================================================= */
@@ -212,7 +218,7 @@ body {
 
 .menu-list li {
   padding: 12px;
-  border-radius: 10px;
+  border-radius: 30px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -231,7 +237,32 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+.bottom-menu li {
+  list-style: none;
+  margin-top: 15px;
+  font-size: 15px;
+  border-bottom: 1px solid transparent;
+}
+.bottom-menu li:hover {
+  border-bottom: 1px solid black;
+}
+.bottom-menu a {
+  text-decoration: none;
+  color: black;
+}
+.bottom-menu li:last-child {
+  width: 80px;
   cursor: pointer;
+}
+.bottom-menu .material-symbols-outlined {
+  font-size: 15px;
+}
+#zoom a,
+.bottom-menu li {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* ← 아이콘과 텍스트 사이 여백 */
 }
 .project-board-list {
   list-style: none;
@@ -240,6 +271,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  color: #333;
 }
 
 .project-board-list .board-item,
@@ -247,12 +279,13 @@ body {
   font-size: 14px;
   cursor: pointer;
   padding: 6px 8px;
-  border-radius: 6px;
+}
+.project-board-list li:hover {
+  background: none;
+  font-weight: 500;
+  color: black;
 }
 
-.project-board-list .board-item:hover {
-  background: #dfe3ff;
-}
 /* =========================================================
    MAIN CONTENT
 ========================================================= */
@@ -270,7 +303,7 @@ body {
    반응형 (Mobile)
 ========================================================= */
 
-@media (max-width: 992px) {
+@media (max-width: 940px) {
   /* 검색창 숨김 */
   .search-box {
     display: none;
@@ -283,7 +316,10 @@ body {
 
   /* 사이드바 -> 모바일 슬라이드 */
   .sidebar {
-    transform: translateX(-100%);
+    z-index: 2000;
+    transform: translateX(100%); /* → 오른쪽으로 숨기기 */
+    left: auto;
+    right: 0;
     transition: transform 0.3s ease;
     width: 220px;
   }

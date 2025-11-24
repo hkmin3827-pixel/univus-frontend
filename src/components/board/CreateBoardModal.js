@@ -17,7 +17,7 @@ function CreateBoardModal({ isOpen, onClose, teamId, onCreated }) {
     try {
       await AxiosApi.createBoard(teamId, name, description);
       alert("게시판이 생성되었습니다.");
-      onCreated(); // ⭐ 목록 새로고침 트리거
+      onCreated(); // 목록 새로고침 트리거
       onClose();
       setName("");
       setDescription("");
@@ -35,7 +35,7 @@ function CreateBoardModal({ isOpen, onClose, teamId, onCreated }) {
         <label>프로젝트 이름</label>
         <input
           type="text"
-          placeholder="예: 공지사항"
+          placeholder="예: univus prj react"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
