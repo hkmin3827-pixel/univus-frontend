@@ -49,7 +49,9 @@ function TopBar({ onMenuClick }) {
             onClick={goToProfile}
           />
         ) : (
-          <span class="material-symbols-outlined">account_circle</span>
+          <span class="material-symbols-outlined" onClick={goToProfile}>
+            account_circle
+          </span>
         )}
       </div>
       {/* 모바일 전용 햄버거 */}
