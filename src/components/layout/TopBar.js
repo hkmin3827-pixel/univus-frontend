@@ -9,7 +9,7 @@ function TopBar({ onMenuClick }) {
   const [profileUrl, setProfileUrl] = useState(null);
 
   const goToProfile = () => {
-    navigate("/profile"); // 페이지 이동
+    navigate("/profiledetail"); // 페이지 이동
   };
 
   const goToHome = () => {
