@@ -5,22 +5,18 @@ import TeamSelectModal from "../team/TeamSelectModal";
 import AxiosApi from "../../api/AxiosApi";
 import "../../styles/LayOut.css";
 import CreateBoardModal from "../board/CreateBoardModal";
+import TeamSelect from "../team/TeamSelect";
 
-function SideBar() {
+function SideBar({ isOpen }) {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const navigate = useNavigate();
   const { selectedTeam, setSelectedTeam } = useContext(TeamContext);
-
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
-  const [isProjectOpen, setIsProjectOpen] = useState(false);
+  const [openProject, setOpenProject] = useState(false);
   const [boards, setBoards] = useState([]);
+  const navigate = useNavigate();
 
-  /** 🔹 팀 선택 후 게시판 가져오기 */
   useEffect(() => {
-    if (!selectedTeam) {
-      setBoards([]);
-      return;
-    }
+    if (!selectedTeam) return setBoards([]);
 
     const fetchBoards = async () => {
       try {
@@ -34,11 +30,10 @@ function SideBar() {
     fetchBoards();
   }, [selectedTeam]);
 
-  /** 🔹 팀 선택 시 동작 */
   const handleTeamSelect = (team) => {
     setSelectedTeam(team);
     setIsTeamModalOpen(false);
-    setIsProjectOpen(true);
+    setOpenProject(true);
   };
 
   const handleLogout = () => {
@@ -46,89 +41,58 @@ function SideBar() {
     navigate("/");
   };
 
+  const myTeams = [
+    { id: 1, name: "UI/UX 팀" },
+    { id: 2, name: "백엔드 팀" },
+    { id: 3, name: "프론트엔드 팀" },
+  ];
+
   return (
     <>
-      {/* Sidebar 영역 */}
-      <aside className="sidebar">
-        <button
-          className="team-select-btn"
-          onClick={() => setIsTeamModalOpen(true)}
-        >
-          팀 선택
-        </button>
+      <aside className={`sidebar ${isOpen ? "show" : ""}`}>
+        {/* 버튼 그룹 */}
+        <div className="sidebar-top-group">
+          <TeamSelect myTeams={myTeams} size="sidebar" />
 
-        <button
-          className="new-project-btn"
-          onClick={() => setIsCreateModalOpen(true)}
-        >
-          새 프로젝트
-        </button>
+          <button
+            className="new-project-btn"
+            onClick={() => setIsCreateModalOpen(true)}
+          >
+            새 프로젝트
+            <span className="material-symbols-outlined add">add</span>
+          </button>
+        </div>
 
-        <button
-          className={`sidebar-toggle-btn ${isProjectOpen ? "active" : ""}`}
-          onClick={() => setIsProjectOpen(!isProjectOpen)}
-        >
-          내 프로젝트 {selectedTeam ? `(${selectedTeam.teamName})` : ""}
-        </button>
-
-        {isProjectOpen && (
-          <ul className="project-board-list">
-            {boards.length > 0
-              ? boards.map((board) => (
-                  <li
-                    key={board.id}
-                    className="sidebar-subitem"
-                    onClick={() =>
-                      navigate(
-                        `/app/team/${selectedTeam?.teamId}/board/${board.id}`
-                      )
-                    }
-                  >
-                    {board.name}
-                  </li>
-                ))
-              : selectedTeam && (
-                  <li className="sidebar-subitem" style={{ color: "#999" }}>
-                    + 새 게시판을 생성해주세요
-                  </li>
-                )}
-          </ul>
-        )}
-        {/* 🔽 선택된 팀 게시판 리스트 */}
-        {isProjectOpen && selectedTeam && (
-          <ul className="project-board-list">
-            {boards.map((board) => (
-              <li
-                key={board.id}
-                className="sidebar-item"
-                onClick={() =>
-                  navigate(`/app/team/${selectedTeam.teamId}/board/${board.id}`)
-                }
-              >
-                {board.name}
-              </li>
-            ))}
-          </ul>
-        )}
-
-        {isProjectOpen && selectedTeam && (
-          <ul style={{ marginTop: "10px", paddingLeft: 0 }}>
-            {boards.map((board) => (
-              <li
-                key={board.id}
-                className="sidebar-item"
-                onClick={() =>
-                  navigate(`/app/team/${selectedTeam.teamId}/board/${board.id}`)
-                }
-              >
-                {board.name}
-              </li>
-            ))}
-          </ul>
-        )}
-
+        {/* 메뉴 리스트 */}
         <nav className="menu-list">
           <ul>
+            {/* 내 프로젝트 (토글) */}
+            <li
+              className={`menu-item ${openProject ? "active" : ""}`}
+              onClick={() => setOpenProject(!openProject)}
+            >
+              내 프로젝트
+              <span className="material-symbols-outlined arrow">
+                {openProject ? "expand_less" : "expand_more"}
+              </span>
+            </li>
+
+            {/* 토글 목록 */}
+            {openProject && (
+              <ul className="project-board-list">
+                {boards.length === 0 ? (
+                  <li className="empty">+ 새 게시판을 생성해주세요</li>
+                ) : (
+                  boards.map((b) => (
+                    <li key={b.id} className="board-item">
+                      {b.name}
+                    </li>
+                  ))
+                )}
+              </ul>
+            )}
+
+            {/* 기본 메뉴 */}
             <li onClick={() => navigate("/app/dashboard")}>대시보드</li>
             <li onClick={() => navigate("/app/notice")}>공지사항</li>
             <li onClick={() => navigate("/app/messages")}>쪽지함</li>
@@ -136,24 +100,24 @@ function SideBar() {
           </ul>
         </nav>
 
+        {/* 로그아웃 */}
         <div className="bottom-menu" onClick={handleLogout}>
           <span className="material-symbols-outlined">logout</span> 로그아웃
         </div>
       </aside>
 
-      {/* 모달들 */}
-      <CreateBoardModal
+      {/* 모달 */}
+      {/* <CreateBoardModal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
         teamId={selectedTeam?.teamId}
-        onCreated={() => setBoards((prev) => [...prev])}
       />
 
       <TeamSelectModal
         isOpen={isTeamModalOpen}
         onClose={() => setIsTeamModalOpen(false)}
         onSelectTeam={handleTeamSelect}
-      />
+      /> */}
     </>
   );
 }

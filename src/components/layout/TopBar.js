@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 // import { ref, getDownloadURL } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 
-function TopBar() {
+function TopBar({ onMenuClick }) {
   const navigate = useNavigate();
   const [profileUrl, setProfileUrl] = useState(null);
 
@@ -27,15 +27,13 @@ function TopBar() {
       />
 
       <div className="search-box">
-        <span id="icon-search" class="material-symbols-outlined">
-          search
-        </span>
+        <span className="material-symbols-outlined search-icon">search</span>
         <input placeholder="검색어를 입력해주세요" />
       </div>
 
       <div className="top-icons">
+        <span class="material-symbols-outlined">group_add</span>
         <span class="material-symbols-outlined">inventory</span>
-        <span>💬</span>
         {/* 프로필 이미지 */}
         {profileUrl ? (
           <img
@@ -54,6 +52,10 @@ function TopBar() {
           <span class="material-symbols-outlined">account_circle</span>
         )}
       </div>
+      {/* 모바일 전용 햄버거 */}
+      <button className="menu-btn" onClick={onMenuClick}>
+        <span className="material-symbols-outlined">menu</span>
+      </button>
     </header>
   );
 }

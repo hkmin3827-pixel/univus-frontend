@@ -13,6 +13,8 @@ import {
 } from "../components/signUp/SignUpComponent";
 import InputComponent from "../components/common/InputComponent";
 import ButtonComponent from "../components/common/ButtonComponent";
+import logo from "../images/layoutLogo.png";
+import "../styles/login.css";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -146,6 +148,7 @@ const SignUp = () => {
 
   return (
     <Container>
+      <img className="logo" src={logo} alt="univus 로고" />
       <TopMenu>
         <TabButton onClick={onClickToLogin} e>
           로그인

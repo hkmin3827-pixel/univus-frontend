@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import AxiosApi from "../api/AxiosApi";
 import InputComponent from "../components/common/InputComponent";
 import Button from "../components/common/ButtonComponent";
+import logo from "../images/layoutLogo.png";
+import "../styles/login.css";
 import {
   Container,
   Items,
@@ -83,6 +85,7 @@ const LogIn = () => {
 
   return (
     <Container>
+      <img className="logo" src={logo} alt="univus 로고" />
       <TopMenu>
         <TabButton active>로그인</TabButton>
         <TabButton onClick={onClickToSignUp}>회원가입</TabButton>
