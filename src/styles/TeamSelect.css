@@ -1,0 +1,74 @@
+.dropdown-container {
+  width: 179px;
+  position: relative;
+  margin-top: 20px;
+}
+
+.dropdown-button {
+  width: 100%;
+  height: 45px;
+  background: #b9b7b7;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: 0.25s;
+  position: relative; /* 아이콘 위치 기준 */
+  display: flex;
+  justify-content: center; /* 텍스트 중앙 */
+  align-items: center;
+}
+.dropdown-button:hover {
+  background-color: #666;
+}
+.button-label {
+  text-align: center;
+}
+
+.arrow-icon {
+  position: absolute;
+  right: 12px; /* 버튼 오른쪽 정렬 */
+  font-size: 24px;
+}
+.dropdown-list {
+  position: absolute;
+  top: 100%; /* 버튼 바로 아래 */
+  left: 0;
+  width: 100%;
+
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: max-height 0.25s ease, opacity 0.25s ease, transform 0.25s ease;
+
+  z-index: 999;
+}
+
+.dropdown-list.open {
+  max-height: 300px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  padding: 14px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.dropdown-item:hover {
+  background: #e5e5ff;
+}
+
+/* 사이드바 버전 크기
+.dropdown-container.sidebar {
+  width: 200px;
+} */

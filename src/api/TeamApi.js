@@ -2,13 +2,14 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080/teams",
+  baseURL: "http://localhost:8111/teams",
   headers: { "Content-Type": "application/json" },
+  withCredentials: true,
 });
 
 const TeamApi = {
-  createTeam: async (teamName, description, leaderEmail) => {
-    return await api.post("/create", { teamName, description, leaderEmail });
+  createTeam: async (teamName, description, leaderId) => {
+    return await api.post("/create", { teamName, description, leaderId });
   },
   inviteTeamMember: async (teamName, email) => {
     return await api.post(`/${teamName}/invite`, { email });

@@ -9,15 +9,21 @@ export const Container = styled.div`
 `;
 
 // 상단 오른쪽 로그인/회원가입 탭
+// export const TopMenu = styled.header`
+//   height: 72px;
+//   padding: 0 80px;
+//   display: flex;
+//   justify-content: flex-end;
+//   align-items: center;
+//   gap: 8px;
+// `;
+
 export const TopMenu = styled.header`
-  height: 72px;
-  padding: 0 80px;
   display: flex;
   justify-content: flex-end;
-  align-items: center;
+  padding: 24px 40px;
   gap: 8px;
 `;
-
 export const TabButton = styled.button`
   min-width: 90px;
   padding: 8px 18px;

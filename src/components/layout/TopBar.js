@@ -1,8 +1,12 @@
 import logo from "../../images/layoutLogo.png";
+import { useState, useEffect } from "react";
+// import { storage } from "../../firebase";
+// import { ref, getDownloadURL } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 
-function TopBar() {
+function TopBar({ onMenuClick }) {
   const navigate = useNavigate();
+  const [profileUrl, setProfileUrl] = useState(null);
 
   const goToProfile = () => {
     navigate("/profiledetail"); // 페이지 이동
@@ -23,18 +27,35 @@ function TopBar() {
       />
 
       <div className="search-box">
+        <span className="material-symbols-outlined search-icon">search</span>
         <input placeholder="검색어를 입력해주세요" />
       </div>
 
       <div className="top-icons">
-        <span>🔔</span>
-        <span>💬</span>
-
-        {/* 정보 수정 페이지로 이동 */}
-        <span onClick={goToProfile} style={{ cursor: "pointer" }}>
-          👤
-        </span>
+        <span class="material-symbols-outlined">group_add</span>
+        <span class="material-symbols-outlined">inventory</span>
+        {/* 프로필 이미지 */}
+        {profileUrl ? (
+          <img
+            src={profileUrl}
+            alt="프로필"
+            style={{
+              width: "36px",
+              height: "36px",
+              borderRadius: "50%",
+              objectFit: "cover",
+              cursor: "pointer",
+            }}
+            onClick={goToProfile}
+          />
+        ) : (
+          <span class="material-symbols-outlined">account_circle</span>
+        )}
       </div>
+      {/* 모바일 전용 햄버거 */}
+      <button className="menu-btn" onClick={onMenuClick}>
+        <span className="material-symbols-outlined">menu</span>
+      </button>
     </header>
   );
 }

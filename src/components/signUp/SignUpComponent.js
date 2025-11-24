@@ -28,24 +28,35 @@ export const TopMenu = styled.header`
   gap: 8px;
 `;
 
+// export const TabButton = styled.button`
+//   min-width: 80px;
+//   padding: 6px 14px;
+//   border-radius: 6px;
+//   border: 1px solid #dddddd;
+//   background: #ffffff;
+//   font-size: 13px;
+//   cursor: pointer;
+
+//   ${({ active }) =>
+//     active &&
+//     css`
+//       background: #5b4bff;
+//       color: #ffffff;
+//       border-color: #5b4bff;
+//     `}
+// `;
+
 export const TabButton = styled.button`
-  min-width: 80px;
-  padding: 6px 14px;
-  border-radius: 6px;
-  border: 1px solid #dddddd;
-  background: #ffffff;
+  min-width: 90px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid #5b5ef7;
+  background: ${(props) => (props.active ? "#5b5ef7" : "#ffffff")};
+  color: ${(props) => (props.active ? "#ffffff" : "#5b5ef7")};
   font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
-
-  ${({ active }) =>
-    active &&
-    css`
-      background: #5b4bff;
-      color: #ffffff;
-      border-color: #5b4bff;
-    `}
 `;
-
 export const LoginBox = styled.div`
   flex: 1;
   display: flex;

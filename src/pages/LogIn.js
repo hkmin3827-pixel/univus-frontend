@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import AxiosApi from "../api/AxiosApi";
 import InputComponent from "../components/common/InputComponent";
 import Button from "../components/common/ButtonComponent";
+import logo from "../images/layoutLogo.png";
+import "../styles/login.css";
 import {
   Container,
   Items,
@@ -56,12 +58,13 @@ const LogIn = () => {
       const response = await AxiosApi.login(inputEmail, inputPw);
       // 로그인 실패 시 백엔드에서 예외를 던지는지, 401을 주는지에 따라 분기 추가 가능
       if (response.status === 200 && response.data) {
-        const { email, name, role, image, regDate } = response.data;
+        const { id, email, name, role, image, regDate } = response.data;
 
         localStorage.setItem("isLogin", "TRUE");
         localStorage.setItem("email", email);
         localStorage.setItem("role", role); // "ADMIN" / "STUDENT" / "PROFESSOR" 등
         // 필요하면 name, image, regDate도 저장
+        localStorage.setItem("userId", id);
         navigate("/home");
       } else {
         alert("이메일 또는 패스워드가 틀립니다.");
@@ -83,6 +86,7 @@ const LogIn = () => {
 
   return (
     <Container>
+      <img className="logo" src={logo} alt="univus 로고" />
       <TopMenu>
         <TabButton active>로그인</TabButton>
         <TabButton onClick={onClickToSignUp}>회원가입</TabButton>
