@@ -57,6 +57,10 @@ const AxiosApi = {
     );
   },
 
+  getUserProfile: async (email) => {
+    return await api.get(`/user/me/${encodeURIComponent(email)}`);
+  },
+
   getStudentProfile: async (email) => {
     return await api.get(`/profile/students/${encodeURIComponent(email)}`);
   },

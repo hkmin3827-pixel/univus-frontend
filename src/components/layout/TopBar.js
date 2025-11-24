@@ -5,7 +5,7 @@ function TopBar() {
   const navigate = useNavigate();
 
   const goToProfile = () => {
-    navigate("/profile"); // 페이지 이동
+    navigate("/profiledetail"); // 페이지 이동
   };
 
   const goToHome = () => {

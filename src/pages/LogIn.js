@@ -10,14 +10,14 @@ import {
   TabButton,
   LoginBox,
 } from "../components/login/LogInComponent";
-import styled from "styled-components"; // 🔥 추가
+import styled from "styled-components"; // 추가
 
 // 🔥 비밀번호 입력창 아래에 뜨는 에러 메시지 스타일
 const ErrorMessage = styled.div`
   margin: 6px 30px 10px; /* 비밀번호 찾기 버튼과 간격 확보 */
   font-size: 12px;
   color: #ff4d4f;
-  text-align: right; /* 🔥 에러 메시지를 오른쪽으로 정렬 */
+  text-align: right; /* 에러 메시지를 오른쪽으로 정렬 */
 `;
 
 const LogIn = () => {
@@ -112,7 +112,7 @@ const LogIn = () => {
             />
           </Items>
 
-          {/* 🔥 비밀번호 입력창 바로 아래 에러 메시지 */}
+          {/* 비밀번호 입력창 바로 아래 에러 메시지 */}
           {error && <ErrorMessage>{error}</ErrorMessage>}
 
           <Items variant="hint">
