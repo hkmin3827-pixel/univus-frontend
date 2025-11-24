@@ -291,12 +291,14 @@ textarea {
 ========================================================= */
 
 .main-content {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   padding: 30px;
   background: #fff;
-  margin-left: 220px; /* 사이드바 공간 확보 */
+  margin-left: 220px;
   width: calc(100% - 220px);
-  overflow-y: auto;
+  overflow: visible;
 }
 
 /* =========================================================
