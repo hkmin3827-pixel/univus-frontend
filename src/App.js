@@ -13,7 +13,11 @@ import TeamInvite from "./pages/TeamInvite";
 import TeamDashboard from "./pages/TeamDashboard";
 import MemberDetails from "./pages/Admin/MembersDetail";
 import Profile from "./pages/Profile";
+<<<<<<< HEAD
 import ProfileDetail from "./pages/ProfileDetail";
+=======
+import SchedulePage from "./pages/SchedulePage";
+>>>>>>> 4ab04fe5439932aefb1aa2387999947aaa5d217e
 
 function App() {
   return (
@@ -31,7 +35,12 @@ function App() {
             <Route path="/team/create" element={<TeamCreate />} />
             <Route path="/team/invite" element={<TeamInvite />} />
             <Route path="/team/dashboard" element={<TeamDashboard />} />
+<<<<<<< HEAD
             <Route path="/profiledetail" element={<ProfileDetail />} />
+=======
+            <Route path="/schedule" element={<SchedulePage />} />
+
+>>>>>>> 4ab04fe5439932aefb1aa2387999947aaa5d217e
             <Route path="/profile" element={<Profile />} />
             <Route
               path="/team/:teamId/board/:boardId"

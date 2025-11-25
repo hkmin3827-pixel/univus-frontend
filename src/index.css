@@ -3,6 +3,15 @@
   padding: 0;
   box-sizing: border-box;
 }
+html,
+body {
+  overflow-y: auto; /* <-- 스크롤을 body에 적용 */
+  height: 100%;
+}
+#root {
+  height: 100%;
+  overflow-y: visible;
+}
 body {
   margin: 0;
   padding: 0;
