@@ -1,11 +1,11 @@
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { TeamContext } from "../../context/TeamContext";
-import TeamSelectModal from "../team/TeamSelectModal";
 import AxiosApi from "../../api/AxiosApi";
 import "../../styles/LayOut.css";
 import CreateBoardModal from "../board/CreateBoardModal";
 import TeamSelect from "../team/TeamSelect";
+import TeamApi from "../../api/TeamApi";
 
 function SideBar({ isOpen }) {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -51,12 +51,20 @@ function SideBar({ isOpen }) {
     }
   };
 
-  const myTeams = [
-    { id: 1, name: "UI/UX 팀" },
-    { id: 2, name: "백엔드 팀" },
-    { id: 3, name: "프론트엔드 팀" },
-  ];
+  const [myTeams, setMyTeams] = useState([]);
 
+  useEffect(() => {
+    const fetchTeams = async () => {
+      try {
+        const res = await TeamApi.getMyTeams();
+        setMyTeams(res.data);
+      } catch (err) {
+        console.error("팀 목록 불러오기 실패:", err);
+      }
+    };
+
+    fetchTeams();
+  }, []);
   return (
     <>
       <aside className={`sidebar ${isOpen ? "show" : ""}`}>

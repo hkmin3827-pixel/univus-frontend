@@ -6,6 +6,19 @@
   height: 80vh; /* 화면 전체 높이 기준 */
   gap: 20px;
 }
+
+.invite-info-box {
+  width: 420px;
+  padding: 18px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+  margin-top: 20px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 .team-title {
   margin-bottom: 30px;
   font-size: 26px;
@@ -68,15 +81,35 @@
 }
 
 /* TeamLink 페이지 css **/
-.invite-info-box {
-  width: 420px;
-  padding: 18px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: #fafafa;
-  margin-top: 20px;
-  text-align: left;
+
+.team-link-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  justify-content: center; /* 수직 가운데 */
+  align-items: center; /* 수평 가운데 */
+  height: 90vh; /* 화면 전체 높이 기준 */
+  gap: 30px;
+}
+.link-form input {
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 20%;
+}
+.team-link-container .primary-btn,
+.team-link-container .invite-input,
+.team-link-container button {
+  width: 100%;
+}
+.team-link-container .primary-btn {
+  width: 420px;
+}
+.invite-info-box .primary-btn {
+  width: 100%;
+}
+
+button:hover {
+  background-color: #4538d3;
 }

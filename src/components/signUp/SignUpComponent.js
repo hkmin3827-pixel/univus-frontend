@@ -56,6 +56,9 @@ export const TabButton = styled.button`
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
+  &:hover {
+    color: white;
+  }
 `;
 export const LoginBox = styled.div`
   flex: 1;

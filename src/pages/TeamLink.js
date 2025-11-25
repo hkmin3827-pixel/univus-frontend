@@ -2,6 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TeamApi from "../api/TeamApi";
 import "../styles/TeamCreate.css"; // UI 통일
+const extractToken = (value) => {
+  if (!value) return "";
+  return value.includes("/")
+    ? value.substring(value.lastIndexOf("/") + 1)
+    : value;
+};
 
 function TeamLink() {
   const [token, setToken] = useState("");
@@ -14,6 +20,11 @@ function TeamLink() {
   const handleCheckInvite = async () => {
     setInviteInfo(null);
     setErrorMsg("");
+
+    if (!token || token.trim() === "") {
+      setErrorMsg("초대 링크를 입력해주세요.");
+      return;
+    }
 
     try {
       const res = await TeamApi.getInviteInfo(token);
@@ -49,20 +60,23 @@ function TeamLink() {
   };
 
   return (
-    <div className="team-create-container">
-      <h2 className="team-title">팀 초대</h2>
+    <div className="team-link-container">
+      <h2 className="team-title">팀 가입</h2>
 
-      <div className="team-form">
-        <label>초대 링크 코드</label>
-        <input
-          type="text"
-          placeholder="예: 487b63b0-9ac3-48e4-9b8c-aad384c77d2f"
-          value={token}
-          onChange={(e) => setToken(e.target.value)}
-        />
+      <div className="link-form">
+        <div className="form-control">
+          <label>초대 링크 코드 : </label>
 
+          <input
+            type="text"
+            placeholder="초대 링크 입력"
+            value={token}
+            onChange={(e) => setToken(extractToken(e.target.value))}
+            className="invite-input"
+          />
+        </div>
         <button className="primary-btn" onClick={handleCheckInvite}>
-          링크 확인
+          조회
         </button>
 
         {/* 에러 메시지 고정 위치 */}
@@ -73,15 +87,11 @@ function TeamLink() {
       {inviteInfo && (
         <div className="invite-info-box">
           <p>
-            <strong>팀 이름:</strong> {inviteInfo.teamName}
+            <strong>팀 이름 :</strong> {inviteInfo.teamName}
           </p>
           <p>
-            <strong>초대한 사람:</strong> {inviteInfo.inviterName} (
+            <strong>Leader :</strong> {inviteInfo.inviterName} (
             {inviteInfo.inviterEmail})
-          </p>
-          <p>
-            <strong>상태:</strong>{" "}
-            {inviteInfo.expired ? "만료된 링크" : "유효한 링크"}
           </p>
 
           {!inviteInfo.expired && (

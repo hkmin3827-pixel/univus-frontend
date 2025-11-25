@@ -34,6 +34,10 @@ export const TabButton = styled.button`
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
+
+  &:hover {
+    color: white;
+  }
 `;
 
 // 로그인 박스 전체 영역 (중앙 위쪽에 위치)
