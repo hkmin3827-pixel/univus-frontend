@@ -38,6 +38,7 @@ function App() {
             <Route path="/teams/:teamId" element={<TeamDetail />} />
             <Route path="/teamentry/:token" element={<TeamEntry />} />
             <Route path="/team/invite" element={<TeamInvite />} />
+            <Route path="/team/:teamId" element={<TeamPage />} />
             <Route path="/team/dashboard" element={<TeamDashboard />} />
             <Route path="/team/entry" element={<TeamLink />} />
             <Route path="/schedulepage" element={<SchedulePage />} />

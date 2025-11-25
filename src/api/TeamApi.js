@@ -34,8 +34,8 @@ const TeamApi = {
 
   acceptInvite: (token) => teamApi.post(`/teams/invites/${token}/accept`),
 
-  getMyTeams: () => axios.get(`${BASE_URL}/teams/my`),
-  getBoardsByTeam: (teamId) => axios.get(`${BASE_URL}/board/team/${teamId}`),
+  getMyTeams: () => teamApi.get(`${BASE_URL}/teams/my`),
+  getBoardsByTeam: (teamId) => teamApi.get(`${BASE_URL}/board/team/${teamId}`),
 };
 
 export default TeamApi;

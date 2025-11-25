@@ -8,7 +8,7 @@ function TeamSelect({ myTeams, size = "default" }) {
   const navigate = useNavigate();
 
   const handleTeamSelect = (team) => {
-    setSelectedTeam(team.name);
+    setSelectedTeam(team.teamName);
     setOpen(false);
 
     // 선택한 팀 id 기준 이동
@@ -31,7 +31,7 @@ function TeamSelect({ myTeams, size = "default" }) {
             className="dropdown-item"
             onClick={() => handleTeamSelect(team)}
           >
-            {team.name}
+            {team.teamName}
           </div>
         ))}
       </div>
