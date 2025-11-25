@@ -1,23 +1,33 @@
-import React, { useEffect, useState } from "react";
+// src/pages/SchedulePage.js
+import React, { useEffect, useState, useRef } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import { useSearchParams } from "react-router-dom";
 import ScheduleApi from "../api/ScheduleApi";
 import "../styles/SchedulePage.css";
-import { useSearchParams } from "react-router-dom";
-import { useRef } from "react";
+
+import ScheduleModal from "../components/home/ScheduleModal";
 
 function SchedulePage() {
   const [events, setEvents] = useState([]);
+  const [searchParams] = useSearchParams();
+  const calendarRef = useRef(null);
 
+  // 일정 생성 모달 상태
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [defaultDate, setDefaultDate] = useState("");
+
+  // 일정 목록 불러오기
   const loadEvents = async () => {
     try {
-      const res = await ScheduleApi.getAllSchedules(); // 추가 API 필요
+      const res = await ScheduleApi.getAllSchedules();
       const mapped = res.data.map((e) => ({
         id: e.id,
         title: e.title,
-        date: e.dateTime, // ISO LocalDateTime 지원
+        start: e.dateTime, // "2025-11-29T14:00" 같은 형식
+        description: e.description,
       }));
       setEvents(mapped);
     } catch (error) {
@@ -29,35 +39,39 @@ function SchedulePage() {
     loadEvents();
   }, []);
 
-  const handleDateClick = async (info) => {
-    console.log("함수 실행 TEST");
-    console.log("📌 날짜 클릭됨:", info.dateStr);
+  // 헤더의 버튼 클릭 (오늘 날짜 기본값)
+  const handlePlusClick = () => {
+    const today = new Date().toISOString().slice(0, 10); // yyyy-MM-dd
+    setDefaultDate(today);
+    setIsCreateOpen(true);
+  };
 
-    const title = prompt("일정 제목을 입력하세요");
-    console.log("📌 입력한 제목:", title);
-    if (!title) return;
+  // 날짜 칸 클릭 → 해당 날짜를 기본값으로 모달 열기
+  const handleDateClick = (info) => {
+    const onlyDate = info.dateStr.slice(0, 10); // yyyy-MM-dd
+    setDefaultDate(onlyDate);
+    setIsCreateOpen(true);
+  };
 
-    const dateTime = prompt(
-      "시간 포함 날짜 입력 (예: 2025-11-29T14:00):",
-      info.dateStr
-    );
-    console.log("📌 입력한 날짜/시간:", dateTime);
-
-    const data = { title, dateTime };
-    console.log("📌 서버로 보낼 데이터:", data);
+  // 모달에서 "저장" 클릭
+  const handleCreateSubmit = async ({ title, date, time, description }) => {
+    const dateTime = `${date}T${time}`; // 예: 2025-11-30T14:00
 
     try {
-      console.log("🚀 요청 시작...");
-      const response = await ScheduleApi.createSchedule(data);
-      console.log("✅ 서버 응답:", response);
-
-      loadEvents();
+      await ScheduleApi.createSchedule({
+        title,
+        dateTime,
+        description,
+      });
+      await loadEvents();
+      setIsCreateOpen(false);
     } catch (e) {
-      console.error("❌ 요청 실패:", e.response || e);
-      alert("생성 실패");
+      console.error(e);
+      alert("일정 생성에 실패했습니다.");
     }
   };
 
+  // 기존 일정 클릭 시: 수정 / 삭제
   const handleEventClick = async (info) => {
     const action = window.prompt(
       `[${info.event.title}] 선택한 일정:\n1 = 수정\n2 = 삭제\n취소 = Enter`
@@ -87,15 +101,14 @@ function SchedulePage() {
     }
   };
 
-  const [searchParams] = useSearchParams();
-
+  // URL ?date=2025-11-30 같은 걸로 포커스 이동
   useEffect(() => {
     const focusDate = searchParams.get("date");
     if (focusDate && calendarRef.current) {
       calendarRef.current.getApi().gotoDate(focusDate);
     }
   }, [searchParams]);
-  const calendarRef = useRef(null);
+
   return (
     <div className="calendar-container" style={{ margin: "20px" }}>
       <h2 style={{ marginBottom: "20px" }}>📅 나의 일정 캘린더</h2>
@@ -109,7 +122,29 @@ function SchedulePage() {
         expandRows={true}
         dateClick={handleDateClick}
         eventClick={handleEventClick}
+        // 커스텀 버튼 정의
+        customButtons={{
+          addSchedule: {
+            text: "일정 추가 +",
+            click: handlePlusClick,
+          },
+        }}
+        // 헤더 툴바 설정
+        headerToolbar={{
+          left: "title",
+          center: "",
+          right: "addSchedule today prev,next",
+        }}
       />
+
+      {/* 일정 생성 모달 */}
+      {isCreateOpen && (
+        <ScheduleModal
+          defaultDate={defaultDate}
+          onClose={() => setIsCreateOpen(false)}
+          onSubmit={handleCreateSubmit}
+        />
+      )}
     </div>
   );
 }
