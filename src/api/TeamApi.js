@@ -30,6 +30,9 @@ const TeamApi = {
 
   // 초대 수락: POST /teams/invites/{token}/accept
   acceptInvite: (token) => teamApi.post(`/teams/invites/${token}/accept`),
+  getInviteInfo: (token) => teamApi.get(`/teams/invites/${token}`),
+
+  acceptInvite: (token) => teamApi.post(`/teams/invites/${token}/accept`),
 };
 
 export default TeamApi;

@@ -17,6 +17,8 @@ import ProfileDetail from "./pages/ProfileDetail";
 import SchedulePage from "./pages/SchedulePage";
 import TeamEntry from "./pages/TeamEntry";
 import TeamDetail from "./pages/TeamDetail";
+import TeamPage from "./pages/TeamPage";
+import TeamLink from "./pages/TeamLink";
 
 function App() {
   return (
@@ -32,10 +34,12 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/home" element={<Home />} />
             <Route path="/teams/new" element={<TeamCreate />} />
+
             <Route path="/teams/:teamId" element={<TeamDetail />} />
             <Route path="/teamentry/:token" element={<TeamEntry />} />
             <Route path="/team/invite" element={<TeamInvite />} />
             <Route path="/team/dashboard" element={<TeamDashboard />} />
+            <Route path="/team/entry" element={<TeamLink />} />
             <Route path="/schedulepage" element={<SchedulePage />} />
             <Route path="/profiledetail" element={<ProfileDetail />} />
             <Route path="/profile" element={<Profile />} />

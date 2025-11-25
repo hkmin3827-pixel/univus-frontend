@@ -30,18 +30,30 @@ function SchedulePage() {
   }, []);
 
   const handleDateClick = async (info) => {
+    console.log("함수 실행 TEST");
+    console.log("📌 날짜 클릭됨:", info.dateStr);
+
     const title = prompt("일정 제목을 입력하세요");
+    console.log("📌 입력한 제목:", title);
     if (!title) return;
 
     const dateTime = prompt(
       "시간 포함 날짜 입력 (예: 2025-11-29T14:00):",
       info.dateStr
     );
+    console.log("📌 입력한 날짜/시간:", dateTime);
+
+    const data = { title, dateTime };
+    console.log("📌 서버로 보낼 데이터:", data);
 
     try {
-      await ScheduleApi.createSchedule({ title, dateTime });
+      console.log("🚀 요청 시작...");
+      const response = await ScheduleApi.createSchedule(data);
+      console.log("✅ 서버 응답:", response);
+
       loadEvents();
     } catch (e) {
+      console.error("❌ 요청 실패:", e.response || e);
       alert("생성 실패");
     }
   };

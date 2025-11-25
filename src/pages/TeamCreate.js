@@ -1,53 +1,98 @@
-// src/pages/TeamCreate.js
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import TeamApi from "../api/TeamApi";
+import InviteModal from "../components/team/InviteModal";
+import "../styles/TeamCreate.css";
 
 const TeamCreate = () => {
   const [teamName, setTeamName] = useState("");
   const [description, setDescription] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const navigate = useNavigate();
+  const [createdTeamId, setCreatedTeamId] = useState(null);
+
+  const [inviteModalOpen, setInviteModalOpen] = useState(false);
+  const [inviteLink, setInviteLink] = useState(null);
+
+  const leaderId = localStorage.getItem("userId");
 
   const onSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg("");
 
     try {
-      // 🔥 createTeam(teamName, description) 으로 호출해야 함!
-      const res = await TeamApi.createTeam(teamName, description);
-
-      console.log("팀 생성 성공:", res.data);
-
-      navigate(`/teams/${res.data.id}`);
+      const res = await TeamApi.createTeam(teamName, description, leaderId);
+      setCreatedTeamId(res.data.id);
+      alert("팀이 생성되었습니다!");
     } catch (err) {
       console.error(err);
-      setErrorMsg("팀 생성에 실패했습니다.");
+
+      const backendMsg =
+        err.response?.data?.message ||
+        err.response?.data ||
+        "팀 생성에 실패했습니다.";
+
+      setErrorMsg(backendMsg);
+      setCreatedTeamId(null);
+    }
+  };
+
+  const handleInviteClick = async () => {
+    if (!createdTeamId) return;
+
+    try {
+      const res = await TeamApi.createTeamInvite(createdTeamId);
+      setInviteLink(res.data.inviteUrl);
+      setInviteModalOpen(true);
+    } catch (err) {
+      console.error(err);
+      alert("초대 링크 생성 실패");
     }
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: "40px auto" }}>
-      <h2>팀 생성</h2>
-      <form onSubmit={onSubmit}>
-        <div>
+    <div className="team-create-container">
+      <h2 className="team-title">팀 생성</h2>
+
+      <form onSubmit={onSubmit} className="team-form">
+        <div className="form-control">
           <label>팀 이름</label>
           <input
             type="text"
             value={teamName}
             onChange={(e) => setTeamName(e.target.value)}
+            placeholder="예: 개발팀"
           />
         </div>
-        <div>
+
+        <div className="form-control">
           <label>팀 소개</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            placeholder="팀 설명 입력"
           />
         </div>
-        {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
-        <button type="submit">생성하기</button>
+
+        {/* 에러 메시지 영역 고정 */}
+        <p className="error-text">{errorMsg}</p>
+
+        <button type="submit" className="primary-btn">
+          팀 생성하기
+        </button>
       </form>
+
+      <button
+        className={`secondary-btn ${!createdTeamId ? "disabled" : ""}`}
+        disabled={!createdTeamId}
+        onClick={handleInviteClick}
+      >
+        초대 링크 발급
+      </button>
+
+      <InviteModal
+        link={inviteLink}
+        onClose={() => setInviteModalOpen(false)}
+        isOpen={inviteModalOpen}
+      />
     </div>
   );
 };

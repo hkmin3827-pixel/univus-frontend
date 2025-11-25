@@ -1,0 +1,82 @@
+.team-create-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 수직 가운데 */
+  align-items: center; /* 수평 가운데 */
+  height: 80vh; /* 화면 전체 높이 기준 */
+  gap: 20px;
+}
+.team-title {
+  margin-bottom: 30px;
+  font-size: 26px;
+  font-weight: bold;
+}
+.form-control {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.team-form input,
+.team-form textarea {
+  margin-top: 10px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.error-text {
+  min-height: 22px;
+  font-size: 14px;
+  color: #d63031;
+  text-align: left;
+}
+
+.primary-btn,
+.secondary-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.primary-btn {
+  background: #6758ff;
+  color: white;
+}
+
+.secondary-btn {
+  background: #6758ff;
+  color: white;
+}
+.secondary-btn.disabled {
+  background: #dcdcdc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.team-create-container form {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.team-create-container button {
+  width: 400px;
+  padding: 14px;
+  font-size: 16px;
+}
+
+/* TeamLink 페이지 css **/
+.invite-info-box {
+  width: 420px;
+  padding: 18px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+  margin-top: 20px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
