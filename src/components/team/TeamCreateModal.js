@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
-import TeamApi from "../../api/TeamApi";
+import AxiosApi from "../../api/TeamApi";
 import "../../styles/Modal.css";
+import TeamApi from "../../api/TeamApi";
 
 function TeamCreateModal({ isOpen, onClose }) {
   const [teamName, setTeamName] = useState("");

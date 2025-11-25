@@ -15,6 +15,8 @@ import MemberDetails from "./pages/Admin/MembersDetail";
 import Profile from "./pages/Profile";
 import ProfileDetail from "./pages/ProfileDetail";
 import SchedulePage from "./pages/SchedulePage";
+import TeamEntry from "./pages/TeamEntry";
+import TeamDetail from "./pages/TeamDetail";
 
 function App() {
   return (
@@ -29,9 +31,12 @@ function App() {
 
           <Route element={<Layout />}>
             <Route path="/home" element={<Home />} />
-            <Route path="/team/create" element={<TeamCreate />} />
+            <Route path="/teams/new" element={<TeamCreate />} />
+            <Route path="/teams/:teamId" element={<TeamDetail />} />
+            <Route path="/teamentry/:token" element={<TeamEntry />} />
             <Route path="/team/invite" element={<TeamInvite />} />
             <Route path="/team/dashboard" element={<TeamDashboard />} />
+            <Route path="/schedulepage" element={<SchedulePage />} />
             <Route path="/profiledetail" element={<ProfileDetail />} />
             <Route path="/profile" element={<Profile />} />
             <Route

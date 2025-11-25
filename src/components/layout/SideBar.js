@@ -36,9 +36,19 @@ function SideBar({ isOpen }) {
     setOpenProject(true);
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      await AxiosApi.logout(); // 백엔드 로그아웃 호출 (세션 무효화)
+
+      // 프론트 상태 정리
+      localStorage.clear();
+      navigate("/");
+    } catch (err) {
+      console.error("로그아웃 실패:", err);
+      // // 그래도 로컬은 비우고 보내고 싶으면:
+      localStorage.clear();
+      navigate("/");
+    }
   };
 
   const myTeams = [

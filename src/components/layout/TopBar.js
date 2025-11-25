@@ -16,6 +16,10 @@ function TopBar({ onMenuClick }) {
     navigate("/Home"); // 페이지 이동
   };
 
+  const goToTeamInvite = () => {
+    navigate("/teams/new");
+  };
+
   return (
     <header className="topbar">
       <img
@@ -32,7 +36,9 @@ function TopBar({ onMenuClick }) {
       </div>
 
       <div className="top-icons">
-        <span class="material-symbols-outlined">group_add</span>
+        <span class="material-symbols-outlined" onClick={goToTeamInvite}>
+          group_add
+        </span>
         <span class="material-symbols-outlined">inventory</span>
         {/* 프로필 이미지 */}
         {profileUrl ? (

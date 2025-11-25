@@ -10,9 +10,7 @@ const api = axios.create({
 
 const AxiosApi = {
   // 로그인
-  login: async (email, pwd) => {
-    return await api.post("/auth/login", { email, pwd });
-  },
+  login: (email, pwd) => axios.post(`${DOMAIN}/auth/login`, { email, pwd }),
   // 이메일로 가입 여부 확인
   emailcheck: async (email) => {
     const res = await axios.get(
