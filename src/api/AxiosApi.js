@@ -9,6 +9,7 @@ const api = axios.create({
 });
 
 const AxiosApi = {
+  // ------------------ AUTH API ------------------
   // 로그인
   login: (email, pwd) => axios.post(`${DOMAIN}/auth/login`, { email, pwd }),
   // 이메일로 가입 여부 확인
@@ -83,32 +84,18 @@ const AxiosApi = {
   detailmembers: async (email) => {
     return await api.get(`/user/${email}`);
   },
+
+  // ------------------ TEAM / BOARD API ------------------
   // 팀 목록 조회 (팀 선택 모달에서 사용)
   getMyTeams: async () => {
     return await api.get("/api/teams/my");
   },
-  // 게시판 생성
-  createBoard: async (teamId, name, description) => {
-    return await axios.post(
-      DOMAIN + "/board/create",
-      {
-        teamId: teamId,
-        name: name,
-        description: description,
-      },
-      { withCredentials: true }
-    );
-  },
-  // 팀별 게시판 목록 조회
-  getBoardsByTeam: async (teamId) => {
-    return await api.get(`/board`, {
-      params: { teamId },
-    });
-  },
+
   // 게시판 조회
   getboard: async (boardId) => {
     return await api.get(`/api/boards/${boardId}`);
   },
+  // ------------------ POST API ------------------
   // 게시글 작성
   postWrite: async (boardId, title, content, imgUrl) => {
     return await api.post("/post/create", {

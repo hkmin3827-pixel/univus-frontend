@@ -3,7 +3,6 @@ import Layout from "./components/layout/Layout";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
 import Post from "./pages/Post";
-import PostWrite from "./components/post/PostWrite";
 import BoardPage from "./pages/BoardPage";
 import { TeamProvider } from "./context/TeamContext";
 import Home from "./pages/Home";
@@ -19,6 +18,8 @@ import TeamEntry from "./pages/TeamEntry";
 import TeamDetail from "./pages/TeamDetail";
 import TeamPage from "./pages/TeamPage";
 import TeamLink from "./pages/TeamLink";
+import CreatePostPage from "./pages/CreatePostPage";
+import PostDetailPage from "./pages/PostDetailPage";
 
 function App() {
   return (
@@ -48,8 +49,9 @@ function App() {
               path="/team/:teamId/board/:boardId"
               element={<BoardPage />}
             />
+            <Route path="/post/create/:boardId" element={<CreatePostPage />} />
+            <Route path="/post/detail/:postId" element={<PostDetailPage />} />
             <Route path="/post" element={<Post />} />
-            <Route path="/post/create" element={<PostWrite />} />
           </Route>
         </Routes>
       </BrowserRouter>

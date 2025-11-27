@@ -1,9 +1,14 @@
-import { useState } from "react";
+// src/pages/TeamCreate.jsx
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import TeamApi from "../api/TeamApi";
 import InviteModal from "../components/team/InviteModal";
 import "../styles/TeamCreate.css";
+import { TeamContext } from "../context/TeamContext";
 
 const TeamCreate = () => {
+  const { fetchTeams, setSelectedTeam } = useContext(TeamContext);
+
   const [teamName, setTeamName] = useState("");
   const [description, setDescription] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -13,6 +18,7 @@ const TeamCreate = () => {
   const [inviteLink, setInviteLink] = useState(null);
 
   const leaderId = localStorage.getItem("userId");
+  const navigate = useNavigate();
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -20,8 +26,12 @@ const TeamCreate = () => {
 
     try {
       const res = await TeamApi.createTeam(teamName, description, leaderId);
-      setCreatedTeamId(res.data.id);
+      const newTeam = res.data;
       alert("팀이 생성되었습니다!");
+
+      await fetchTeams(); // 팀 목록 즉시 갱신
+      setSelectedTeam(newTeam);
+      navigate(`/team/${newTeam.id}`); // 페이지 이동
     } catch (err) {
       console.error(err);
 
@@ -72,7 +82,6 @@ const TeamCreate = () => {
           />
         </div>
 
-        {/* 에러 메시지 영역 고정 */}
         <p className="error-text">{errorMsg}</p>
 
         <button type="submit" className="primary-btn">

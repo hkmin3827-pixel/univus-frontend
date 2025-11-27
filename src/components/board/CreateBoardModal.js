@@ -1,10 +1,13 @@
 import { useState } from "react";
-import AxiosApi from "../../api/AxiosApi";
 import "../../styles/Modal.css";
+import TeamApi from "../../api/TeamApi";
+import { useNavigate } from "react-router-dom";
+import BoardApi from "../../api/BoardApi";
 
 function CreateBoardModal({ isOpen, onClose, teamId, onCreated }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const navigate = useNavigate();
 
   if (!isOpen) return null;
 
@@ -14,16 +17,30 @@ function CreateBoardModal({ isOpen, onClose, teamId, onCreated }) {
       return;
     }
 
+    if (!teamId) {
+      alert("팀이 선택되지 않았습니다.");
+      return;
+    }
+
     try {
-      await AxiosApi.createBoard(teamId, name, description);
+      const res = await BoardApi.createBoard(teamId, name, description);
+      const createdId = res.data;
+      console.log("게시판 생성 성공:", res.data);
+
       alert("게시판이 생성되었습니다.");
-      onCreated(); // 목록 새로고침 트리거
+
+      if (onCreated) onCreated(); // 안전하게 호출
       onClose();
+      navigate(`/team/${teamId}/board/${createdId}`);
+
       setName("");
       setDescription("");
     } catch (e) {
-      alert("생성 실패: 서버 오류");
-      console.error(e);
+      if (e.response?.data?.message?.includes("이미 존재")) {
+        alert("게시판 생성 실패. 같은 이름의 게시판이 이미 존재합니다.");
+      } else {
+        alert("생성 실패: 서버 오류");
+      }
     }
   };
 

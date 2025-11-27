@@ -6,6 +6,7 @@ import { Outlet } from "react-router-dom";
 
 function Layout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [openProject, setOpenProject] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
@@ -18,11 +19,14 @@ function Layout() {
   return (
     <>
       <div className="layout-container">
-        <TopBar onMenuClick={toggleSidebar} />
+        <TopBar onMenuClick={toggleSidebar} setOpenProject={setOpenProject} />
 
         <div className="content-wrapper">
-          {/* isOpen 전달 필수 */}
-          <SideBar isOpen={isSidebarOpen} />
+          <SideBar
+            isOpen={isSidebarOpen}
+            openProject={openProject}
+            setOpenProject={setOpenProject}
+          />
 
           <main className="main-content">
             <Outlet />
@@ -30,7 +34,6 @@ function Layout() {
         </div>
       </div>
 
-      {/* 모바일에서만 overlay 표시 */}
       {isSidebarOpen && window.innerWidth < 992 && (
         <div className="overlay" onClick={closeSidebar} />
       )}

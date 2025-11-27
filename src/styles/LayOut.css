@@ -154,6 +154,13 @@ textarea {
   cursor: pointer;
   font-weight: 600;
   transition: 0.2s;
+  background: #5f52ff;
+  color: white;
+  text-align: center;
+  position: relative; /* 아이콘 위치 기준 */
+  display: flex;
+  justify-content: center; /* 텍스트 중앙 */
+  align-items: center;
 }
 .sidebar-toggle-btn {
   width: 100%;
@@ -163,16 +170,6 @@ textarea {
   cursor: pointer;
   font-weight: 600;
   transition: 0.2s;
-}
-
-.new-project-btn {
-  background: #5f52ff;
-  color: white;
-  text-align: center;
-  position: relative; /* 아이콘 위치 기준 */
-  display: flex;
-  justify-content: center; /* 텍스트 중앙 */
-  align-items: center;
 }
 .add {
   position: absolute;
@@ -280,7 +277,12 @@ textarea {
   cursor: pointer;
   padding: 6px 8px;
 }
-.project-board-list li:hover {
+.project-board-list .board-item:hover {
+  background: none;
+  font-weight: 500;
+  color: black;
+}
+.project-board-list .board-item.active {
   background: none;
   font-weight: 500;
   color: black;
@@ -294,7 +296,7 @@ textarea {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  padding: 30px;
+  padding: 90px 30px 30px 30px;
   background: #fff;
   margin-left: 220px;
   width: calc(100% - 220px);

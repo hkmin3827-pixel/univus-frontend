@@ -1,0 +1,76 @@
+.create-post-container {
+  width: 100%;
+  max-width: 1400px; /* 필요하면 제한 */
+  margin: 0 auto;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.back-btn span {
+  font-size: 30px;
+}
+
+.page-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 10px 0 20px;
+}
+
+.title-input {
+  width: 100%;
+  padding: 14px;
+  font-size: 18px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 12px;
+}
+
+.content-input {
+  width: 100%;
+  height: 300px;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  resize: none;
+}
+
+.file-upload-section {
+  margin: 18px 0;
+}
+
+.file-label {
+  display: inline-block;
+  background: #eef1ff;
+  color: #4355ff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.preview-box img {
+  width: 200px;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 18px;
+  background: #4c62ff;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  margin-top: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background: #3c4fe0;
+}

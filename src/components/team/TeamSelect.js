@@ -1,24 +1,37 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../../styles/TeamSelect.css";
+import { TeamContext } from "../../context/TeamContext";
 
-function TeamSelect({ myTeams, size = "default" }) {
+function TeamSelect({ size = "default" }) {
   const [open, setOpen] = useState(false);
-  const [selectedTeam, setSelectedTeam] = useState("팀 선택");
+
+  const { selectedTeam, setSelectedTeam, myTeams, fetchTeams } =
+    useContext(TeamContext);
+
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    fetchTeams();
+    setOpen(false); // 페이지 이동 시 드롭다운 닫기
+  }, [location.pathname]);
 
   const handleTeamSelect = (team) => {
-    setSelectedTeam(team.teamName);
+    setSelectedTeam(team); // Context에 선택값 저장
     setOpen(false);
-
-    // 선택한 팀 id 기준 이동
     navigate(`/team/${team.id}`);
   };
 
   return (
     <div className="dropdown-container">
-      <button className="dropdown-button" onClick={() => setOpen(!open)}>
-        <span className="button-label">{selectedTeam}</span>
+      <button
+        className={`dropdown-button ${selectedTeam ? "selected" : ""}`}
+        onClick={() => setOpen(!open)}
+      >
+        <span className="button-label">
+          {selectedTeam ? selectedTeam.teamName : "팀 선택"}
+        </span>
         <span className="material-symbols-outlined arrow-icon">
           {open ? "arrow_drop_up" : "arrow_drop_down"}
         </span>

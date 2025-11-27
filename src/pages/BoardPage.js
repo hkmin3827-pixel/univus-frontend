@@ -1,63 +1,100 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import AxiosApi from "../api/AxiosApi";
+import { useEffect, useState, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import PostApi from "../api/PostApi";
+import { TeamContext } from "../context/TeamContext";
 import "../styles/BoardPage.css";
 
 function BoardPage() {
   const { boardId } = useParams();
-  const [boardInfo, setBoardInfo] = useState(null);
+  const { selectedTeam } = useContext(TeamContext);
+  const navigate = useNavigate();
+
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
   const [posts, setPosts] = useState([]);
+  const isImageFile = (fileUrl) => {
+    return /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(fileUrl);
+  };
+
+  const fetchPosts = async () => {
+    try {
+      const res = await PostApi.getPostList(boardId, page, 10);
+      console.log("게시글 목록:", res.data); // 확인용
+      setPosts(res.data.content ?? []);
+      setTotalPages(res.data.totalPages ?? 1);
+    } catch (err) {
+      console.error("게시글 목록 불러오기 실패:", err);
+    }
+  };
 
   useEffect(() => {
-    const fetchBoard = async () => {
-      try {
-        const res = await AxiosApi.getboard(boardId);
-        setBoardInfo(res.data);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-    fetchBoard();
-  }, [boardId]);
+    fetchPosts();
+  }, [boardId, page]);
 
   return (
     <div className="board-page-container">
-      {/* 🔹 상단 Banner */}
-      <div className="board-banner">
-        <div className="banner-label">NEW</div>
-        <h1 className="board-title">{boardInfo?.name || "게시판"}</h1>
+      {/* 제목 & 버튼 */}
+      <div className="board-header">
+        <button className="back-btn" onClick={() => navigate(-1)}>
+          <span className="material-symbols-outlined">arrow_back</span>
+        </button>
+        <h1 className="board-title">📁 {selectedTeam?.name} 프로젝트</h1>
+
+        <button
+          className="new-post-btn"
+          onClick={() => navigate(`/post/create/${boardId}`)}
+        >
+          + 새 게시물
+        </button>
       </div>
 
-      {/* 🔹 게시글 작성 버튼 */}
-      <div className="board-actions">
-        <button className="new-post-btn">+ 새 게시글 작성</button>
-      </div>
-
-      {/* 🔹 게시글 리스트 */}
-      <h2 className="section-title">게시글 목록</h2>
-
-      {posts.length === 0 ? (
-        <div className="empty-box">
-          <img src="/empty.svg" alt="empty" />
-          <p>등록된 게시글이 없습니다.</p>
-        </div>
-      ) : (
-        <div className="post-list">
-          {posts.map((post) => (
-            <div className="post-card" key={post.id}>
-              <h3>{post.title}</h3>
-              <p>{post.content.slice(0, 80)}...</p>
-              <div className="post-meta">
-                <span>{post.writer}</span>
-                <span>{post.createdAt}</span>
-              </div>
+      {/* 게시글 목록 */}
+      <div className="post-list">
+        {posts.length === 0 ? (
+          <p className="empty">게시글이 없습니다. 첫 글을 작성해보세요.</p>
+        ) : (
+          posts.map((p) => (
+            <div
+              key={p.id}
+              className="post-card"
+              onClick={() => navigate(`/post/detail/${p.id}`)}
+            >
+              <h3>{p.title}</h3>
+              <p>{p.content?.slice(0, 80) ?? ""}...</p>
+              {p.fileUrl &&
+                (isImageFile(p.fileUrl) ? (
+                  <img
+                    src={p.fileUrl}
+                    alt="첨부 이미지"
+                    className="thumbnail"
+                    onError={(e) => (e.target.style.display = "none")}
+                  />
+                ) : (
+                  <div className="file-preview">📎 첨부파일 있음</div>
+                ))}
+              <span className="writer">{p.userName}</span>
             </div>
-          ))}
-        </div>
-      )}
+          ))
+        )}
+      </div>
 
-      {/* 🔹 Floating 버튼 */}
-      <button className="floating-btn">＋</button>
+      {/* 페이지네이션 */}
+      <div className="pagination">
+        <button disabled={page === 0} onClick={() => setPage(page - 1)}>
+          ◀
+        </button>
+
+        <span>
+          {page + 1} / {totalPages}
+        </span>
+
+        <button
+          disabled={page + 1 >= totalPages}
+          onClick={() => setPage(page + 1)}
+        >
+          ▶
+        </button>
+      </div>
     </div>
   );
 }

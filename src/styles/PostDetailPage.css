@@ -1,0 +1,81 @@
+/* 📌 PostDetailPage.css */
+
+.post-detail-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 80px auto; /* topbar 고려 */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 뒤로가기 버튼 */
+.back-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+.back-btn span {
+  font-size: 28px;
+}
+
+/* 제목 */
+.post-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 6px 0;
+}
+
+/* 작성자 + 날짜 영역 */
+.post-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  color: #666;
+}
+
+/* 구분선 */
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 16px 0;
+}
+
+/* 본문 내용 */
+.post-content {
+  font-size: 18px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin-bottom: 20px;
+}
+
+/* 첨부 이미지 박스 */
+.image-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.image-box img {
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+}
+
+/* 첨부파일 다운로드 버튼 (이미지가 아닐 경우 사용 예정) */
+.file-download {
+  margin-top: 10px;
+  font-size: 16px;
+  text-decoration: underline;
+  color: #3366ff;
+  cursor: pointer;
+}
+
+/* 댓글 구역 기본 위치 확보 */
+.comment-section {
+  margin-top: 30px;
+}

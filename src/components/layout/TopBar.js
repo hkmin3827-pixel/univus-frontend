@@ -1,33 +1,58 @@
 import logo from "../../images/layoutLogo.png";
-import { useState, useEffect } from "react";
-// import { storage } from "../../firebase";
-// import { ref, getDownloadURL } from "firebase/storage";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { TeamContext } from "../../context/TeamContext";
 
-function TopBar({ onMenuClick }) {
+function TopBar({ onMenuClick, setOpenProject }) {
   const navigate = useNavigate();
+  const { myTeams, setSelectedTeam } = useContext(TeamContext);
   const [profileUrl, setProfileUrl] = useState(null);
 
   const goToProfile = () => {
-    navigate("/profiledetail"); // 페이지 이동
-  };
-
-  const goToHome = () => {
-    navigate("/Home"); // 페이지 이동
+    navigate("/profiledetail");
   };
 
   const goToTeamInvite = () => {
     navigate("/teams/new");
   };
+
   const goToTeamEntry = () => {
     navigate("/team/entry");
+  };
+
+  const handleClickLogo = () => {
+    const recentTeamId = localStorage.getItem("recentTeamId");
+
+    // 최근 선택된 팀 존재
+    if (recentTeamId && myTeams.length > 0) {
+      const recentTeam = myTeams.find((t) => t.id === Number(recentTeamId));
+      if (recentTeam) {
+        setSelectedTeam(recentTeam);
+        setOpenProject(false); // 사이드바 닫기
+        navigate(`/team/${recentTeam.id}`);
+        return;
+      }
+    }
+
+    // 팀이 1개 이상이면 첫 번째 팀으로
+    if (myTeams.length > 0) {
+      setSelectedTeam(myTeams[0]);
+      localStorage.setItem("recentTeamId", myTeams[0].id);
+      setOpenProject(false);
+      navigate(`/team/${myTeams[0].id}`);
+    } else {
+      // 팀이 없는 경우
+      setSelectedTeam(null);
+      setOpenProject(false);
+      navigate("/home");
+    }
   };
 
   return (
     <header className="topbar">
       <img
         className="logo"
-        onClick={goToHome}
+        onClick={handleClickLogo}
         style={{ cursor: "pointer" }}
         src={logo}
         alt="univus 로고"
@@ -39,13 +64,14 @@ function TopBar({ onMenuClick }) {
       </div>
 
       <div className="top-icons">
-        <span class="material-symbols-outlined" onClick={goToTeamInvite}>
+        <span className="material-symbols-outlined" onClick={goToTeamInvite}>
           group_add
         </span>
-        <span class="material-symbols-outlined" onClick={goToTeamEntry}>
+        <span className="material-symbols-outlined" onClick={goToTeamEntry}>
           add_link
         </span>
-        <span class="material-symbols-outlined">inventory</span>
+        <span className="material-symbols-outlined">inventory</span>
+
         {/* 프로필 이미지 */}
         {profileUrl ? (
           <img
@@ -58,14 +84,16 @@ function TopBar({ onMenuClick }) {
               objectFit: "cover",
               cursor: "pointer",
             }}
+            onClick={goToProfile}
           />
         ) : (
-          <span class="material-symbols-outlined" onClick={goToProfile}>
+          <span className="material-symbols-outlined" onClick={goToProfile}>
             account_circle
           </span>
         )}
       </div>
-      {/* 모바일 전용 햄버거 */}
+
+      {/* 모바일 메뉴 버튼 */}
       <button className="menu-btn" onClick={onMenuClick}>
         <span className="material-symbols-outlined">menu</span>
       </button>
