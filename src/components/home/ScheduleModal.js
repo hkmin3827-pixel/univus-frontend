@@ -1,84 +1,59 @@
-// src/components/schedule/ScheduleCreateModal.js
-import React, { useEffect, useState } from "react";
-import "../../styles/ScheduleModal.css"; // 기존 모달 CSS 재사용
+// src/components/home/ScheduleModal.js
+import React from "react";
+import "../../styles/ScheduleModal.css";
 
-function ScheduleModal({ onClose, onSubmit, defaultDate }) {
-  const [title, setTitle] = useState("");
-  const [date, setDate] = useState(defaultDate || "");
-  const [time, setTime] = useState("");
-  const [description, setDescription] = useState("");
-
-  useEffect(() => {
-    if (defaultDate) setDate(defaultDate);
-  }, [defaultDate]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!title || !date || !time) {
-      alert("제목, 날짜, 시간을 모두 입력해 주세요.");
-      return;
-    }
-    onSubmit({ title, date, time, description });
-  };
+function ScheduleModal({ event, onClose, onEdit, onDelete }) {
+  const dateTime = event.start || event.dateTime || event.date;
+  const formatted = dateTime ? new Date(dateTime).toLocaleString() : "-";
 
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-box" onClick={(e) => e.stopPropagation()}>
-        <h2>📝 일정 추가</h2>
+        {/* 상단 헤더 */}
+        <div className="modal-header">
+          <div className="modal-title-wrap">
+            <span className="modal-chip">일정</span>
+            <h2 className="modal-title">📌 일정 상세보기</h2>
+          </div>
+          <button className="modal-close" onClick={onClose} aria-label="닫기">
+            ✕
+          </button>
+        </div>
 
-        <form className="schedule-form" onSubmit={handleSubmit}>
-          <div className="form-row">
-            <label>
-              제목
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="일정 제목을 입력하세요."
-              />
-            </label>
+        {/* 내용 영역 */}
+        <div className="modal-body">
+          <div className="modal-row">
+            <span className="label">제목</span>
+            <span className="value title">{event.title}</span>
           </div>
 
-          <div className="form-row form-row-inline">
-            <label>
-              날짜
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
-            </label>
-            <label>
-              시간
-              <input
-                type="time"
-                value={time}
-                onChange={(e) => setTime(e.target.value)}
-              />
-            </label>
+          <div className="modal-row">
+            <span className="label">일시</span>
+            <span className="value">{formatted}</span>
           </div>
 
-          <div className="form-row">
-            <label>
-              내용
-              <textarea
-                rows={3}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="추가 메모를 입력해 주세요."
-              />
-            </label>
+          <div className="modal-row column">
+            <span className="label">내용</span>
+            <div className="value desc">
+              {event.description && event.description.trim() !== ""
+                ? event.description
+                : "내용이 없습니다."}
+            </div>
           </div>
+        </div>
 
-          <div className="form-actions">
-            <button type="button" onClick={onClose}>
-              취소
-            </button>
-            <button type="submit" className="primary">
-              저장
-            </button>
-          </div>
-        </form>
+        {/* 하단 버튼 영역 */}
+        <div className="modal-actions">
+          <button className="btn danger" onClick={onDelete}>
+            삭제
+          </button>
+          <button className="btn outline" onClick={onEdit}>
+            수정
+          </button>
+          <button className="btn" onClick={onClose}>
+            닫기
+          </button>
+        </div>
       </div>
     </div>
   );
