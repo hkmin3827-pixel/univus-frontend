@@ -17,7 +17,6 @@ export const Container = styled.div`
 
 export const TopMenu = styled.header`
   width: 100%;
-  max-width: 1200px;
   display: flex;
   justify-content: flex-end;
   gap: 8px;

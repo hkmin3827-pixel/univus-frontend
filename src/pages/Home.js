@@ -15,7 +15,16 @@ function Home() {
   // ✏ 수정 모달 상태
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editInitialData, setEditInitialData] = useState(null);
+  // 날짜 필터 계산
+  const now = new Date();
+  const sevenDaysLater = new Date();
+  sevenDaysLater.setDate(now.getDate() + 7);
 
+  // 이벤트 필터링 (현재 ~ 7일 뒤)
+  const upcomingEvents = events.filter((item) => {
+    const eventDate = new Date(item.start);
+    return eventDate >= now && eventDate <= sevenDaysLater;
+  });
   useEffect(() => {
     loadSchedules();
   }, []);
@@ -122,11 +131,11 @@ function Home() {
 
       {/* 예정된 일정 리스트 */}
       <div className="schedule-box">
-        <h3>📌 예정된 일정</h3>
-        {events.length === 0 ? (
+        <h3>📌 예정된 일정 &lt;7days later&gt;</h3>
+        {upcomingEvents.length === 0 ? (
           <p className="empty">등록된 일정이 없습니다.</p>
         ) : (
-          events.map((item) => (
+          upcomingEvents.map((item) => (
             <div
               key={item.id}
               className="schedule-item"
@@ -141,7 +150,6 @@ function Home() {
           ))
         )}
       </div>
-
       {/* 🔍 상세 모달 (보기 + 수정/삭제 버튼) */}
       {selectedEvent && (
         <ScheduleModal

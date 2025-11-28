@@ -42,10 +42,10 @@ function CreatePostPage() {
       }
 
       const res = await PostApi.createPost(boardId, title, content, uploadUrl);
-      alert("게시글이 등록되었습니다.");
+      alert("게시물이 등록되었습니다.");
       navigate(`/post/detail/${res.data}`); // 저장 후 상세로 이동
     } catch (err) {
-      alert("게시글 작성 실패");
+      alert("게시물 작성 실패");
       console.error(err);
     }
   };
@@ -57,7 +57,7 @@ function CreatePostPage() {
         <span className="material-symbols-outlined">arrow_back</span>
       </button>
 
-      <h1 className="page-title">새 게시글 작성</h1>
+      <h1 className="page-title">새 게시물 작성</h1>
 
       <input
         className="title-input"

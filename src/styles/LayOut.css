@@ -234,6 +234,7 @@ textarea {
   display: flex;
   align-items: center;
   gap: 8px;
+  cursor: pointer;
 }
 .bottom-menu li {
   list-style: none;
@@ -250,11 +251,11 @@ textarea {
 }
 .bottom-menu li:last-child {
   width: 80px;
-  cursor: pointer;
 }
 .bottom-menu .material-symbols-outlined {
   font-size: 15px;
 }
+
 #zoom a,
 .bottom-menu li {
   display: flex;
@@ -277,14 +278,19 @@ textarea {
   cursor: pointer;
   padding: 6px 8px;
 }
+.project-board-list .empty:hover {
+  background-color: inherit;
+  color: #848484;
+  cursor: default;
+}
 .project-board-list .board-item:hover {
   background: none;
-  font-weight: 500;
+  font-weight: 700;
   color: black;
 }
 .project-board-list .board-item.active {
   background: none;
-  font-weight: 500;
+  font-weight: 700;
   color: black;
 }
 

@@ -31,7 +31,9 @@ const TeamCreate = () => {
 
       await fetchTeams(); // 팀 목록 즉시 갱신
       setSelectedTeam(newTeam);
-      navigate(`/team/${newTeam.id}`); // 페이지 이동
+      localStorage.setItem("selectedTeamId", newTeam.id);
+      setCreatedTeamId(newTeam.id);
+      // navigate(`/team/${newTeam.id}`); // 페이지 이동
     } catch (err) {
       console.error(err);
 

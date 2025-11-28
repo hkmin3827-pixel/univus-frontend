@@ -1,3 +1,4 @@
+// PostDetailPage.jsx
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PostApi from "../api/PostApi";
@@ -23,17 +24,27 @@ function PostDetailPage() {
     fetchPostDetail();
   }, [postId]);
 
+  const formatDateTime = (dateTimeString) => {
+    if (!dateTimeString) return "";
+    const [datePart, timeWithMs] = dateTimeString.split("T");
+    if (!timeWithMs) return datePart;
+    const timePart = timeWithMs.split(".")[0];
+    return `${datePart} ${timePart}`;
+  };
+
   return (
     <div className="post-detail-container">
-      <button className="back-btn" onClick={() => navigate(-1)}>
-        <span className="material-symbols-outlined">arrow_back</span>
-      </button>
-
-      <h1 className="post-title">{post?.title}</h1>
+      {/* 제목 + 뒤로가기 한 줄 */}
+      <div className="post-header">
+        <button className="back-btn" onClick={() => navigate(-1)}>
+          <span className="material-symbols-outlined">arrow_back</span>
+        </button>
+        <h1 className="post-title">{post?.title}</h1>
+      </div>
 
       <div className="post-info">
         <span className="writer">{post?.userName}</span>
-        <span className="date">{post?.createTime}</span>
+        <span className="date">{formatDateTime(post?.createTime)}</span>
       </div>
 
       <hr />
