@@ -1,5 +1,5 @@
 // src/pages/Profile.js
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import AxiosApi from "../api/AxiosApi";
 import InputComponent from "../components/common/InputComponent";
@@ -11,51 +11,51 @@ import {
   Label,
   ErrorText,
   ButtonRow,
+  ProfileImage,
 } from "../components/profile/ProfileComponent";
 import styled from "styled-components";
+import { uploadProfileImage } from "../api/Firebase";
 
-// 🔹 회원 정보 "수정" 페이지 전용 래퍼 (배경/여백 담당)
 const EditWrapper = styled.div`
   width: 100%;
-  min-height: 100%;
-  box-sizing: border-box;
-  padding: 60px 60px 80px; // 위/아래 여백 조금 더 줌
+  min-height: 100vh;
   background: #f5f7ff;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 40px 80px;
+  box-sizing: border-box;
 `;
 
 const Profile = () => {
   const navigate = useNavigate();
+  const fileInputRef = useRef(null);
 
-  const goToProfile = () => {
-    navigate("/profiledetail"); // 프로필 수정 페이지로 이동
-  };
-
-  const [role, setRole] = useState(""); // STUDENT / PROFESSOR
+  const [role, setRole] = useState("");
   const [email, setEmail] = useState("");
 
   // 공통
   const [name, setName] = useState("");
-  const [tel, setTel] = useState(""); // JSON에는 안 보이지만, 있으면 쓰고 없으면 빈 값
+  const [tel, setTel] = useState("");
+  const [imageUrl, setImageUrl] = useState(""); // 화면 미리보기용
+  const [newImageFile, setNewImageFile] = useState(null); // 새로 선택한 파일
 
-  // 학생 전용
+  // 학생
   const [studentNumber, setStudentNumber] = useState("");
   const [major, setMajor] = useState("");
   const [grade, setGrade] = useState("");
 
-  // 교수 전용
+  // 교수
   const [department, setDepartment] = useState("");
   const [position, setPosition] = useState("");
 
   const [submitError, setSubmitError] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState("");
 
-  // 진입 시 로그인 정보 + 프로필 불러오기
+  // 프로필 불러오기
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");
-    const storedRole = localStorage.getItem("role"); // STUDENT / PROFESSOR
+    const storedRole = localStorage.getItem("role");
 
     if (!storedEmail || !storedRole) {
       setSubmitError("로그인 정보가 없습니다. 다시 로그인 해주세요.");
@@ -67,70 +67,83 @@ const Profile = () => {
 
     const fetchProfile = async () => {
       try {
-        let res;
-        if (storedRole === "STUDENT") {
-          res = await AxiosApi.getStudentProfile(storedEmail);
-        } else if (storedRole === "PROFESSOR") {
-          res = await AxiosApi.getProfessorProfile(storedEmail);
-        } else {
-          setSubmitError("알 수 없는 회원 유형입니다.");
-          return;
-        }
+        let res =
+          storedRole === "STUDENT"
+            ? await AxiosApi.getStudentProfile(storedEmail)
+            : await AxiosApi.getProfessorProfile(storedEmail);
 
         const data = res.data;
-
-        // 공통 user 정보 매핑
         setName(data.user?.name || "");
         setTel(data.user?.phone || "");
+        setImageUrl(data.user?.image || "");
 
         if (storedRole === "STUDENT") {
           setStudentNumber(data.studentNumber || "");
           setMajor(data.major || "");
           setGrade(data.grade || "");
-        } else if (storedRole === "PROFESSOR") {
+        } else {
           setDepartment(data.department || "");
           setPosition(data.position || "");
         }
       } catch (e) {
-        console.error(e);
         setSubmitError("회원 정보를 불러오지 못했습니다.");
       }
     };
 
     fetchProfile();
-  }, [navigate]);
+  }, []);
 
+  /** 🔹 이미지 선택 시 미리보기 */
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setNewImageFile(file);
+    const preview = URL.createObjectURL(file);
+    setImageUrl(preview);
+  };
+
+  /** 🔹 이미지 변경 버튼 클릭 → 숨겨진 input 실행 */
+  const openFilePicker = () => fileInputRef.current?.click();
+
+  /** 🔥 최종 저장 버튼 */
   const onSubmit = async (e) => {
     e.preventDefault();
     setSubmitError("");
     setSubmitSuccess("");
 
     try {
-      // 1) 공통 User 정보 수정
+      let finalImageUrl = imageUrl;
+
+      // 🔥 1) 이미지가 새로 선택되었으면 Firebase로 업로드
+      if (newImageFile) {
+        finalImageUrl = await uploadProfileImage(newImageFile, email);
+      }
+
+      // 🔥 2) user 정보 업데이트 (URL만 백엔드로 전달)
       await AxiosApi.updateUserProfile(email, {
         name,
-        phone: tel, // DTO에서 phone 필드 사용
+        phone: tel,
+        image: finalImageUrl,
       });
 
-      // 2) 학생/교수 개별 정보 수정
+      // 🔥 3) 학생/교수 개별 정보 업데이트
       if (role === "STUDENT") {
         await AxiosApi.updateStudentProfile(email, {
           major,
+          grade: Number(grade),
           studentNumber,
-          grade: grade ? Number(grade) : null,
         });
-      } else if (role === "PROFESSOR") {
+      } else {
         await AxiosApi.updateProfessorProfile(email, {
           department,
           position,
         });
       }
 
-      setSubmitSuccess("회원 정보가 수정되었습니다.");
-      alert("회원 정보가 수정되었습니다."); // ✅ 메시지 띄우고
+      alert("회원 정보가 수정되었습니다.");
       navigate("/profiledetail");
     } catch (err) {
-      console.error(err);
       setSubmitError("수정에 실패했습니다. 잠시 후 다시 시도해주세요.");
     }
   };
@@ -139,10 +152,31 @@ const Profile = () => {
     <EditWrapper>
       <FormBox onSubmit={onSubmit}>
         <Title>회원 정보 수정</Title>
-        {/* 이메일 (읽기 전용) */}
+
+        {/* 🔹 프로필 이미지 + 변경 버튼 */}
+        <Row>
+          <Label>프로필</Label>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <ProfileImage
+              src={imageUrl?.trim() ? imageUrl : "/images/default-profile.png"}
+            />
+            <ButtonComponent type="button" onClick={openFilePicker}>
+              이미지 변경
+            </ButtonComponent>
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handleImageChange}
+              style={{ display: "none" }}
+            />
+          </div>
+        </Row>
+
+        {/* 이메일 */}
         <Row>
           <Label>이메일</Label>
-          <InputComponent type="email" value={email} onChange={() => {}} />
+          <InputComponent type="email" value={email} readOnly />
         </Row>
 
         {/* 이름 */}
@@ -165,7 +199,7 @@ const Profile = () => {
           />
         </Row>
 
-        {/* 학생 / 교수에 따라 추가 정보 보여주기 */}
+        {/* 추가 정보: 학생 */}
         {role === "STUDENT" && (
           <>
             <Row>
@@ -195,6 +229,7 @@ const Profile = () => {
           </>
         )}
 
+        {/* 추가 정보: 교수 */}
         {role === "PROFESSOR" && (
           <>
             <Row>
@@ -217,9 +252,6 @@ const Profile = () => {
         )}
 
         {submitError && <ErrorText>{submitError}</ErrorText>}
-        {submitSuccess && (
-          <p style={{ color: "#22aa22", fontSize: "12px" }}>{submitSuccess}</p>
-        )}
 
         <ButtonRow>
           <ButtonComponent type="submit">저장</ButtonComponent>

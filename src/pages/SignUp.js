@@ -20,8 +20,8 @@ import "../styles/login.css";
 const SignUp = () => {
   const navigate = useNavigate();
 
-  const [profileImg, setProfileImg] = useState(null); // 실제 파일
-  const [previewUrl, setPreviewUrl] = useState(""); // 미리보기용 URL
+  // const [profileImg, setProfileImg] = useState(null); // 실제 파일
+  // const [previewUrl, setPreviewUrl] = useState(""); // 미리보기용 URL
 
   const [inputEmail, setInputEmail] = useState("");
   const [inputPw, setInputPw] = useState("");
@@ -43,13 +43,13 @@ const SignUp = () => {
   const [pwMsg, setPwMsg] = useState(""); // 패스워드 정규식 검사
   const [conPwMsg, setConPwMsg] = useState(""); // 비밀번호 일치 여부 검사
 
-  const onChangeImg = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setProfileImg(file);
-      setPreviewUrl(URL.createObjectURL(file)); // 로컬 미리보기 URL 생성
-    }
-  };
+  // const onChangeImg = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setProfileImg(file);
+  //     setPreviewUrl(URL.createObjectURL(file)); // 로컬 미리보기 URL 생성
+  //   }
+  // };
 
   const onChangeEmail = async (e) => {
     const email = e.target.value;
