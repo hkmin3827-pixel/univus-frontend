@@ -141,8 +141,8 @@ function SideBar({ isOpen, openProject, setOpenProject }) {
         <div className="bottom-menu">
           <ul>
             <li className="invite-link-btn" onClick={openInviteModal}>
-              <span class="material-symbols-outlined">link</span>팀 초대 링크
-              발급
+              <span className="material-symbols-outlined">link</span>팀 초대
+              링크 발급
             </li>
             <li id="zoom">
               <a
@@ -150,7 +150,9 @@ function SideBar({ isOpen, openProject, setOpenProject }) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span class="material-symbols-outlined">captive_portal</span>
+                <span className="material-symbols-outlined">
+                  captive_portal
+                </span>
                 ZOOM으로 이동
               </a>
             </li>

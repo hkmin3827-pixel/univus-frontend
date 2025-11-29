@@ -84,3 +84,6 @@
 .fc .fc-button:hover {
   background: #5148ff;
 }
+.fc-daygrid-dot-event {
+  width: auto !important;
+}
