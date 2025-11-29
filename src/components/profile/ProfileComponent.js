@@ -3,16 +3,21 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
-  height: 100%;
-  padding: 32px 40px;
+  min-height: 100vh;
+  background: #f5f7ff;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  padding: 30px 20px;
   box-sizing: border-box;
-  background: #f5f7ff; /* 메인 배경색 (필요하면 레이아웃 배경에 맞춰 조정) */
 `;
 
 // 카드 전체를 감싸는 박스
 export const FormBox = styled.form`
   /* 🔥 프로필 조회에서도 쓰고, 수정에서도 같은 카드 사용 */
-  max-width: 800px; // 720 → 880 처럼 넓게 (원하는 값으로 조절)
+  max-width: 700px; // 720 → 880 처럼 넓게 (원하는 값으로 조절)
   width: 100%;
   margin: 0 auto;
   background: #ffffff;
@@ -40,6 +45,15 @@ export const SectionTitle = styled.h3`
   font-weight: 600;
   margin: 8px 0 4px;
   color: #4b5563;
+`;
+
+export const ProfileImage = styled.img`
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
+  background: #f3f4f6;
 `;
 
 // 한 줄: 라벨 + 값

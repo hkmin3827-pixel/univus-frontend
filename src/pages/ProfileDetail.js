@@ -13,6 +13,7 @@ import {
   ErrorText,
   ButtonRow,
   SectionTitle,
+  ProfileImage,
 } from "../components/profile/ProfileComponent";
 
 const ProfileDetail = () => {
@@ -28,6 +29,7 @@ const ProfileDetail = () => {
   // 공통
   const [name, setName] = useState("");
   const [tel, setTel] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   // 학생 전용
   const [studentNumber, setStudentNumber] = useState("");
@@ -51,6 +53,12 @@ const ProfileDetail = () => {
       return;
     }
 
+    // ADMIN이면 바로 관리자 페이지로 이동
+    if (storedRole === "ADMIN") {
+      navigate("/admin", { replace: true });
+      return;
+    }
+
     setEmail(storedEmail);
     setRole(storedRole);
 
@@ -71,6 +79,7 @@ const ProfileDetail = () => {
         // 공통 user 정보 매핑
         setName(data.user?.name || "");
         setTel(data.user?.phone || "");
+        setImageUrl(data.user?.image || "");
 
         if (storedRole === "STUDENT") {
           setStudentNumber(data.studentNumber || "");
@@ -100,6 +109,19 @@ const ProfileDetail = () => {
           <>
             {/* 공통 정보 */}
             <SectionTitle>기본 정보</SectionTitle>
+            <Row>
+              <Label>프로필</Label>
+              <Value>
+                <ProfileImage
+                  src={
+                    imageUrl && imageUrl.trim() !== ""
+                      ? imageUrl
+                      : "/images/default-profile.png" // 기본 이미지 경로 (원하는 걸로 교체)
+                  }
+                  alt="프로필 이미지"
+                />
+              </Value>
+            </Row>
             <Row>
               <Label>이메일</Label>
               <Value>{email}</Value>

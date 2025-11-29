@@ -137,11 +137,8 @@ const Profile = () => {
 
   return (
     <EditWrapper>
-      {/* 제목은 카드 바깥, 중앙 정렬 */}
-      <Title>회원 정보 수정</Title>
-
-      {/* FormBox는 기존처럼 form 역할 */}
       <FormBox onSubmit={onSubmit}>
+        <Title>회원 정보 수정</Title>
         {/* 이메일 (읽기 전용) */}
         <Row>
           <Label>이메일</Label>
