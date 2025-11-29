@@ -130,7 +130,17 @@ function SideBar({ isOpen, openProject, setOpenProject }) {
             )}
 
             <li onClick={() => navigate("/notice")}>공지사항</li>
-            <li onClick={() => navigate("/app/insight")}>인사이트</li>
+            <li
+              onClick={() => {
+                if (!selectedBoardId) {
+                  alert("먼저 게시판을 선택해주세요.");
+                  return;
+                }
+                navigate(`/boards/${selectedBoardId}/insight`);
+              }}
+            >
+              인사이트
+            </li>
             <li onClick={() => navigate("/schedulepage")}>캘린더</li>
             <li onClick={() => navigate("/app/alert")}>알림</li>
           </ul>
