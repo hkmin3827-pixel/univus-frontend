@@ -136,6 +136,14 @@ const AxiosApi = {
   declineInvite: async (inviteId) => {
     return await api.post(`/teams/invite/${inviteId}/decline`);
   },
+
+  // 🔹 보드별 팀원 기여도 리스트
+  getBoardContribution: (boardId) =>
+    api.get(`/activity/board/${boardId}/contribution`),
+
+  // 🔹 특정 팀원의 상세 기여도
+  getUserContributionDetail: (userId, boardId) =>
+    api.get(`/activity/user/${userId}/board/${boardId}/detail`),
 };
 
 export default AxiosApi;

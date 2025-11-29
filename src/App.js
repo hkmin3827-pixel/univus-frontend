@@ -26,6 +26,7 @@ import NoticeListPage from "./pages/Notice/NoticeListPage";
 import TodoPage from "./pages/TodoPage";
 import { TodoProvider } from "./context/TodoContext";
 import { UserProvider } from "./context/UserContext";
+import BoardInsightPage from "./pages/BoardInsightPage";
 
 function App() {
   return (
@@ -80,6 +81,10 @@ function App() {
               <Route path="/post/detail/:postId" element={<PostDetailPage />} />
 
               <Route path="/team/:teamId/todo" element={<TodoPage />} />
+              <Route
+                path="/boards/:boardId/insight"
+                element={<BoardInsightPage />}
+              />
             </Route>
           </Routes>
         </BrowserRouter>
