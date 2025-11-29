@@ -128,7 +128,7 @@ function SideBar({ isOpen, openProject, setOpenProject }) {
               </ul>
             )}
 
-            <li onClick={() => navigate("/app/notice")}>공지사항</li>
+            <li onClick={() => navigate("/notice")}>공지사항</li>
             <li onClick={() => navigate("/app/insight")}>인사이트</li>
             <li onClick={() => navigate("/schedulepage")}>캘린더</li>
             <li onClick={() => navigate("/app/alert")}>알림</li>
