@@ -1,11 +1,12 @@
 // 로그인 페이지
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AxiosApi from "../api/AxiosApi";
 import InputComponent from "../components/common/InputComponent";
 import Button from "../components/common/ButtonComponent";
 import logo from "../images/layoutLogo.png";
 import "../styles/login.css";
+import { TeamContext } from "../context/TeamContext";
 
 import {
   Container,
@@ -43,6 +44,7 @@ const LogIn = () => {
   const [isPw, setIsPw] = useState(false);
 
   const [error, setError] = useState(""); // 로그인 에러 메시지
+  const { fetchTeams, setSelectedTeam } = useContext(TeamContext);
 
   const navigate = useNavigate();
 
@@ -76,8 +78,14 @@ const LogIn = () => {
         localStorage.setItem("role", role);
         localStorage.setItem("userId", id);
         // 필요하면 name, image, regDate도 저장 가능
-
-        navigate("/home");
+        const teams = await fetchTeams();
+        if (teams && teams.length > 0) {
+          setSelectedTeam(teams[0]);
+          navigate(`/team/${teams[0].id}`);
+        } else {
+          // ★ 팀이 없으면 홈으로
+          navigate("/home");
+        }
       } else {
         setError("이메일 또는 비밀번호를 확인해 주세요.");
       }

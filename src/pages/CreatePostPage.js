@@ -4,6 +4,7 @@ import PostApi from "../api/PostApi";
 import "../styles/CreatePostPage.css";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../api/Firebase";
+import styled from "styled-components";
 
 function CreatePostPage() {
   const { boardId } = useParams();
@@ -12,6 +13,8 @@ function CreatePostPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [file, setFile] = useState(null);
+  const [url, setUrl] = useState(null);
+  const [fileName, setFileName] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
 
   // 파일 선택
@@ -24,6 +27,23 @@ function CreatePostPage() {
     }
   };
 
+  const handleUploadClick = async () => {
+    try {
+      const storageRef = storage.ref();
+      const fileRef = storageRef.child(file.name);
+
+      await fileRef.put(file);
+
+      const url = await fileRef.getDownloadURL();
+      setUrl(url);
+      setFileName(file.name);
+
+      console.log("Firebase 업로드 성공:", url);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   // 게시글 작성 제출
   const handleSubmit = async () => {
     if (!title.trim()) {
@@ -32,16 +52,13 @@ function CreatePostPage() {
     }
 
     try {
-      // 파일 업로드 자리 (Firebase 연동 시 완성)
-      let uploadUrl = null;
-      if (file) {
-        const storageRef = ref(storage, `posts/${Date.now()}_${file.name}`);
-        await uploadBytes(storageRef, file);
-        uploadUrl = await getDownloadURL(storageRef); // Firebase download URL 획득
-        console.log("Firebase URL: ", uploadUrl);
-      }
-
-      const res = await PostApi.createPost(boardId, title, content, uploadUrl);
+      const res = await PostApi.createPost(
+        boardId,
+        title,
+        content,
+        url,
+        fileName
+      );
       alert("게시물이 등록되었습니다.");
       navigate(`/post/detail/${res.data}`); // 저장 후 상세로 이동
     } catch (err) {
@@ -83,9 +100,16 @@ function CreatePostPage() {
 
         {previewUrl && (
           <div className="preview-box">
-            <img src={previewUrl} alt="preview" />
+            <img src={previewUrl} alt="파일 Upload 준비 완료" />
           </div>
         )}
+        <button
+          onClick={handleUploadClick}
+          disabled={!file}
+          className="upload-btn"
+        >
+          Upload
+        </button>
       </div>
 
       <button className="submit-btn" onClick={handleSubmit}>

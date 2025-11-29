@@ -68,7 +68,7 @@
   width: 100%;
   padding: 14px;
   font-size: 18px;
-  background: #4c62ff;
+  background: #5f52ff;
   color: white;
   border: none;
   border-radius: 12px;
@@ -78,5 +78,20 @@
 }
 
 .submit-btn:hover {
-  background: #3c4fe0;
+  background: #4538d3;
+}
+
+.upload-btn:disabled {
+  display: none;
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.upload-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }

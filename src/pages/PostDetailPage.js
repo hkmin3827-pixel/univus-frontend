@@ -23,6 +23,17 @@ function PostDetailPage() {
   useEffect(() => {
     fetchPostDetail();
   }, [postId]);
+  // 📌 파일 확장자 확인 함수
+  const isImage = (fileName = "") => {
+    return /\.(png|jpg|jpeg|gif)$/i.test(fileName);
+  };
+
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = post.fileUrl;
+    link.download = post.fileName;
+    link.click();
+  };
 
   const formatDateTime = (dateTimeString) => {
     if (!dateTimeString) return "";
@@ -51,9 +62,47 @@ function PostDetailPage() {
 
       <div className="post-content">{post?.content}</div>
 
-      {post?.fileUrl && (
-        <div className="image-box">
-          <img src={post.fileUrl} alt="첨부파일" style={{ maxWidth: "100%" }} />
+      {post?.fileUrl && post?.fileName && (
+        <div className="file-box">
+          {isImage(post.fileName) ? (
+            <div className="image-preview">
+              <img
+                src={post.fileUrl}
+                alt="첨부 이미지"
+                style={{
+                  maxWidth: "50%",
+                  borderRadius: "10px",
+                  marginTop: "14px",
+                }}
+              />
+              <a
+                href={post.fileUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="file-link"
+              >
+                원본 이미지 보기
+              </a>
+            </div>
+          ) : (
+            <div>
+              <span style={{ fontWeight: "600" }}>첨부파일:&nbsp;</span>
+              <button
+                onClick={handleDownload}
+                className="file-download-btn"
+                style={{
+                  color: "#5566ff",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                  textDecoration: "underline",
+                }}
+              >
+                {post.fileName}
+              </button>
+            </div>
+          )}
         </div>
       )}
 

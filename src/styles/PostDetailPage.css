@@ -91,3 +91,6 @@ hr {
 .comment-section {
   margin-top: 30px;
 }
+.image-preview a {
+  display: block;
+}

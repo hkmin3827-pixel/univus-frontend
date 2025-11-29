@@ -9,8 +9,13 @@ const postApi = axios.create({
 
 const PostApi = {
   // 게시글 생성
-  createPost: (boardId, title, content, fileUrl) =>
-    postApi.post(`/post/create/${boardId}`, { title, content, fileUrl }),
+  createPost: (boardId, title, content, fileUrl, fileName) =>
+    postApi.post(`/post/create/${boardId}`, {
+      title,
+      content,
+      fileUrl,
+      fileName,
+    }),
 
   // 게시글 상세 조회
   getPostDetail: (postId) => postApi.get(`/post/detail/${postId}`),
@@ -25,8 +30,13 @@ const PostApi = {
   deletePost: (postId) => postApi.delete(`/post/delete/${postId}`),
 
   // 게시글 수정
-  updatePost: (postId, title, content, fileUrl) =>
-    postApi.put(`/post/update/${postId}`, { title, content, fileUrl }),
+  updatePost: (postId, title, content, fileUrl, fileName) =>
+    postApi.put(`/post/update/${postId}`, {
+      title,
+      content,
+      fileUrl,
+      fileName,
+    }),
 };
 
 export default PostApi;

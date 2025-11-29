@@ -10,6 +10,7 @@ import BoardApi from "../../api/BoardApi";
 import InviteModal from "../team/InviteModal";
 import { useParams } from "react-router-dom";
 import MiniTodoList from "../todo/MiniTodoList";
+import { useTodo } from "../../context/TodoContext";
 
 function SideBar({ isOpen, openProject, setOpenProject }) {
   const { selectedTeam, setSelectedTeam } = useContext(TeamContext);
@@ -21,6 +22,7 @@ function SideBar({ isOpen, openProject, setOpenProject }) {
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
   const { teamId } = useParams();
+  const { resetTodos } = useTodo();
 
   const fetchTeams = async () => {
     try {
@@ -57,6 +59,7 @@ function SideBar({ isOpen, openProject, setOpenProject }) {
       await AxiosApi.logout(); // 백엔드 로그아웃 호출 (세션 무효화)
       // 프론트 상태 정리
       localStorage.clear();
+      resetTodos();
       setSelectedTeam(null);
       setMyTeams([]);
       navigate("/");
@@ -151,8 +154,8 @@ function SideBar({ isOpen, openProject, setOpenProject }) {
         <div className="bottom-menu">
           <ul>
             <li className="invite-link-btn" onClick={openInviteModal}>
-              <span class="material-symbols-outlined">link</span>팀 초대 링크
-              발급
+              <span className="material-symbols-outlined">link</span>팀 초대
+              링크 발급
             </li>
             <li id="zoom">
               <a
@@ -160,7 +163,9 @@ function SideBar({ isOpen, openProject, setOpenProject }) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span class="material-symbols-outlined">captive_portal</span>
+                <span className="material-symbols-outlined">
+                  captive_portal
+                </span>
                 ZOOM으로 이동
               </a>
             </li>

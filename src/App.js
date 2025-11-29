@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
-import Post from "./pages/Post";
 import BoardPage from "./pages/BoardPage";
 import { TeamProvider } from "./context/TeamContext";
 import Home from "./pages/Home";
@@ -25,6 +24,7 @@ import NoticeDetailPage from "./pages/Notice/NoticeDetailPage";
 import NoticeEditPage from "./pages/Notice/NoticeEditPage";
 import NoticeListPage from "./pages/Notice/NoticeListPage";
 import TodoPage from "./pages/TodoPage";
+import { TodoProvider } from "./context/TodoContext";
 import BoardInsightPage from "./pages/BoardInsightPage";
 
 function App() {
@@ -38,7 +38,13 @@ function App() {
           <Route path="/admin/" element={<Members />} />
           <Route path="/admin/:email" element={<MemberDetails />} />
 
-          <Route element={<Layout />}>
+          <Route
+            element={
+              <TodoProvider>
+                <Layout />
+              </TodoProvider>
+            }
+          >
             <Route path="/home" element={<Home />} />
             <Route path="/teams/new" element={<TeamCreate />} />
 
@@ -65,7 +71,6 @@ function App() {
 
             <Route path="/post/create/:boardId" element={<CreatePostPage />} />
             <Route path="/post/detail/:postId" element={<PostDetailPage />} />
-            <Route path="/post" element={<Post />} />
 
             <Route path="/team/:teamId/todo" element={<TodoPage />} />
             <Route
