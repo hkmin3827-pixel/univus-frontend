@@ -1660,32 +1660,27 @@
   dependencies:
     preact "~10.12.1"
 
-"@fullcalendar/daygrid@6.1.10":
-  version "6.1.10"
-  resolved "https://registry.yarnpkg.com/@fullcalendar/daygrid/-/daygrid-6.1.10.tgz#1012907ac02993e9896dda08502109a85ca8c308"
-  integrity sha512-Z4GRm1IyHKgxXFTWGcEI0nTsvYOIkpE0aMt3/o3ER2SZkF+hfwcDFhtj0c9+WhMjXFIWYeoTnA9rUOY7Zl/nxA==
-
-"@fullcalendar/daygrid@~6.1.10":
+"@fullcalendar/daygrid@^6.1.19", "@fullcalendar/daygrid@~6.1.19":
   version "6.1.19"
   resolved "https://registry.yarnpkg.com/@fullcalendar/daygrid/-/daygrid-6.1.19.tgz#1d70a7f3f4cc13d3f27f55ed6880aae09a1a367b"
   integrity sha512-IAAfnMICnVWPjpT4zi87i3FEw0xxSza0avqY/HedKEz+l5MTBYvCDPOWDATpzXoLut3aACsjktIyw9thvIcRYQ==
 
-"@fullcalendar/interaction@6.1.10":
-  version "6.1.10"
-  resolved "https://registry.yarnpkg.com/@fullcalendar/interaction/-/interaction-6.1.10.tgz#9e99abd55d9f8072ad7f128e0b9fea931fbbff27"
-  integrity sha512-aZRlwCpmDasq2RNeWV0ub20Uevare9Cb6iMlxCacx0fhOC14H28G9d1FsduJIecInL84SPGwt5ItqAYMsWv7zw==
+"@fullcalendar/interaction@^6.1.19":
+  version "6.1.19"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/interaction/-/interaction-6.1.19.tgz#48d85601a4203ede7cb400323fe5a9c163e28804"
+  integrity sha512-GOciy79xe8JMVp+1evAU3ytdwN/7tv35t5i1vFkifiuWcQMLC/JnLg/RA2s4sYmQwoYhTw/p4GLcP0gO5B3X5w==
 
-"@fullcalendar/react@6.1.10":
-  version "6.1.10"
-  resolved "https://registry.yarnpkg.com/@fullcalendar/react/-/react-6.1.10.tgz#f41d091be8516c9038485c6241fd74a4c13b7965"
-  integrity sha512-RVYevo5T4RUZzR8omlbnBwRCqVNJWKryzI0ZrFULyqIYggN6uPmMuB9GvbrTjDfKhsm438KQwwhJerg2lGh3xA==
+"@fullcalendar/react@^6.1.19":
+  version "6.1.19"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/react/-/react-6.1.19.tgz#921ecc92972af4c9654e4742dd4a73fd4092c2ae"
+  integrity sha512-FP78vnyylaL/btZeHig8LQgfHgfwxLaIG6sKbNkzkPkKEACv11UyyBoTSkaavPsHtXvAkcTED1l7TOunAyPEnA==
 
-"@fullcalendar/timegrid@6.1.10":
-  version "6.1.10"
-  resolved "https://registry.yarnpkg.com/@fullcalendar/timegrid/-/timegrid-6.1.10.tgz#4215e520924e441888edba9ac99ce816446d84b3"
-  integrity sha512-hFKyQXJaPbNyq1reZmvkCmM64O99krHoIcJAbDS+dntCm3FzZUcDtAcRKIbMiantHrezCG/1MEYk3m9e3aKvIQ==
+"@fullcalendar/timegrid@^6.1.19":
+  version "6.1.19"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/timegrid/-/timegrid-6.1.19.tgz#bb4b2e3039c995b61284ee5b76ad9dcc696b71ce"
+  integrity sha512-OuzpUueyO9wB5OZ8rs7TWIoqvu4v3yEqdDxZ2VcsMldCpYJRiOe7yHWKr4ap5Tb0fs7Rjbserc/b6Nt7ol6BRg==
   dependencies:
-    "@fullcalendar/daygrid" "~6.1.10"
+    "@fullcalendar/daygrid" "~6.1.19"
 
 "@grpc/grpc-js@~1.9.0":
   version "1.9.15"

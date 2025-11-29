@@ -20,6 +20,10 @@ import TeamPage from "./pages/TeamPage";
 import TeamLink from "./pages/TeamLink";
 import CreatePostPage from "./pages/CreatePostPage";
 import PostDetailPage from "./pages/PostDetailPage";
+import NoticeWritePage from "./pages/Notice/NoticeCreatePage";
+import NoticeDetailPage from "./pages/Notice/NoticeDetailPage";
+import NoticeEditPage from "./pages/Notice/NoticeEditPage";
+import NoticeListPage from "./pages/Notice/NoticeListPage";
 
 function App() {
   return (
@@ -49,6 +53,14 @@ function App() {
               path="/team/:teamId/board/:boardId"
               element={<BoardPage />}
             />
+            <Route path="notice" element={<NoticeListPage />} />
+            <Route path="notice/create" element={<NoticeWritePage />} />
+            <Route
+              path="notice/detail/:noticeId"
+              element={<NoticeDetailPage />}
+            />
+            <Route path="notice/edit/:noticeId" element={<NoticeEditPage />} />
+
             <Route path="/post/create/:boardId" element={<CreatePostPage />} />
             <Route path="/post/detail/:postId" element={<PostDetailPage />} />
             <Route path="/post" element={<Post />} />
