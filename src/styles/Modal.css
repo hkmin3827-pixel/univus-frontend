@@ -39,7 +39,10 @@
   justify-content: flex-end;
   gap: 10px;
 }
-
+.btn_bottom:hover {
+  background-color: black;
+  color: white;
+}
 .create-btn {
   background: #5f52ff;
   color: white;
@@ -53,4 +56,8 @@
   border: none;
   padding: 10px 14px;
   border-radius: 6px;
+}
+.cancel-btn:hover {
+  color: white;
+  background: #666;
 }

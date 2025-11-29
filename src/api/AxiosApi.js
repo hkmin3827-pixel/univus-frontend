@@ -92,9 +92,7 @@ const AxiosApi = {
   },
 
   // 게시판 조회
-  getboard: async (boardId) => {
-    return await api.get(`/api/boards/${boardId}`);
-  },
+  getBoard: (teamId, boardId) => api.get(`/teams/${teamId}/board/${boardId}`),
   // ------------------ POST API ------------------
   // 게시글 작성
   postWrite: async (boardId, title, content, imgUrl) => {

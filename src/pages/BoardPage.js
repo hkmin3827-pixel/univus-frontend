@@ -3,9 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import PostApi from "../api/PostApi";
 import { TeamContext } from "../context/TeamContext";
 import "../styles/BoardPage.css";
+import AxiosApi from "../api/AxiosApi";
 
 function BoardPage() {
-  const { boardId } = useParams();
+  const { boardId, teamId } = useParams();
+  const [boardName, setBoardName] = useState("");
+  const [boardDescription, setBoardDescription] = useState("");
   const { selectedTeam } = useContext(TeamContext);
   const navigate = useNavigate();
 
@@ -13,12 +16,22 @@ function BoardPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [posts, setPosts] = useState([]);
   const isImageFile = (fileUrl) => {
-    return /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(fileUrl);
+    const cleanedUrl = fileUrl.split("?")[0];
+    return /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(cleanedUrl);
   };
 
+  const fetchBoardName = async () => {
+    try {
+      const res = await AxiosApi.getBoard(teamId, boardId);
+      setBoardName(res.data.name);
+      setBoardDescription(res.data.description);
+    } catch (err) {
+      console.error("게시판 정보 불러오기 실패:", err);
+    }
+  };
   const fetchPosts = async () => {
     try {
-      const res = await PostApi.getPostList(boardId, page, 10);
+      const res = await PostApi.getPostList(boardId, page, 7);
       console.log("게시글 목록:", res.data); // 확인용
       setPosts(res.data.content ?? []);
       setTotalPages(res.data.totalPages ?? 1);
@@ -26,8 +39,8 @@ function BoardPage() {
       console.error("게시글 목록 불러오기 실패:", err);
     }
   };
-
   useEffect(() => {
+    fetchBoardName();
     fetchPosts();
   }, [boardId, page]);
 
@@ -38,7 +51,6 @@ function BoardPage() {
         <button className="back-btn" onClick={() => navigate(-1)}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
-        <h1 className="board-title">📁 {selectedTeam?.name} 프로젝트</h1>
 
         <button
           className="new-post-btn"
@@ -48,6 +60,11 @@ function BoardPage() {
         </button>
       </div>
 
+      <div className="board-info">
+        <h1 className="board-title">{boardName}</h1>
+        <p className="board-description">{boardDescription}</p>
+      </div>
+      <hr className="divider" />
       {/* 게시글 목록 */}
       <div className="post-list">
         {posts.length === 0 ? (
@@ -70,7 +87,7 @@ function BoardPage() {
                     onError={(e) => (e.target.style.display = "none")}
                   />
                 ) : (
-                  <div className="file-preview">📎 첨부파일 있음</div>
+                  <div className="file-preview">📎 첨부파일</div>
                 ))}
               <span className="writer">{p.userName}</span>
             </div>

@@ -21,8 +21,12 @@ const InviteModal = ({ link, onClose, isOpen }) => {
         <input type="text" value={link} readOnly />
 
         <div className="modal-actions">
-          <button onClick={copy}>복사</button>
-          <button onClick={onClose}>닫기</button>
+          <button onClick={copy} className="btn_bottom">
+            복사
+          </button>
+          <button onClick={onClose} className="btn_bottom">
+            닫기
+          </button>
         </div>
       </div>
     </div>
