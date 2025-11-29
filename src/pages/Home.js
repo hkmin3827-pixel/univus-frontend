@@ -1,5 +1,5 @@
 // src/pages/Home.js
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -7,8 +7,12 @@ import ScheduleApi from "../api/ScheduleApi";
 import ScheduleModal from "../components/home/ScheduleModal";
 import ScheduleCreateModal from "./ScheduleCreateModal";
 import "../styles/HomeSchedule.css";
+import { useNavigate } from "react-router-dom";
+import { TeamContext } from "../context/TeamContext";
 
 function Home() {
+  const { fetchTeams, setSelectedTeam } = useContext(TeamContext);
+  const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
@@ -26,7 +30,19 @@ function Home() {
     return eventDate >= now && eventDate <= sevenDaysLater;
   });
   useEffect(() => {
-    loadSchedules();
+    const init = async () => {
+      const teams = await fetchTeams();
+
+      if (teams && teams.length > 0) {
+        setSelectedTeam(teams[0]);
+        navigate(`/team/${teams[0].id}`); // 팀 있으면 이걸로 즉시 이동
+        return;
+      }
+
+      await loadSchedules(); // 팀 없을 때만 홈 유지
+    };
+
+    init();
   }, []);
 
   const loadSchedules = async () => {

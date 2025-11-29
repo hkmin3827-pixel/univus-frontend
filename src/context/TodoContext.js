@@ -6,6 +6,7 @@ const TodoContext = createContext();
 export const TodoProvider = ({ children }) => {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const resetTodos = () => setTodos([]);
 
   const fetchTodos = async () => {
     try {

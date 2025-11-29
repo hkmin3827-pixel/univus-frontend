@@ -17,7 +17,7 @@ export const TeamProvider = ({ children }) => {
       // 팀 없을 경우 선택된 팀 초기화
       if (!teams || teams.length === 0) {
         setSelectedTeam(null);
-        return;
+        return teams;
       }
 
       // 기존 선택된 팀 유지
@@ -29,9 +29,11 @@ export const TeamProvider = ({ children }) => {
           setSelectedTeam(null);
         }
       }
+      return teams;
     } catch (err) {
       console.error("팀 목록 불러오기 실패", err);
       setSelectedTeam(null); // 요청 실패 시에도 초기화
+      return [];
     }
   };
 
