@@ -7,6 +7,7 @@ import Button from "../components/common/ButtonComponent";
 import logo from "../images/layoutLogo.png";
 import "../styles/login.css";
 import { TeamContext } from "../context/TeamContext";
+import { UserContext } from "../context/UserContext";
 
 import {
   Container,
@@ -45,6 +46,7 @@ const LogIn = () => {
 
   const [error, setError] = useState(""); // 로그인 에러 메시지
   const { fetchTeams, setSelectedTeam } = useContext(TeamContext);
+  const { setUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -77,7 +79,15 @@ const LogIn = () => {
         localStorage.setItem("email", email);
         localStorage.setItem("role", role);
         localStorage.setItem("userId", id);
+        localStorage.setItem("profileImage", image || "");
         // 필요하면 name, image, regDate도 저장 가능
+        setUser({
+          id,
+          email,
+          name,
+          role,
+          image,
+        });
         const teams = await fetchTeams();
         if (teams && teams.length > 0) {
           setSelectedTeam(teams[0]);

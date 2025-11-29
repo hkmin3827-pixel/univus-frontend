@@ -1,12 +1,25 @@
 import logo from "../../images/layoutLogo.png";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { TeamContext } from "../../context/TeamContext";
+import { UserContext } from "../../context/UserContext";
+import styled from "styled-components";
+const ProfileImg = styled.img`
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
 
+  &:hover {
+    opacity: 0.6; /* 불투명 효과 */
+  }
+`;
 function TopBar({ onMenuClick, setOpenProject }) {
   const navigate = useNavigate();
   const { myTeams, setSelectedTeam } = useContext(TeamContext);
-  const [profileUrl, setProfileUrl] = useState(null);
+  const { user } = useContext(UserContext);
 
   const goToProfile = () => {
     navigate("/profiledetail");
@@ -73,19 +86,8 @@ function TopBar({ onMenuClick, setOpenProject }) {
         <span className="material-symbols-outlined">inventory</span>
 
         {/* 프로필 이미지 */}
-        {profileUrl ? (
-          <img
-            src={profileUrl}
-            alt="프로필"
-            style={{
-              width: "36px",
-              height: "36px",
-              borderRadius: "50%",
-              objectFit: "cover",
-              cursor: "pointer",
-            }}
-            onClick={goToProfile}
-          />
+        {user.image && user.image.trim() !== "" ? (
+          <ProfileImg src={user.image} alt="프로필" onClick={goToProfile} />
         ) : (
           <span className="material-symbols-outlined" onClick={goToProfile}>
             account_circle

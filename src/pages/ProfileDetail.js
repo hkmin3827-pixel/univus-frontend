@@ -15,9 +15,12 @@ import {
   SectionTitle,
   ProfileImage,
 } from "../components/profile/ProfileComponent";
+import { useContext } from "react";
+import { UserContext } from "../context/UserContext";
 
 const ProfileDetail = () => {
   const navigate = useNavigate();
+  const { setUser } = useContext(UserContext);
 
   const goToProfile = () => {
     navigate("/profile"); // 프로필 수정 페이지로 이동
@@ -80,6 +83,16 @@ const ProfileDetail = () => {
         setName(data.user?.name || "");
         setTel(data.user?.phone || "");
         setImageUrl(data.user?.image || "");
+        setUser((prev) => ({
+          ...prev,
+          email: storedEmail,
+          name: data.user?.name || "",
+          role: storedRole,
+          image: data.user?.image || "",
+        }));
+
+        // 🔥 로컬스토리지 업데이트
+        localStorage.setItem("profileImage", data.user?.image || "");
 
         if (storedRole === "STUDENT") {
           setStudentNumber(data.studentNumber || "");
