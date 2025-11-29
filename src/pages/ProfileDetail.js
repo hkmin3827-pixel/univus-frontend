@@ -70,7 +70,7 @@ const ProfileDetail = () => {
 
         // 공통 user 정보 매핑
         setName(data.user?.name || "");
-        setTel(data.user?.tel || "");
+        setTel(data.user?.phone || "");
 
         if (storedRole === "STUDENT") {
           setStudentNumber(data.studentNumber || "");

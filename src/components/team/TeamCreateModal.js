@@ -1,5 +1,4 @@
 import { useState, useContext } from "react";
-import AxiosApi from "../../api/TeamApi";
 import "../../styles/Modal.css";
 import TeamApi from "../../api/TeamApi";
 
