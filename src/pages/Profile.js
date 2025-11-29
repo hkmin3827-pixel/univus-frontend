@@ -29,6 +29,10 @@ const EditWrapper = styled.div`
 const Profile = () => {
   const navigate = useNavigate();
 
+  const goToProfile = () => {
+    navigate("/profiledetail"); // 프로필 수정 페이지로 이동
+  };
+
   const [role, setRole] = useState(""); // STUDENT / PROFESSOR
   const [email, setEmail] = useState("");
 
@@ -123,6 +127,8 @@ const Profile = () => {
       }
 
       setSubmitSuccess("회원 정보가 수정되었습니다.");
+      alert("회원 정보가 수정되었습니다."); // ✅ 메시지 띄우고
+      navigate("/profiledetail");
     } catch (err) {
       console.error(err);
       setSubmitError("수정에 실패했습니다. 잠시 후 다시 시도해주세요.");
