@@ -36,7 +36,7 @@ const AxiosApi = {
       email,
       pwd,
       name,
-      tel,
+      phone: tel,
       role,
     });
   },

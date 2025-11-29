@@ -2,39 +2,34 @@ import React from "react";
 import styled from "styled-components";
 import NoticeListItem from "./NoticeListItem";
 
-const NoticeUl = styled.ul`
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+const NoticeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* 각 공지 간 간격 */
 `;
 
 const EmptyMessage = styled.p`
-  padding: 16px 4px;
+  padding: 16px;
   color: #777;
   text-align: center;
-  font-size: 0.95rem;
+  font-size: 1rem;
 `;
 
-/**
- * 공지사항 목록 컴포넌트
- * @param {Array} noticeList - 공지 배열 (NoticeResDto 구조)
- * @param {Function} handleDetailClick - 공지 클릭 시 호출되는 함수 - id 전달
- */
 const NoticeList = ({ noticeList = [], handleDetailClick }) => {
   if (!noticeList || noticeList.length === 0) {
     return <EmptyMessage>등록된 공지사항이 없습니다.</EmptyMessage>;
   }
 
   return (
-    <NoticeUl>
+    <NoticeContainer>
       {noticeList.map((notice) => (
         <NoticeListItem
-          key={notice.id} // NoticeResDto의 PK
+          key={notice.id}
           notice={notice}
           handleDetailClick={handleDetailClick}
         />
       ))}
-    </NoticeUl>
+    </NoticeContainer>
   );
 };
 

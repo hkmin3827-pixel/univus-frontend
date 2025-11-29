@@ -1,105 +1,63 @@
+// 공지 목록의 한 항목 (컴포넌트)
 import React from "react";
 import styled from "styled-components";
-import Commons from "../../utils/Commons";
 
-const NoticeLi = styled.li`
-  background-color: #f2f2f2;
-  margin: 10px 0;
-  padding: 10px 14px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
+const Item = styled.div`
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   &:hover {
-    background-color: #e9f4ff;
+    background-color: #f9f9f9;
   }
 `;
 
-const NoticeIcon = styled.div`
-  width: 60px;
-  height: 60px;
-  border-radius: 8px;
-  background: #d8e6ff;
-  margin-right: 15px;
-  flex-shrink: 0;
-
+const Info = styled.div``;
+const Buttons = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 28px;
-  font-weight: bold;
-  color: #3a76ff;
-`;
-
-const NoticeContentWrapper = styled.div`
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
-  padding-top: 5px;
-`;
-
-const NoticeHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
   gap: 8px;
 `;
 
-const NoticeTitle = styled.h2`
-  font-size: 1.4em;
-  color: #007bff;
-  margin: 0 0 10px;
+const Button = styled.button`
+  padding: 4px 8px;
+  background-color: ${(props) => (props.delete ? "#ff5f5f" : "#5f5fff")};
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.85;
+  }
 `;
 
-const NoticeWriter = styled.span`
-  color: #555;
-  font-style: italic;
-  font-size: 13px;
-  white-space: nowrap;
-`;
-
-const NoticeContent = styled.p`
-  color: #444;
-  font-size: 1em;
-  margin: 0 0 6px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-`;
-
-const NoticeDate = styled.p`
-  color: #777;
-  font-size: 0.8em;
-  text-align: right;
-  margin: 0;
-`;
-
-const NoticeListItem = ({ notice, handleDetailClick }) => {
-  const onClick = () => {
-    handleDetailClick(notice.id);
-  };
+const NoticeListItem = ({
+  notice,
+  handleDetailClick,
+  handleEdit,
+  handleDelete,
+}) => {
+  const currentEmail = localStorage.getItem("email");
 
   return (
-    <NoticeLi onClick={onClick}>
-      {/* 공지 아이콘 또는 첫 글자 기반 UI */}
-      <NoticeIcon>📢</NoticeIcon>
-
-      <NoticeContentWrapper>
-        <NoticeHeader>
-          <NoticeTitle>{notice.title}</NoticeTitle>
-          <NoticeWriter>작성자: {notice.email}</NoticeWriter>
-        </NoticeHeader>
-
-        <NoticeContent>{notice.content}</NoticeContent>
-
-        <NoticeDate>
-          {notice.regDate ? Commons.timeFromNow(notice.regDate) : ""}
-        </NoticeDate>
-      </NoticeContentWrapper>
-    </NoticeLi>
+    <Item>
+      <Info onClick={() => handleDetailClick(notice.id)}>
+        <strong>{notice.title}</strong> <br />
+        <small>{notice.email}</small>
+      </Info>
+      {notice.email === currentEmail && (
+        <Buttons>
+          <Button onClick={() => handleEdit(notice.id)}>수정</Button>
+          <Button delete onClick={() => handleDelete(notice.id)}>
+            삭제
+          </Button>
+        </Buttons>
+      )}
+    </Item>
   );
 };
 

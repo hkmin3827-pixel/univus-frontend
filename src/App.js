@@ -24,6 +24,7 @@ import NoticeWritePage from "./pages/Notice/NoticeCreatePage";
 import NoticeDetailPage from "./pages/Notice/NoticeDetailPage";
 import NoticeEditPage from "./pages/Notice/NoticeEditPage";
 import NoticeListPage from "./pages/Notice/NoticeListPage";
+import TodoPage from "./pages/TodoPage";
 
 function App() {
   return (
@@ -33,8 +34,8 @@ function App() {
           <Route path="/" element={<LogIn />} />
           <Route path="/signup" element={<SignUp />} />
 
-          <Route path="/admin/members" element={<Members />} />
-          <Route path="/admin/members/:email" element={<MemberDetails />} />
+          <Route path="/admin/" element={<Members />} />
+          <Route path="/admin/:email" element={<MemberDetails />} />
 
           <Route element={<Layout />}>
             <Route path="/home" element={<Home />} />
@@ -64,6 +65,8 @@ function App() {
             <Route path="/post/create/:boardId" element={<CreatePostPage />} />
             <Route path="/post/detail/:postId" element={<PostDetailPage />} />
             <Route path="/post" element={<Post />} />
+
+            <Route path="/team/:teamId/todo" element={<TodoPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

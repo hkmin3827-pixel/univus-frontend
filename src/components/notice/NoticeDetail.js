@@ -1,123 +1,42 @@
-import { useState, useEffect } from "react";
-import AxiosApi from "../../api/AxiosApi";
-import { useParams, useNavigate } from "react-router-dom";
+// 공지 상세 부분
+import React from "react";
 import styled from "styled-components";
-import Commons from "../../utils/Commons";
 
 const Container = styled.div`
-  padding: 20px;
-  margin: 20px auto;
   max-width: 800px;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 8px;
+  margin: 40px auto;
+  padding: 24px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 `;
 
-const Title = styled.h1`
+const Title = styled.h2`
+  margin-bottom: 12px;
   color: #333;
-  font-size: 2em;
-  margin-bottom: 10px;
 `;
 
-const Content = styled.p`
+const Meta = styled.div`
+  font-size: 0.9rem;
   color: #666;
-  line-height: 1.5;
+  margin-bottom: 24px;
+`;
+
+const Content = styled.div`
   white-space: pre-wrap;
+  line-height: 1.5;
+  color: #444;
 `;
 
-const NoticeImage = styled.img`
-  width: 180px;
-  height: 180px;
-  border-radius: 8px;
-  margin-bottom: 15px;
-`;
-
-const PostDate = styled.p`
-  color: #777;
-  font-size: 0.8em;
-  text-align: right;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  gap: 10px;
-`;
-
-const Button = styled.button`
-  padding: 8px 10px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-`;
-
-// 공지 상세
-const NoticeDetail = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-
-  const [notice, setNotice] = useState(null);
-
-  const email = localStorage.getItem("email");
-  const role = localStorage.getItem("role"); // 교수 여부 확인
-
-  const deleteNotice = () => {
-    if (window.confirm("공지사항을 삭제하시겠습니까?")) {
-      const delApi = async () => {
-        try {
-          const rsp = await AxiosApi.noticeDelete(id);
-          if (rsp.data) {
-            alert("삭제되었습니다.");
-            navigate("/notice");
-          }
-        } catch (e) {
-          console.log(e);
-        }
-      };
-      delApi();
-    }
-  };
-
-  useEffect(() => {
-    const fetchNotice = async () => {
-      try {
-        const rsp = await AxiosApi.noticeDetail(id);
-        setNotice(rsp.data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchNotice();
-  }, [id]);
-
+const NoticeDetail = ({ notice }) => {
   return (
     <Container>
-      {notice && (
-        <>
-          {notice.img && <NoticeImage src={notice.img} alt={notice.title} />}
-
-          <Title>{notice.title}</Title>
-          <Content>{notice.content}</Content>
-
-          <PostDate>
-            {notice.regDate && Commons.timeFromNow(notice.regDate)}
-          </PostDate>
-        </>
-      )}
-
-      <ButtonContainer>
-        <Button onClick={() => navigate("/notice")}>목록</Button>
-
-        {/* ★ role이 PROFESSOR인 경우에만 삭제 버튼 노출 */}
-        {role === "PROFESSOR" && (
-          <>
-            <Button onClick={() => navigate(`/notice/edit/${id}`)}>수정</Button>
-            <Button onClick={deleteNotice}>삭제</Button>
-          </>
-        )}
-      </ButtonContainer>
+      <Title>{notice.title}</Title>
+      <Meta>
+        작성자: {notice.email || "알 수 없음"} | 작성일:{" "}
+        {new Date(notice.createTime).toLocaleDateString()}
+      </Meta>
+      <Content>{notice.content}</Content>
     </Container>
   );
 };

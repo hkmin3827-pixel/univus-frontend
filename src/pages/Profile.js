@@ -29,6 +29,10 @@ const EditWrapper = styled.div`
 const Profile = () => {
   const navigate = useNavigate();
 
+  const goToProfile = () => {
+    navigate("/profiledetail"); // 프로필 수정 페이지로 이동
+  };
+
   const [role, setRole] = useState(""); // STUDENT / PROFESSOR
   const [email, setEmail] = useState("");
 
@@ -77,7 +81,7 @@ const Profile = () => {
 
         // 공통 user 정보 매핑
         setName(data.user?.name || "");
-        setTel(data.user?.tel || "");
+        setTel(data.user?.phone || "");
 
         if (storedRole === "STUDENT") {
           setStudentNumber(data.studentNumber || "");
@@ -123,6 +127,8 @@ const Profile = () => {
       }
 
       setSubmitSuccess("회원 정보가 수정되었습니다.");
+      alert("회원 정보가 수정되었습니다."); // ✅ 메시지 띄우고
+      navigate("/profiledetail");
     } catch (err) {
       console.error(err);
       setSubmitError("수정에 실패했습니다. 잠시 후 다시 시도해주세요.");
@@ -131,11 +137,8 @@ const Profile = () => {
 
   return (
     <EditWrapper>
-      {/* 제목은 카드 바깥, 중앙 정렬 */}
-      <Title>회원 정보 수정</Title>
-
-      {/* FormBox는 기존처럼 form 역할 */}
       <FormBox onSubmit={onSubmit}>
+        <Title>회원 정보 수정</Title>
         {/* 이메일 (읽기 전용) */}
         <Row>
           <Label>이메일</Label>

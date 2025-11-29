@@ -12,6 +12,18 @@ const Container = styled.div`
   margin: 20px auto;
 `;
 
+const Header = styled.div`
+display: flex;
+width:100%;
+padding-bottom: 20px;
+border-bottom: 1px solid #A294F9;
+`
+const Name = styled.div`
+padding: 5px;
+margin-top:30px;
+border-bottom: 1px solid #A294F9;
+`
+
 const MemberInfoWrapper = styled.div`
   display: flex;
   margin: 10px;
@@ -19,33 +31,57 @@ const MemberInfoWrapper = styled.div`
   border: 1px solid #ccc;
   padding: 16px;
   border-radius: 8px;
-  background-color: #e5d9f2;
-`;
+  background-color: #f5efff;
+`
 
 const UserInfo = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-`;
+  cursor: pointer;
+`
 
 const UserImage = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 5px;
   margin-right: 10px;
-`;
+`
 
 const MemberName = styled.span`
   font-style: italic;
   font-size: 1.2rem;
   color: #333;
   margin: 10px;
+`
+
+const MemberDetail = styled.span`
+  color: #555;
+  margin-bottom: 10px;
+`
+
+const FilterContainer = styled.div`
+ display: flex;
+  flex-direction: row;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0;
+  width: 100%; /* 영역 전체 사용 */
 `;
 
-const MemberEmail = styled.span`
-  color: #555;
-  margin-right: px;
-  margin-bottom: 10px;
+const FilterButton = styled.button`
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid #A294F9;
+  background-color: ${({ active }) => (active ? "#A294F9" : "white")};
+  color: ${({ active }) => (active ? "white" : "#333")};
+  cursor: pointer;
+  font-size: 0.9rem;
+
+  &:hover {
+    opacity: 0.9;
+  }
 `;
 
 
@@ -56,6 +92,7 @@ const MemberEmail = styled.span`
 const Members = () => {
   const navigate = useNavigate();
   const [members, setMembers] = useState([]);
+  const [filterRole, setFilterRole] = useState("ALL"); // 전체 / ADMIN / STUDENT / PROFESSOR
   useEffect(() => {
     const isLogin = localStorage.getItem("isLogin");
     const role = localStorage.getItem("role"); // "ADMIN" / "STUDENT" / "PROFESSOR"
@@ -85,29 +122,84 @@ const onClickMember = (email) => {
   };
 
 
+  const roleMap = {
+  ADMIN: "관리자",
+  STUDENT: "학생",
+  PROFESSOR: "교수",
+};
+
+const filteredMembers = members.filter((member) => {
+    if (filterRole === "ALL") return true;
+    return member.role === filterRole;
+  });
+
   return (
-    <>
-      {/* members 렌더링 영역 */}
-      <div>
-        {localStorage.getItem("role") !== "ADMIN" ? null : 
+  <>
+    <div>
+      {localStorage.getItem("role") !== "ADMIN" ? null : (
         <Container>
-      {members &&
-        members.map((member) => (
-          <MemberInfoWrapper
-            key={member.email}
-            onClick={() => onClickMember(member.email)}
-          >
-            <UserImage src={member.image} />
-            <UserInfo>
-              <MemberName>이름: {member.name}</MemberName>
-              <MemberEmail>이메일: {member.email}</MemberEmail>
-            </UserInfo>
-          </MemberInfoWrapper>
-        ))}
-    </Container> }
-      </div>
-    </>
-  );
+          <Header>
+            <h1>어드민 페이지</h1>
+          </Header>
+
+          <Name>회원정보조회</Name>
+
+          {/* 역할 필터 버튼 영역 */}
+          <FilterContainer>
+            <FilterButton
+              active={filterRole === "ALL"}
+              onClick={() => setFilterRole("ALL")}
+            >
+              전체
+            </FilterButton>
+            <FilterButton
+              active={filterRole === "ADMIN"}
+              onClick={() => setFilterRole("ADMIN")}
+            >
+              관리자
+            </FilterButton>
+            <FilterButton
+              active={filterRole === "PROFESSOR"}
+              onClick={() => setFilterRole("PROFESSOR")}
+            >
+              교수
+            </FilterButton>
+            <FilterButton
+              active={filterRole === "STUDENT"}
+              onClick={() => setFilterRole("STUDENT")}
+            >
+              학생
+            </FilterButton>
+          </FilterContainer>
+
+          {filteredMembers &&
+            filteredMembers.map((member) => (
+              <MemberInfoWrapper
+                key={member.email}
+                onClick={() => onClickMember(member.email)}
+              >
+                <UserImage src={member.image} />
+                <UserInfo>
+                  <MemberName>이름: {member.name}</MemberName>
+                  <MemberDetail>이메일: {member.email}</MemberDetail>
+                  <MemberDetail>
+                    역할: {member.role === "ADMIN"
+                      ? "관리자"
+                      : member.role === "PROFESSOR"
+                      ? "교수"
+                      : member.role === "STUDENT"
+                      ? "학생"
+                      : member.role}
+                  </MemberDetail>
+                </UserInfo>
+              </MemberInfoWrapper>
+            ))}
+        </Container>
+      )}
+    </div>
+  </>
+);
+
 };
 
 export default Members;

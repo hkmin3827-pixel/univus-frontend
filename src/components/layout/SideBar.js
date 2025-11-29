@@ -9,6 +9,7 @@ import TeamSelect from "../team/TeamSelect";
 import BoardApi from "../../api/BoardApi";
 import InviteModal from "../team/InviteModal";
 import { useParams } from "react-router-dom";
+import MiniTodoList from "../todo/MiniTodoList";
 
 function SideBar({ isOpen, openProject, setOpenProject }) {
   const { selectedTeam, setSelectedTeam } = useContext(TeamContext);
@@ -128,12 +129,15 @@ function SideBar({ isOpen, openProject, setOpenProject }) {
               </ul>
             )}
 
-            <li onClick={() => navigate("/app/notice")}>공지사항</li>
+            <li onClick={() => navigate("/notice")}>공지사항</li>
             <li onClick={() => navigate("/app/insight")}>인사이트</li>
             <li onClick={() => navigate("/schedulepage")}>캘린더</li>
             <li onClick={() => navigate("/app/alert")}>알림</li>
           </ul>
         </nav>
+
+        {selectedTeam && <MiniTodoList selectedTeamId={selectedTeam.id} />}
+
         <div className="bottom-menu">
           <ul>
             <li className="invite-link-btn" onClick={openInviteModal}>
