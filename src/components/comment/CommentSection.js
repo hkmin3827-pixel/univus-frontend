@@ -1,6 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import CommentApi from "../../api/CommentApi";
 import "../../styles/CommentSection.css";
+import { UserContext } from "../../context/UserContext";
+import styled from "styled-components";
+
+const ProfileImg = styled.img`
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+`;
 
 function CommentSection({ postId }) {
   const [page, setPage] = useState(0);
@@ -10,6 +21,7 @@ function CommentSection({ postId }) {
   const [editingId, setEditingId] = useState(null);
   const [editContent, setEditContent] = useState("");
   const [menuOpenId, setMenuOpenId] = useState(null);
+  const { user } = useContext(UserContext);
 
   const loginUserEmail = localStorage.getItem("email");
 
@@ -100,7 +112,13 @@ function CommentSection({ postId }) {
               <div className="comment-header">
                 {/* 아바타 + 정보 */}
                 <div className="comment-header-left">
-                  <div className="avatar">{c.userName?.charAt(0)}</div>
+                  {c.writerImage && c.writerImage.trim() !== "" ? (
+                    <ProfileImg src={c.writerImage} alt="프로필" />
+                  ) : (
+                    <span className="material-symbols-outlined">
+                      account_circle
+                    </span>
+                  )}
                   <div className="comment-info">
                     <span className="comment-writer">{c.userName}</span>
                     <span className="comment-date">

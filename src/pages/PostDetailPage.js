@@ -1,26 +1,35 @@
 // PostDetailPage.jsx
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PostApi from "../api/PostApi";
 import CommentSection from "../components/comment/CommentSection";
 import "../styles/PostDetailPage.css";
+import styled from "styled-components";
+
+const ProfileImg = styled.img`
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+`;
 
 function PostDetailPage() {
   const { postId } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
 
-  const fetchPostDetail = async () => {
-    try {
-      const res = await PostApi.getPostDetail(postId);
-      console.log("상세 조회 데이터:", res.data);
-      setPost(res.data);
-    } catch (err) {
-      console.error("게시물 조회 실패:", err);
-    }
-  };
-
   useEffect(() => {
+    const fetchPostDetail = async () => {
+      try {
+        const res = await PostApi.getPostDetail(postId);
+        console.log("상세 조회 데이터:", res.data);
+        setPost(res.data);
+      } catch (err) {
+        console.error("게시물 조회 실패:", err);
+      }
+    };
     fetchPostDetail();
   }, [postId]);
   // 📌 파일 확장자 확인 함수
@@ -54,7 +63,15 @@ function PostDetailPage() {
       </div>
 
       <div className="post-info">
-        <span className="writer">{post?.userName}</span>
+        <div className="post-writer">
+          {/* 프로필 이미지 */}
+          {post?.writerImage ? (
+            <ProfileImg src={post.writerImage} />
+          ) : (
+            <span className="material-symbols-outlined">account_circle</span>
+          )}
+          <span className="writer">{post?.userName}</span>
+        </div>
         <span className="date">{formatDateTime(post?.createTime)}</span>
       </div>
 

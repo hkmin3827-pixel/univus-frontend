@@ -12,11 +12,19 @@ import { useParams } from "react-router-dom";
 import MiniTodoList from "../todo/MiniTodoList";
 import { useTodo } from "../../context/TodoContext";
 
-function SideBar({ isOpen, openProject, setOpenProject }) {
+function SideBar({
+  isOpen,
+  openProject,
+  setOpenProject,
+  resetMenuState,
+  selectedMenu,
+  setSelectedMenu,
+  selectedBoardId,
+  setSelectedBoardId,
+}) {
   const { selectedTeam, setSelectedTeam } = useContext(TeamContext);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [boards, setBoards] = useState([]);
-  const [selectedBoardId, setSelectedBoardId] = useState(null);
   const [myTeams, setMyTeams] = useState([]);
   const [inviteLink, setInviteLink] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -100,8 +108,13 @@ function SideBar({ isOpen, openProject, setOpenProject }) {
         <nav className="menu-list">
           <ul>
             <li
-              className={`menu-item ${openProject ? "active" : ""}`}
-              onClick={() => setOpenProject(!openProject)}
+              className={`menu-item ${
+                selectedMenu === "project" ? "active" : ""
+              }`}
+              onClick={() => {
+                setSelectedMenu("project");
+                setOpenProject(!openProject);
+              }}
             >
               내 프로젝트
               <span className="material-symbols-outlined arrow">
@@ -132,20 +145,49 @@ function SideBar({ isOpen, openProject, setOpenProject }) {
               </ul>
             )}
 
-            <li onClick={() => navigate("/notice")}>공지사항</li>
             <li
+              className={`menu-item ${
+                selectedMenu === "notice" && !openProject ? "active" : ""
+              }`}
+              onClick={() => {
+                setSelectedMenu("notice");
+                setOpenProject(false);
+                setSelectedBoardId(null);
+                navigate("/notice");
+              }}
+            >
+              공지사항
+            </li>
+            <li
+              className={`menu-item ${
+                selectedMenu === "insight" && !openProject ? "active" : ""
+              }`}
               onClick={() => {
                 if (!selectedBoardId) {
                   alert("먼저 게시판을 선택해주세요.");
                   return;
                 }
+                setSelectedMenu("insight");
+                setOpenProject(false);
+                setSelectedBoardId(null);
                 navigate(`/boards/${selectedBoardId}/insight`);
               }}
             >
               인사이트
             </li>
-            <li onClick={() => navigate("/schedulepage")}>캘린더</li>
-            <li onClick={() => navigate("/app/alert")}>알림</li>
+            <li
+              className={`menu-item ${
+                selectedMenu === "calendar" && !openProject ? "active" : ""
+              }`}
+              onClick={() => {
+                setSelectedMenu("calendar");
+                setOpenProject(false);
+                setSelectedBoardId(null);
+                navigate("/schedulepage");
+              }}
+            >
+              캘린더
+            </li>
           </ul>
         </nav>
 

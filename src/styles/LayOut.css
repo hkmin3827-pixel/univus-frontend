@@ -138,12 +138,12 @@ textarea {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 30px;
+  gap: 20px;
 }
 .sidebar-top-group {
   display: flex;
   flex-direction: column;
-  gap: 80px; /* 팀선택과 새프로젝트는 넉넉한 간격 유지 */
+  gap: 40px; /* 팀선택과 새프로젝트는 넉넉한 간격 유지 */
 }
 /* sidebar 내부 버튼들 */
 .new-project-btn {
@@ -215,11 +215,15 @@ textarea {
 
 .menu-list li {
   padding: 12px;
+  margin: 10px 0;
   border-radius: 30px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.menu-list li:first-child {
+  margin-bottom: 0;
 }
 .menu-list li:hover,
 .menu-list li.active {
@@ -264,14 +268,16 @@ textarea {
 }
 .project-board-list {
   list-style: none;
-  margin: 6px 0 0 14px;
+  margin-left: 14px;
   padding: 0;
   display: flex;
   flex-direction: column;
   gap: 4px;
   color: #333;
 }
-
+.project-board-list li {
+  margin: 0;
+}
 .project-board-list .board-item,
 .project-board-list .empty {
   font-size: 14px;

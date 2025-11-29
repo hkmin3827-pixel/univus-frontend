@@ -1,15 +1,24 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PostApi from "../api/PostApi";
-import { TeamContext } from "../context/TeamContext";
 import "../styles/BoardPage.css";
 import AxiosApi from "../api/AxiosApi";
+import styled from "styled-components";
+import { UserContext } from "../context/UserContext";
+const ProfileImg = styled.img`
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+`;
 
 function BoardPage() {
   const { boardId, teamId } = useParams();
   const [boardName, setBoardName] = useState("");
   const [boardDescription, setBoardDescription] = useState("");
-  const { selectedTeam } = useContext(TeamContext);
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   const [page, setPage] = useState(0);
@@ -20,26 +29,26 @@ function BoardPage() {
     return /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(cleanedUrl);
   };
 
-  const fetchBoardName = async () => {
-    try {
-      const res = await AxiosApi.getBoard(teamId, boardId);
-      setBoardName(res.data.name);
-      setBoardDescription(res.data.description);
-    } catch (err) {
-      console.error("게시판 정보 불러오기 실패:", err);
-    }
-  };
-  const fetchPosts = async () => {
-    try {
-      const res = await PostApi.getPostList(boardId, page, 7);
-      console.log("게시글 목록:", res.data); // 확인용
-      setPosts(res.data.content ?? []);
-      setTotalPages(res.data.totalPages ?? 1);
-    } catch (err) {
-      console.error("게시글 목록 불러오기 실패:", err);
-    }
-  };
   useEffect(() => {
+    const fetchBoardName = async () => {
+      try {
+        const res = await AxiosApi.getBoard(teamId, boardId);
+        setBoardName(res.data.name);
+        setBoardDescription(res.data.description);
+      } catch (err) {
+        console.error("게시판 정보 불러오기 실패:", err);
+      }
+    };
+    const fetchPosts = async () => {
+      try {
+        const res = await PostApi.getPostList(boardId, page, 7);
+        console.log("게시글 목록:", res.data); // 확인용
+        setPosts(res.data.content ?? []);
+        setTotalPages(res.data.totalPages ?? 1);
+      } catch (err) {
+        console.error("게시글 목록 불러오기 실패:", err);
+      }
+    };
     fetchBoardName();
     fetchPosts();
   }, [boardId, page]);
@@ -89,7 +98,17 @@ function BoardPage() {
                 ) : (
                   <div className="file-preview">📎 첨부파일</div>
                 ))}
-              <span className="writer">{p.userName}</span>
+              <div className="post-writer">
+                {/* 프로필 이미지 */}
+                {p.writerImage && p.writerImage.trim() !== "" ? (
+                  <ProfileImg src={p.writerImage} alt="프로필" />
+                ) : (
+                  <span className="material-symbols-outlined">
+                    account_circle
+                  </span>
+                )}
+                <span className="writer">{p.userName}</span>
+              </div>
             </div>
           ))
         )}

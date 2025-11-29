@@ -16,7 +16,7 @@ const ProfileImg = styled.img`
     opacity: 0.6; /* 불투명 효과 */
   }
 `;
-function TopBar({ onMenuClick, setOpenProject }) {
+function TopBar({ onMenuClick, setOpenProject, resetMenuState }) {
   const navigate = useNavigate();
   const { myTeams, setSelectedTeam } = useContext(TeamContext);
   const { user } = useContext(UserContext);
@@ -34,6 +34,7 @@ function TopBar({ onMenuClick, setOpenProject }) {
   };
 
   const handleClickLogo = () => {
+    resetMenuState();
     const recentTeamId = localStorage.getItem("recentTeamId");
 
     // 최근 선택된 팀 존재
