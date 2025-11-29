@@ -1,50 +1,294 @@
-.schedule-form {
+/* 배경 오버레이 */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 12px;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
 }
 
-.form-row {
+/* 모달 박스 */
+.modal-box {
+  background: #ffffff;
+  width: 420px;
+  max-width: 90%;
+  border-radius: 18px;
+  padding: 18px 20px 16px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+  animation: modal-fade-in 0.18s ease-out;
+  font-family: inherit;
+}
+
+/* 상단 헤더 */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.modal-title-wrap {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.form-row-inline {
-  flex-direction: row;
+.modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* 상단의 작은 태그 */
+.modal-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  background: #fff3e6;
+  color: #ff8a3d;
+}
+
+/* 오른쪽 상단 X 버튼 */
+.modal-close {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+  border-radius: 999px;
+}
+
+.modal-close:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* 본문 영역 */
+.modal-body {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  display: flex;
+  flex-direction: column;
   gap: 10px;
 }
 
-.form-row-inline label {
-  flex: 1;
+/* 한 줄 */
+.modal-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.schedule-form input,
-.schedule-form textarea {
-  padding: 8px 10px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+.modal-row.column {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* 라벨 / 값 */
+.modal-row .label {
+  min-width: 40px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #888;
+}
+
+.modal-row .value {
   font-size: 14px;
+  color: #222;
 }
 
-.form-actions {
+.modal-row .value.title {
+  font-weight: 600;
+}
+
+/* 내용(설명) 영역 */
+.desc {
+  width: 100%;
+  min-height: 60px;
+  max-height: 180px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid #f0f0f0;
+  background: #fafafa;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+.modal-actions {
   display: flex;
   justify-content: flex-end;
   gap: 8px;
-  margin-top: 8px;
+  margin-top: 14px;
 }
 
-.form-actions button {
-  padding: 6px 12px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  background: #f5f5f5;
-  cursor: pointer;
-}
-
-.form-actions button.primary {
-  background: #ff8a3d;
-  color: #fff;
+/* 기본 버튼 베이스 */
+.modal-actions .btn {
+  padding: 7px 14px;
+  border-radius: 999px;
   border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+/* 닫기(기본) 버튼 */
+.modal-actions .btn {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.modal-actions .btn:hover {
+  background: #e5e7eb;
+}
+
+/* 수정(보라/파랑 아웃라인) */
+.modal-actions .btn.outline {
+  background: #ffffff;
+  border: 1px solid #6366f1;
+  color: #4f46e5;
+}
+
+.modal-actions .btn.outline:hover {
+  background: #eef2ff;
+}
+
+/* 삭제(레드) */
+.modal-actions .btn.danger {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.modal-actions .btn.danger:hover {
+  background: #dc2626;
+}
+
+/* 살짝 뜨는 애니메이션 */
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 버튼 영역 */
+.form-actions {
+  display: flex;
+  justify-content: center; /* 중앙 정렬 */
+  gap: 12px;
+  margin-top: 18px;
+}
+
+/* 취소 버튼 */
+.btn-cancel {
+  padding: 10px 20px;
+  border-radius: 999px; /* pill shape */
+  border: 1px solid #ddd;
+  background: #ffffff;
+  color: #555;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cancel:hover {
+  background: #f6f6f6;
+  border-color: #ccc;
+}
+
+/* 저장 / 수정 완료 버튼 */
+.btn-submit {
+  padding: 10px 24px;
+  border-radius: 999px;
+  border: none;
+  background: #ff8a3d;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 10px rgba(255, 138, 61, 0.35);
+}
+
+.btn-submit:hover {
+  background: #ff7a1a;
+  box-shadow: 0 4px 12px rgba(255, 138, 61, 0.5);
+}
+
+/* 활성화 애니메이션 */
+.btn-submit:active {
+  transform: scale(0.97);
+}
+
+.modal-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  background: #eef2ff; /* 연보라 배경 */
+  color: #4f46e5; /* 인디고 텍스트 */
+}
+/* 버튼 영역 – 중앙 정렬 */
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+/* 취소 버튼 */
+.btn-cancel {
+  padding: 9px 20px;
+  border-radius: 999px;
+  border: 1px solid #d4d4d8;
+  background: #ffffff;
+  color: #4b5563;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.btn-cancel:hover {
+  background: #f9fafb;
+  border-color: #c4c4d0;
+}
+
+/* 저장 / 수정 완료 버튼 – 보라/파랑 그라데이션 */
+.btn-submit {
+  padding: 9px 24px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+}
+
+.btn-submit:hover {
+  background: linear-gradient(135deg, #4f46e5, #9333ea);
+  box-shadow: 0 5px 16px rgba(79, 70, 229, 0.45);
+}
+
+.btn-submit:active {
+  transform: scale(0.97);
+  box-shadow: 0 3px 10px rgba(79, 70, 229, 0.35);
 }

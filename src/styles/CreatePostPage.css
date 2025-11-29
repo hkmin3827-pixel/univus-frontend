@@ -2,15 +2,21 @@
   width: 100%;
   max-width: 1400px; /* 필요하면 제한 */
   margin: 0 auto;
+  padding: 2% 20%;
 }
 
 .back-btn {
   background: none;
+  color: #999;
   border: none;
   cursor: pointer;
 }
 .back-btn span {
   font-size: 30px;
+}
+.back-btn:hover {
+  background-color: inherit;
+  color: #333;
 }
 
 .page-title {

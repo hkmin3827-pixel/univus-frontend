@@ -1,6 +1,6 @@
 .board-page-container {
   width: 100%;
-  padding: 20px 26px;
+  padding: 2% 10%;
 }
 
 .board-header {
@@ -18,12 +18,16 @@
 .back-btn {
   border: none;
   background: none;
+  color: #999;
   cursor: pointer;
 }
 .back-btn span {
   font-size: 30px;
 }
-
+.back-btn:hover {
+  background-color: inherit;
+  color: #333;
+}
 .new-post-btn {
   background: #5566ff;
   border: none;

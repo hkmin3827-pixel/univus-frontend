@@ -17,44 +17,62 @@
   transition: 0.25s;
   position: relative; /* 아이콘 위치 기준 */
   display: flex;
-  justify-content: center; /* 텍스트 중앙 */
+  justify-content: center;
   align-items: center;
 }
+
 .dropdown-button:hover {
   background-color: #666;
 }
+
 .button-label {
   text-align: center;
 }
 
 .arrow-icon {
   position: absolute;
-  right: 12px; /* 버튼 오른쪽 정렬 */
+  right: 12px;
   font-size: 24px;
 }
+
+/* ▼ 드롭다운 리스트 */
 .dropdown-list {
   position: absolute;
   top: 100%; /* 버튼 바로 아래 */
   left: 0;
   width: 100%;
-
   background: #ffffff;
   border-radius: 12px;
   border: 1px solid #ddd;
-
-  overflow: hidden;
-  max-height: 0;
+  overflow: hidden; /* 기본 숨김 */
+  max-height: 0; /* 애니메이션 효과 */
   opacity: 0;
   transform: translateY(10px);
   transition: max-height 0.25s ease, opacity 0.25s ease, transform 0.25s ease;
-
   z-index: 999;
 }
 
+/* ▼ 열렸을 때 */
 .dropdown-list.open {
-  max-height: 300px;
+  max-height: 300px; /* 전체 외곽 높이 제한 */
   opacity: 1;
   transform: translateY(0);
+  overflow-y: auto; /* 🔥 내부 스크롤 활성화 */
+  overflow-x: hidden;
+}
+
+/* 스크롤바 디자인(선택) */
+.dropdown-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdown-list::-webkit-scrollbar-thumb {
+  background: #c7c7c7;
+  border-radius: 4px;
+}
+
+.dropdown-list::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .dropdown-item {
@@ -68,15 +86,13 @@
   background: #e5e5ff;
 }
 
-/* 사이드바 버전 크기
-.dropdown-container.sidebar {
-  width: 200px;
-} */
+/* 선택된 버튼 스타일 */
 .dropdown-button.selected {
   background-color: white;
   color: black;
   border: 1px solid #d4d4d4;
 }
+
 .dropdown-button.selected:hover {
   background-color: #d4d4d4;
 }

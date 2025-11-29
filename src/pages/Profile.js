@@ -5,7 +5,6 @@ import AxiosApi from "../api/AxiosApi";
 import InputComponent from "../components/common/InputComponent";
 import ButtonComponent from "../components/common/ButtonComponent";
 import {
-  Container,
   Title,
   FormBox,
   Row,
@@ -13,6 +12,19 @@ import {
   ErrorText,
   ButtonRow,
 } from "../components/profile/ProfileComponent";
+import styled from "styled-components";
+
+// 🔹 회원 정보 "수정" 페이지 전용 래퍼 (배경/여백 담당)
+const EditWrapper = styled.div`
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+  padding: 60px 60px 80px; // 위/아래 여백 조금 더 줌
+  background: #f5f7ff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -33,10 +45,6 @@ const Profile = () => {
   const [department, setDepartment] = useState("");
   const [position, setPosition] = useState("");
 
-  // const [password, setPassword] = useState("");
-  // const [confirmPw, setConfirmPw] = useState("");
-
-  // const [pwError, setPwError] = useState("");
   const [submitError, setSubmitError] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState("");
 
@@ -47,7 +55,6 @@ const Profile = () => {
 
     if (!storedEmail || !storedRole) {
       setSubmitError("로그인 정보가 없습니다. 다시 로그인 해주세요.");
-      // navigate("/login");
       return;
     }
 
@@ -70,7 +77,7 @@ const Profile = () => {
 
         // 공통 user 정보 매핑
         setName(data.user?.name || "");
-        setTel(data.user?.tel || ""); // user.tel 이 있으면 사용, 없으면 빈 값
+        setTel(data.user?.tel || "");
 
         if (storedRole === "STUDENT") {
           setStudentNumber(data.studentNumber || "");
@@ -98,9 +105,7 @@ const Profile = () => {
       // 1) 공통 User 정보 수정
       await AxiosApi.updateUserProfile(email, {
         name,
-        phone: tel, // ⚠ phone 이라는 이름으로 보내야 함 (DTO 기준)
-        // profile, // 프로필 소개 텍스트 (있으면)
-        // image: imgUrl  // 이미지 문자열을 쓸 거면 여기
+        phone: tel, // DTO에서 phone 필드 사용
       });
 
       // 2) 학생/교수 개별 정보 수정
@@ -125,8 +130,11 @@ const Profile = () => {
   };
 
   return (
-    <Container>
+    <EditWrapper>
+      {/* 제목은 카드 바깥, 중앙 정렬 */}
       <Title>회원 정보 수정</Title>
+
+      {/* FormBox는 기존처럼 form 역할 */}
       <FormBox onSubmit={onSubmit}>
         {/* 이메일 (읽기 전용) */}
         <Row>
@@ -205,26 +213,6 @@ const Profile = () => {
           </>
         )}
 
-        {/* 비밀번호
-        <Row>
-          <Label>새 비밀번호</Label>
-          <InputComponent
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Row>
-
-        <Row>
-          <Label>비밀번호 확인</Label>
-          <InputComponent
-            type="password"
-            value={confirmPw}
-            onChange={(e) => setConfirmPw(e.target.value)}
-          />
-          {pwError && <ErrorText>{pwError}</ErrorText>}
-        </Row> */}
-
         {submitError && <ErrorText>{submitError}</ErrorText>}
         {submitSuccess && (
           <p style={{ color: "#22aa22", fontSize: "12px" }}>{submitSuccess}</p>
@@ -237,7 +225,7 @@ const Profile = () => {
           </ButtonComponent>
         </ButtonRow>
       </FormBox>
-    </Container>
+    </EditWrapper>
   );
 };
 

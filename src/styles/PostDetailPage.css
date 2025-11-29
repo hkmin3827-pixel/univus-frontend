@@ -3,11 +3,18 @@
 .post-detail-container {
   width: 100%;
   max-width: 900px;
-  margin: 80px auto; /* topbar 고려 */
-  padding: 20px;
+  margin: 33px auto;
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+/* 상단 헤더 줄 */
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 /* 뒤로가기 버튼 */
@@ -15,17 +22,22 @@
   border: none;
   background: none;
   cursor: pointer;
-  margin-bottom: 10px;
+  color: #999;
+  padding: 4px;
 }
 .back-btn span {
   font-size: 28px;
+}
+.back-btn:hover {
+  background-color: inherit;
+  color: #333;
 }
 
 /* 제목 */
 .post-title {
   font-size: 28px;
-  font-weight: bold;
-  margin: 6px 0;
+  font-weight: 700;
+  margin: 0;
 }
 
 /* 작성자 + 날짜 영역 */
@@ -39,17 +51,17 @@
 /* 구분선 */
 hr {
   border: 0;
-  border-top: 1px solid #eee;
-  margin: 16px 0;
+  border-top: 1px solid #ececec;
+  margin: 18px 0;
 }
 
 /* 본문 내용 */
 .post-content {
   font-size: 18px;
-  line-height: 1.6;
+  line-height: 1.7;
   white-space: pre-wrap;
   word-break: break-word;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 /* 첨부 이미지 박스 */
@@ -66,16 +78,16 @@ hr {
   box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
 }
 
-/* 첨부파일 다운로드 버튼 (이미지가 아닐 경우 사용 예정) */
+/* 파일 다운로드 */
 .file-download {
   margin-top: 10px;
   font-size: 16px;
   text-decoration: underline;
-  color: #3366ff;
+  color: #5566ff;
   cursor: pointer;
 }
 
-/* 댓글 구역 기본 위치 확보 */
+/* 댓글 섹션 */
 .comment-section {
   margin-top: 30px;
 }

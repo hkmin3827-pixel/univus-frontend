@@ -1,3 +1,4 @@
+// 로그인 페이지
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AxiosApi from "../api/AxiosApi";
@@ -5,45 +6,56 @@ import InputComponent from "../components/common/InputComponent";
 import Button from "../components/common/ButtonComponent";
 import logo from "../images/layoutLogo.png";
 import "../styles/login.css";
+
 import {
   Container,
-  Items,
   TopMenu,
   TabButton,
-  LoginBox,
-} from "../components/login/LogInComponent";
-import styled from "styled-components"; // 추가
+  FormWrapper,
+  FormCard,
+  Items,
+} from "../components/signUp/SignUpComponent"; // ⭐ 회원가입 스타일 재사용
 
-// 🔥 비밀번호 입력창 아래에 뜨는 에러 메시지 스타일
-const ErrorMessage = styled.div`
-  margin: 6px 30px 10px; /* 비밀번호 찾기 버튼과 간격 확보 */
+import styled from "styled-components";
+
+// 비밀번호 찾기 버튼
+const FindPwButton = styled.button`
+  border: none;
+  background: transparent;
   font-size: 12px;
-  color: #ff4d4f;
-  text-align: right; /* 에러 메시지를 오른쪽으로 정렬 */
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0;
+`;
+
+// 에러 메시지 (비밀번호 입력 아래, 오른쪽 정렬)
+const ErrorText = styled.p`
+  margin: 0;
+  font-size: 12px;
+  color: #ef4444;
 `;
 
 const LogIn = () => {
   const [inputEmail, setInputEmail] = useState("");
   const [inputPw, setInputPw] = useState("");
 
-  const navigate = useNavigate();
-
   const [isEmail, setIsEmail] = useState(false);
   const [isPw, setIsPw] = useState(false);
 
-  // 🔥 에러 메시지 상태 추가
-  const [error, setError] = useState("");
+  const [error, setError] = useState(""); // 로그인 에러 메시지
+
+  const navigate = useNavigate();
 
   const onChangeEmail = (e) => {
     setInputEmail(e.target.value);
     setIsEmail(true);
-    setError(""); // 입력 바뀌면 에러 초기화 (선택)
+    setError(""); // 입력 바뀌면 에러 초기화
   };
 
   const onChangePw = (e) => {
     setInputPw(e.target.value);
     setIsPw(true);
-    setError(""); // 입력 바뀌면 에러 초기화 (선택)
+    setError(""); // 입력 바뀌면 에러 초기화
   };
 
   const onClickToSignUp = () => {
@@ -51,54 +63,58 @@ const LogIn = () => {
   };
 
   const onClickLogIn = async () => {
-    // 이전 에러 지우기
     setError("");
 
     try {
       const response = await AxiosApi.login(inputEmail, inputPw);
-      // 로그인 실패 시 백엔드에서 예외를 던지는지, 401을 주는지에 따라 분기 추가 가능
+
       if (response.status === 200 && response.data) {
         const { id, email, name, role, image, regDate } = response.data;
 
         localStorage.setItem("isLogin", "TRUE");
         localStorage.setItem("email", email);
-        localStorage.setItem("role", role); // "ADMIN" / "STUDENT" / "PROFESSOR" 등
-        // 필요하면 name, image, regDate도 저장
+        localStorage.setItem("role", role);
         localStorage.setItem("userId", id);
+        // 필요하면 name, image, regDate도 저장 가능
+
         navigate("/home");
       } else {
-        alert("이메일 또는 패스워드가 틀립니다.");
+        setError("이메일 또는 비밀번호를 확인해 주세요.");
       }
     } catch (e) {
-      // 서버 연결 실패 (응답 자체가 없음)
       if (!e.response) {
         setError("서버가 응답하지 않습니다.");
         return;
       }
 
-      // 백엔드에서 내려 준 메시지 (존재하지 않는 이메일 / 비밀번호 불일치 등)
       const errorMessage = e.response.data?.message;
-
-      // 백엔드가 message 안 줄 경우 대비 기본 문구
       setError(errorMessage || "이메일 또는 비밀번호를 확인해 주세요.");
     }
   };
 
+  const isFormValid = isEmail && isPw;
+
   return (
     <Container>
+      {/* 로고 */}
       <img className="logo" src={logo} alt="univus 로고" />
+
+      {/* 상단 우측 탭 버튼 */}
       <TopMenu>
         <TabButton active>로그인</TabButton>
         <TabButton onClick={onClickToSignUp}>회원가입</TabButton>
       </TopMenu>
 
-      <LoginBox>
-        <div>
+      {/* 가운데 카드 레이아웃 */}
+      <FormWrapper>
+        <FormCard>
+          {/* 타이틀 */}
           <Items variant="title">
             <span>로그인</span>
           </Items>
 
-          <Items>
+          {/* 아이디 / 이메일 */}
+          <Items variant="item2">
             <InputComponent
               type="email"
               placeholder="아이디"
@@ -107,7 +123,8 @@ const LogIn = () => {
             />
           </Items>
 
-          <Items>
+          {/* 비밀번호 */}
+          <Items variant="item2">
             <InputComponent
               type="password"
               placeholder="비밀번호"
@@ -116,37 +133,33 @@ const LogIn = () => {
             />
           </Items>
 
-          {/* 비밀번호 입력창 바로 아래 에러 메시지 */}
-          {error && <ErrorMessage>{error}</ErrorMessage>}
+          {/* 에러 메시지 */}
+          {error && (
+            <Items variant="hint">
+              <ErrorText>{error}</ErrorText>
+            </Items>
+          )}
 
-          <Items variant="hint">
-            <button
-              type="button"
-              style={{
-                border: "none",
-                background: "transparent",
-                fontSize: "12px",
-                color: "#777",
-                cursor: "pointer",
-              }}
-            >
-              비밀번호 찾기
-            </button>
+          {/* 비밀번호 찾기 */}
+          <Items
+            variant="item2"
+            style={{ alignItems: "flex-end", marginTop: error ? "0" : "4px" }}
+          >
+            <FindPwButton type="button">비밀번호 찾기</FindPwButton>
           </Items>
 
-          <Items justify="center" margin="20px 0 0 0">
-            {isEmail && isPw ? (
-              <Button enabled onClick={onClickLogIn} style={{ width: "100%" }}>
+          {/* 로그인 버튼 */}
+          <Items variant="item2">
+            {isFormValid ? (
+              <Button enabled onClick={onClickLogIn}>
                 로그인
               </Button>
             ) : (
-              <Button disabled style={{ width: "100%" }}>
-                로그인
-              </Button>
+              <Button disabled>로그인</Button>
             )}
           </Items>
-        </div>
-      </LoginBox>
+        </FormCard>
+      </FormWrapper>
     </Container>
   );
 };
