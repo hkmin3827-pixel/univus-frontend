@@ -80,7 +80,11 @@ function App() {
               />
               <Route path="/post/detail/:postId" element={<PostDetailPage />} />
 
-              <Route path="/team/:teamId/todo" element={<TodoPage />} />
+              <Route
+                path="/team/:teamId/board/:boardId/todo"
+                element={<TodoPage />}
+              />
+
               <Route
                 path="/boards/:boardId/insight"
                 element={<BoardInsightPage />}

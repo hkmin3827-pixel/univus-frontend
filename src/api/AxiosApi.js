@@ -26,7 +26,9 @@ const AxiosApi = {
 
   // 이메일 중복 체크
   emailcheck: async (email) => {
-    const res = await api.get(`/auth/exists/${encodeURIComponent(email)}`);
+    const res = await axios.get(
+      `${DOMAIN}/auth/exists/${encodeURIComponent(email)}`
+    );
     return res.data;
   },
 

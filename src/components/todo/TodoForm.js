@@ -6,8 +6,8 @@ export default function TodoForm({ onCreate }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!content.trim()) return;
-    onCreate(content);
-    setContent("");
+    onCreate(content); // TodoPage의 handleCreate 호출
+    setContent(""); // 입력 필드 초기화
   };
 
   return (
