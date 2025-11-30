@@ -2,10 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as NoticeApi from "../../api/NoticeApi";
 import NoticeWrite from "../../components/notice/NoticeWrite";
+import styled from "styled-components";
+
+const PageWrapper = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  padding: 60px 20px;
+  background: #f3f4ff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+`;
 
 const NoticeCreatePage = () => {
   const navigate = useNavigate();
-  const role = localStorage.getItem("role"); // 권한 확인
+  const role = localStorage.getItem("role");
   const [notice, setNotice] = useState({ title: "", content: "" });
 
   useEffect(() => {
@@ -23,12 +34,8 @@ const NoticeCreatePage = () => {
 
     try {
       const res = await NoticeApi.createNotice(notice);
-      if (res.data && res.data.id) {
-        alert("공지사항이 등록되었습니다.");
-        navigate(`/notice/detail/${res.data.id}`);
-      } else {
-        alert("공지사항 등록 실패: ID를 확인할 수 없습니다.");
-      }
+      alert("공지사항이 등록되었습니다.");
+      navigate(`/notice/detail/${res.data.id}`);
     } catch (err) {
       console.error(err);
       alert("공지사항 등록 실패");
@@ -36,11 +43,13 @@ const NoticeCreatePage = () => {
   };
 
   return (
-    <NoticeWrite
-      notice={notice}
-      setNotice={setNotice}
-      onSubmit={handleSubmit}
-    />
+    <PageWrapper>
+      <NoticeWrite
+        notice={notice}
+        setNotice={setNotice}
+        onSubmit={handleSubmit}
+      />
+    </PageWrapper>
   );
 };
 

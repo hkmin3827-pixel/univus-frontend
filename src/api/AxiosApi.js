@@ -1,33 +1,27 @@
 // src/api/AxiosApi.js
-import axios from "axios";
+import axios from "axios"; // 비동기 통신 라이브러리를 가져오기
 
 const DOMAIN = "http://localhost:8111";
-axios.defaults.withCredentials = true;
+
+// 🔥 공통 설정이 들어간 axios 인스턴스 생성
 const api = axios.create({
   baseURL: DOMAIN,
-  withCredentials: true, // pring Security 세션 방식 필수
+  withCredentials: true, // 세션 쿠키(JSESSIONID) 주고받기
 });
 
 const AxiosApi = {
-  // ------------------ AUTH API ------------------
   // 로그인
-  login: (email, pwd) => axios.post(`${DOMAIN}/auth/login`, { email, pwd }),
+  login: async (email, pwd) => {
+    // 이메일과 비밀번호를 body에 실어서 전송
+    return await api.post("/auth/login", { email, pwd });
+  },
+
   // 이메일로 가입 여부 확인
   emailcheck: async (email) => {
     const res = await axios.get(
-      DOMAIN + `/auth/exists/${encodeURIComponent(email)}`
+      `${DOMAIN}/auth/exists/${encodeURIComponent(email)}`
     );
     return res.data; // <- true 또는 false 만 리턴
-  },
-  // 로그아웃
-  logout: async () => {
-    return await api.post("/auth/logout");
-  },
-
-  // 이메일 중복 체크
-  emailcheck: async (email) => {
-    const res = await api.get(`/auth/exists/${encodeURIComponent(email)}`);
-    return res.data;
   },
 
   // 회원 가입
@@ -36,114 +30,31 @@ const AxiosApi = {
       email,
       pwd,
       name,
-      phone: tel,
+      tel,
       role,
     });
   },
-  // 회원 목록 가져 오기
 
-  // 유저 공통 정보 수정
-  updateUserProfile: async (email, payload) => {
-    return await api.put(`/user/${encodeURIComponent(email)}`, payload);
-  },
-
-  // 학생 전용
-  updateStudentProfile: async (email, payload) => {
-    return await api.put(
-      `/profile/student/${encodeURIComponent(email)}`,
-      payload
-    );
-  },
-
-  // 교수 전용
-  updateProfessorProfile: async (email, payload) => {
-    return await api.put(
-      `/profile/professor/${encodeURIComponent(email)}`,
-      payload
-    );
-  },
-
-  getUserProfile: async (email) => {
-    return await api.get(`/user/me/${encodeURIComponent(email)}`);
-  },
-
-  getStudentProfile: async (email) => {
-    return await api.get(`/profile/students/${encodeURIComponent(email)}`);
-  },
-
-  getProfessorProfile: async (email) => {
-    return await api.get(`/profile/professors/${encodeURIComponent(email)}`);
-  },
-
-  // 회원 목록
+  // 회원 목록 가져오기
   members: async () => {
     return await api.get("/user/list");
   },
 
-  // 상세 회원
-  detailmembers: async (email) => {
-    return await api.get(`/user/${email}`);
+  //
+  getboard: async (boardId) => {
+    return await api.get(`/boards/${boardId}`);
   },
 
-  // ------------------ TEAM / BOARD API ------------------
-  // 팀 목록 조회 (팀 선택 모달에서 사용)
-  getMyTeams: async () => {
-    return await api.get("/api/teams/my");
+  getpost: async (postId) => {
+    return await api.get(`/posts/${postId}`);
   },
 
-  // 게시판 조회
-  getBoard: (teamId, boardId) => api.get(`/teams/${teamId}/board/${boardId}`),
-  // ------------------ POST API ------------------
-  // 게시글 작성
-  postWrite: async (boardId, title, content, imgUrl) => {
-    return await api.post("/post/create", {
-      boardId,
-      title,
-      content,
-      imgUrl,
+  searchComments: async (keyword, page = 0, size = 10) => {
+    const res = await api.get("/comment/search", {
+      params: { keyword, page, size },
     });
+    return res.data; // { content, totalPages, ... }
   },
-  // 게시물 전체 조회(게시판별)
-  postListPaged: async (boardId, page = 0, size = 10) => {
-    return await axios.get(DOMAIN + `/post/board/${boardId}`, {
-      params: { page, size },
-    });
-  },
-  // 게시글 상세조회
-  getPost: async (postId) => {
-    return await api.get(`/post/${postId}`);
-  },
-  // 팀 생성
-  createTeam: async (teamName, description, leaderId) => {
-    return await api.post("/teams/create", {
-      teamName,
-      description,
-      leaderId,
-    });
-  },
-
-  // 초대 조회
-  getInvites: async (email) => {
-    return await api.get(`/teams/invites?email=${email}`);
-  },
-
-  // 초대 수락
-  acceptInvite: async (inviteId) => {
-    return await api.post(`/teams/invite/${inviteId}/accept`);
-  },
-
-  // 초대 거절
-  declineInvite: async (inviteId) => {
-    return await api.post(`/teams/invite/${inviteId}/decline`);
-  },
-
-  // 🔹 보드별 팀원 기여도 리스트
-  getBoardContribution: (boardId) =>
-    api.get(`/activity/board/${boardId}/contribution`),
-
-  // 🔹 특정 팀원의 상세 기여도
-  getUserContributionDetail: (userId, boardId) =>
-    api.get(`/activity/user/${userId}/board/${boardId}/detail`),
 };
 
 export default AxiosApi;
