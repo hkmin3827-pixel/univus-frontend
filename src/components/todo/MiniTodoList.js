@@ -1,14 +1,35 @@
 import React from "react";
-import { modifyTodo } from "../../api/TodoApi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useTodo } from "../../context/TodoContext";
 
-export default function MiniTodoList({ selectedTeamId }) {
-  const { todos, toggleTodo } = useTodo();
+export default function MiniTodoList() {
+  const { teamId, boardId } = useParams();
+  const { todos } = useTodo();
   const navigate = useNavigate();
 
-  const pendingTodos = todos.filter((t) => !t.done);
-  const completedTodos = todos.filter((t) => t.done);
+  // 게시판이 선택되어 있으면 해당 boardId 필터링
+  const filteredTodos = boardId
+    ? todos.filter((t) => t.boardId === parseInt(boardId))
+    : [];
+
+  const pendingTodos = filteredTodos.filter((t) => !t.done);
+  const completedTodos = filteredTodos.filter((t) => t.done);
+
+  const handlePlusClick = () => {
+    if (!boardId) {
+      alert("먼저 게시판을 선택하세요!");
+      return;
+    }
+    navigate(`/team/${teamId}/board/${boardId}/todo`);
+  };
+
+  const handleTodoClick = () => {
+    if (!boardId) {
+      alert("먼저 게시판을 선택하세요!");
+      return;
+    }
+    navigate(`/team/${teamId}/board/${boardId}/todo`);
+  };
 
   return (
     <div
@@ -26,7 +47,7 @@ export default function MiniTodoList({ selectedTeamId }) {
       >
         <h4 style={{ flex: 1, margin: 0 }}>최근 할일</h4>
         <button
-          onClick={() => navigate(`/team/${selectedTeamId}/todo`)}
+          onClick={handlePlusClick}
           style={{
             backgroundColor: "#5f5fff",
             color: "#fff",
@@ -39,24 +60,19 @@ export default function MiniTodoList({ selectedTeamId }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            transition: "background-color 0.2s",
           }}
-          onMouseOver={(e) =>
-            (e.currentTarget.style.backgroundColor = "#4a4acc")
-          }
-          onMouseOut={(e) =>
-            (e.currentTarget.style.backgroundColor = "#5f5fff")
-          }
         >
           +
         </button>
       </div>
 
-      {(!pendingTodos || pendingTodos.length === 0) && (
-        <p style={{ fontSize: "12px", color: "#999" }}>할 일이 없습니다.</p>
+      {(!boardId || pendingTodos.length === 0) && (
+        <p style={{ fontSize: "12px", color: "#999" }}>
+          {boardId ? "할 일이 없습니다." : "게시판을 선택하세요."}
+        </p>
       )}
 
-      {[...pendingTodos].slice(0, 5).map((todo) => (
+      {pendingTodos.slice(0, 5).map((todo) => (
         <div
           key={todo.id}
           style={{
@@ -70,12 +86,12 @@ export default function MiniTodoList({ selectedTeamId }) {
           <input
             type="checkbox"
             checked={todo.done}
-            onChange={() => toggleTodo(todo.id, !todo.done)}
+            readOnly
             style={{ marginRight: "6px" }}
           />
           <span
             style={{ flex: 1, fontSize: "13px", cursor: "pointer" }}
-            onClick={() => navigate(`/team/${selectedTeamId}/todo`)}
+            onClick={handleTodoClick}
           >
             {todo.content.length > 15
               ? todo.content.slice(0, 15) + "…"

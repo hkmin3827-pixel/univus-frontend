@@ -2,34 +2,47 @@ import React from "react";
 import styled from "styled-components";
 import NoticeListItem from "./NoticeListItem";
 
-const NoticeContainer = styled.div`
+const Screen = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  background: #f4f6ff;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+`;
+
+const NoticeWrapper = styled.div`
+  width: 100%;
+  max-width: 900px;
   display: flex;
   flex-direction: column;
-  gap: 12px; /* 각 공지 간 간격 */
+  gap: 14px;
 `;
 
 const EmptyMessage = styled.p`
-  padding: 16px;
-  color: #777;
+  padding: 20px;
   text-align: center;
-  font-size: 1rem;
+  color: #777;
+  font-size: 1.05rem;
 `;
 
 const NoticeList = ({ noticeList = [], handleDetailClick }) => {
-  if (!noticeList || noticeList.length === 0) {
-    return <EmptyMessage>등록된 공지사항이 없습니다.</EmptyMessage>;
-  }
-
   return (
-    <NoticeContainer>
-      {noticeList.map((notice) => (
-        <NoticeListItem
-          key={notice.id}
-          notice={notice}
-          handleDetailClick={handleDetailClick}
-        />
-      ))}
-    </NoticeContainer>
+    <Screen>
+      <NoticeWrapper>
+        {noticeList.length === 0 ? (
+          <EmptyMessage>등록된 공지사항이 없습니다.</EmptyMessage>
+        ) : (
+          noticeList.map((notice) => (
+            <NoticeListItem
+              key={notice.id}
+              notice={notice}
+              handleDetailClick={handleDetailClick}
+            />
+          ))
+        )}
+      </NoticeWrapper>
+    </Screen>
   );
 };
 
