@@ -1,5 +1,5 @@
 // PostDetailPage.jsx
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PostApi from "../api/PostApi";
 import CommentSection from "../components/comment/CommentSection";
@@ -7,8 +7,8 @@ import "../styles/PostDetailPage.css";
 import styled from "styled-components";
 
 const ProfileImg = styled.img`
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
@@ -19,6 +19,10 @@ function PostDetailPage() {
   const { postId } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
+  const [EditMenuOpen, setEditMenuOpen] = useState(false);
+  const loginUserEmail = localStorage.getItem("email");
+
+  const isOwner = post?.userEmail === loginUserEmail;
 
   useEffect(() => {
     const fetchPostDetail = async () => {
@@ -32,7 +36,7 @@ function PostDetailPage() {
     };
     fetchPostDetail();
   }, [postId]);
-  // 📌 파일 확장자 확인 함수
+
   const isImage = (fileName = "") => {
     return /\.(png|jpg|jpeg|gif)$/i.test(fileName);
   };
@@ -44,6 +48,16 @@ function PostDetailPage() {
     link.click();
   };
 
+  const handleDelete = async () => {
+    if (!window.confirm("정말 삭제하시겠습니까?")) return;
+    try {
+      await PostApi.deletePost(postId);
+      alert("삭제되었습니다.");
+      navigate(-1);
+    } catch (err) {
+      console.error("삭제 실패:", err);
+    }
+  };
   const formatDateTime = (dateTimeString) => {
     if (!dateTimeString) return "";
     const [datePart, timeWithMs] = dateTimeString.split("T");
@@ -51,17 +65,17 @@ function PostDetailPage() {
     const timePart = timeWithMs.split(".")[0];
     return `${datePart} ${timePart}`;
   };
+  const handleEdit = () => {
+    navigate(`/posts/${postId}/edit`);
+  };
 
   return (
     <div className="post-detail-container">
       {/* 제목 + 뒤로가기 한 줄 */}
-      <div className="post-header">
-        <button className="back-btn" onClick={() => navigate(-1)}>
-          <span className="material-symbols-outlined">arrow_back</span>
-        </button>
-        <h1 className="post-title">{post?.title}</h1>
-      </div>
-
+      <button className="back-btn" onClick={() => navigate(-1)}>
+        <span className="material-symbols-outlined">arrow_back</span>
+      </button>
+      <h1 className="post-title">{post?.title}</h1>
       <div className="post-info">
         <div className="post-writer">
           {/* 프로필 이미지 */}
@@ -72,13 +86,29 @@ function PostDetailPage() {
           )}
           <span className="writer">{post?.userName}</span>
         </div>
-        <span className="date">{formatDateTime(post?.createTime)}</span>
+        <div className="post-right">
+          {isOwner && (
+            <button
+              className="menu-icon"
+              onClick={() => setEditMenuOpen((prev) => !prev)}
+            >
+              <span className="material-symbols-outlined">more_vert</span>
+            </button>
+          )}
+          {EditMenuOpen && (
+            <div className="dropdown">
+              <button onClick={handleEdit}>수정</button>
+              <button onClick={handleDelete}>삭제</button>
+            </div>
+          )}
+          <div className="post-date-row">
+            <span className="date">{formatDateTime(post?.createTime)}</span>
+          </div>
+        </div>
       </div>
 
       <hr />
-
       <div className="post-content">{post?.content}</div>
-
       {post?.fileUrl && post?.fileName && (
         <div className="file-box">
           {isImage(post.fileName) ? (
@@ -92,14 +122,16 @@ function PostDetailPage() {
                   marginTop: "14px",
                 }}
               />
-              <a
-                href={post.fileUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="file-link"
-              >
-                원본 이미지 보기
-              </a>
+              <p>
+                <a
+                  href={post.fileUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="file-link"
+                >
+                  원본 이미지 보기
+                </a>
+              </p>
             </div>
           ) : (
             <div>
@@ -122,9 +154,7 @@ function PostDetailPage() {
           )}
         </div>
       )}
-
       <hr />
-
       <CommentSection postId={postId} />
     </div>
   );

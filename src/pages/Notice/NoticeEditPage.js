@@ -2,6 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import NoticeWrite from "../../components/notice/NoticeWrite";
 import * as NoticeApi from "../../api/NoticeApi";
+import styled from "styled-components";
+
+const PageWrapper = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  background: #f3f4ff;
+  padding: 60px 20px;
+  display: flex;
+  justify-content: center;
+`;
 
 const NoticeEditPage = () => {
   const { noticeId } = useParams();
@@ -9,7 +19,6 @@ const NoticeEditPage = () => {
   const role = localStorage.getItem("role");
 
   const [notice, setNotice] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (role !== "PROFESSOR") {
@@ -18,21 +27,17 @@ const NoticeEditPage = () => {
       return;
     }
 
-    const fetchNotice = async () => {
+    const load = async () => {
       try {
         const res = await NoticeApi.getNotice(noticeId);
         setNotice(res.data);
-      } catch (err) {
-        console.error(err);
+      } catch {
         alert("공지사항 조회 실패");
         navigate("/notice");
-      } finally {
-        setLoading(false);
       }
     };
-
-    fetchNotice();
-  }, [noticeId, navigate, role]);
+    load();
+  }, []);
 
   const handleSubmit = async () => {
     if (!notice.title.trim() || !notice.content.trim()) {
@@ -44,22 +49,23 @@ const NoticeEditPage = () => {
       await NoticeApi.updateNotice(noticeId, notice);
       alert("공지사항이 수정되었습니다.");
       navigate(`/notice/detail/${noticeId}`);
-    } catch (err) {
-      console.error(err);
-      alert("공지사항 수정 실패");
+    } catch {
+      alert("수정 실패");
     }
   };
 
-  if (loading || !notice) return <div>Loading...</div>;
+  if (!notice) return <div>Loading...</div>;
 
   return (
-    <NoticeWrite
-      notice={notice}
-      setNotice={setNotice}
-      onSubmit={handleSubmit}
-      editMode={true}
-      onCancel={() => navigate(`/notice/detail/${noticeId}`)}
-    />
+    <PageWrapper>
+      <NoticeWrite
+        notice={notice}
+        setNotice={setNotice}
+        onSubmit={handleSubmit}
+        editMode={true}
+        onCancel={() => navigate(`/notice/detail/${noticeId}`)}
+      />
+    </PageWrapper>
   );
 };
 

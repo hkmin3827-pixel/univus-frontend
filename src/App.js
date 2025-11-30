@@ -27,6 +27,8 @@ import TodoPage from "./pages/TodoPage";
 import { TodoProvider } from "./context/TodoContext";
 import { UserProvider } from "./context/UserContext";
 import BoardInsightPage from "./pages/BoardInsightPage";
+import EditPostPage from "./pages/EditPostPage";
+import SearchResults from "./pages/SearchResults";
 import MemberInsightPage from "./pages/MemberInsightPage";
 
 function App() {
@@ -80,12 +82,18 @@ function App() {
                 element={<CreatePostPage />}
               />
               <Route path="/post/detail/:postId" element={<PostDetailPage />} />
+              <Route path="posts/:postId/edit" element={<EditPostPage />} />
 
-              <Route path="/team/:teamId/todo" element={<TodoPage />} />
+              <Route
+                path="/team/:teamId/board/:boardId/todo"
+                element={<TodoPage />}
+              />
+
               <Route
                 path="/boards/:boardId/insight"
                 element={<BoardInsightPage />}
               />
+              <Route path="/search" element={<SearchResults />} />
               <Route
                 path="/boards/:boardId/insight/member/:userId"
                 element={<MemberInsightPage />}

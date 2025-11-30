@@ -3,15 +3,16 @@ import { getAllTodo, createTodo, modifyTodo, deleteTodo } from "../api/TodoApi";
 import TodoList from "../components/todo/TodoList";
 import TodoForm from "../components/todo/TodoForm";
 import { useTodo } from "../context/TodoContext";
+import { useParams } from "react-router-dom";
 
-export default function TodoPage({ userEmail, boardId }) {
+export default function TodoPage() {
+  const { teamId, boardId } = useParams();
   const { todos, loading, addTodo, toggleTodo, removeTodo } = useTodo();
 
   const pendingTodos = todos.filter((todo) => !todo.done);
   const completedTodos = todos.filter((todo) => todo.done);
 
-  const handleCreate = (content) =>
-    addTodo({ boardId, email: userEmail, content });
+  const handleCreate = (content) => addTodo({ teamId, boardId, content });
 
   return (
     <div
