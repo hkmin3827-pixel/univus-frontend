@@ -27,6 +27,7 @@ import TodoPage from "./pages/TodoPage";
 import { TodoProvider } from "./context/TodoContext";
 import { UserProvider } from "./context/UserContext";
 import BoardInsightPage from "./pages/BoardInsightPage";
+import EditPostPage from "./pages/EditPostPage";
 
 function App() {
   return (
@@ -79,6 +80,7 @@ function App() {
                 element={<CreatePostPage />}
               />
               <Route path="/post/detail/:postId" element={<PostDetailPage />} />
+              <Route path="posts/:postId/edit" element={<EditPostPage />} />
 
               <Route path="/team/:teamId/todo" element={<TodoPage />} />
               <Route

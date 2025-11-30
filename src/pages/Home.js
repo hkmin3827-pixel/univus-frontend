@@ -1,5 +1,5 @@
 // src/pages/Home.js
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -7,12 +7,8 @@ import ScheduleApi from "../api/ScheduleApi";
 import ScheduleModal from "../components/home/ScheduleModal";
 import ScheduleCreateModal from "./ScheduleCreateModal";
 import "../styles/HomeSchedule.css";
-import { useNavigate } from "react-router-dom";
-import { TeamContext } from "../context/TeamContext";
 
 function Home() {
-  const { fetchTeams, setSelectedTeam } = useContext(TeamContext);
-  const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
@@ -27,22 +23,24 @@ function Home() {
   // 이벤트 필터링 (현재 ~ 7일 뒤)
   const upcomingEvents = events.filter((item) => {
     const eventDate = new Date(item.start);
-    return eventDate >= now && eventDate <= sevenDaysLater;
+
+    // 날짜만 비교하도록 시간 제거
+    const eventDay = new Date(
+      eventDate.getFullYear(),
+      eventDate.getMonth(),
+      eventDate.getDate()
+    );
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const limit = new Date(
+      sevenDaysLater.getFullYear(),
+      sevenDaysLater.getMonth(),
+      sevenDaysLater.getDate()
+    );
+
+    return eventDay >= today && eventDay <= limit;
   });
   useEffect(() => {
-    const init = async () => {
-      const teams = await fetchTeams();
-
-      if (teams && teams.length > 0) {
-        setSelectedTeam(teams[0]);
-        navigate(`/team/${teams[0].id}`); // 팀 있으면 이걸로 즉시 이동
-        return;
-      }
-
-      await loadSchedules(); // 팀 없을 때만 홈 유지
-    };
-
-    init();
+    loadSchedules();
   }, []);
 
   const loadSchedules = async () => {
@@ -133,11 +131,14 @@ function Home() {
           plugins={[dayGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
           events={events}
+          dayMaxEventRows={1}
+          dayMaxEvents={true}
           eventClick={(info) => {
             const event = events.find((e) => e.id === info.event.id);
             setSelectedEvent(event);
           }}
-          height="100%"
+          height="420px"
+          displayEventTime={false}
           headerToolbar={{
             left: "title",
             right: "today prev,next",
