@@ -27,11 +27,8 @@ import TodoPage from "./pages/TodoPage";
 import { TodoProvider } from "./context/TodoContext";
 import { UserProvider } from "./context/UserContext";
 import BoardInsightPage from "./pages/BoardInsightPage";
-<<<<<<< HEAD
 import EditPostPage from "./pages/EditPostPage";
-=======
 import SearchResults from "./pages/SearchResults";
->>>>>>> 41b852762b16574905fe9a72dc4a296465bc7e85
 
 function App() {
   return (
