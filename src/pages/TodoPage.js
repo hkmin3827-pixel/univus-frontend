@@ -7,12 +7,14 @@ import { useParams } from "react-router-dom";
 
 export default function TodoPage() {
   const { teamId, boardId } = useParams();
+  console.log("teamId", teamId, "boardId", boardId);
   const { todos, loading, addTodo, toggleTodo, removeTodo } = useTodo();
 
   const pendingTodos = todos.filter((todo) => !todo.done);
   const completedTodos = todos.filter((todo) => todo.done);
 
   const handleCreate = (content) => addTodo({ teamId, boardId, content });
+  console.log("teamId", teamId, "boardId", boardId);
 
   return (
     <div
