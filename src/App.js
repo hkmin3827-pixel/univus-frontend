@@ -27,6 +27,7 @@ import TodoPage from "./pages/TodoPage";
 import { TodoProvider } from "./context/TodoContext";
 import { UserProvider } from "./context/UserContext";
 import BoardInsightPage from "./pages/BoardInsightPage";
+import MemberInsightPage from "./pages/MemberInsightPage";
 
 function App() {
   return (
@@ -84,6 +85,10 @@ function App() {
               <Route
                 path="/boards/:boardId/insight"
                 element={<BoardInsightPage />}
+              />
+              <Route
+                path="/boards/:boardId/insight/member/:userId"
+                element={<MemberInsightPage />}
               />
             </Route>
           </Routes>

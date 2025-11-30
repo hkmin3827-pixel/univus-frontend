@@ -14,20 +14,12 @@ const AxiosApi = {
   login: (email, pwd) => axios.post(`${DOMAIN}/auth/login`, { email, pwd }),
   // 이메일로 가입 여부 확인
   emailcheck: async (email) => {
-    const res = await axios.get(
-      DOMAIN + `/auth/exists/${encodeURIComponent(email)}`
-    );
-    return res.data; // <- true 또는 false 만 리턴
+    const res = await api.get(`/auth/exists/${encodeURIComponent(email)}`);
+    return res.data; // true / false
   },
   // 로그아웃
   logout: async () => {
     return await api.post("/auth/logout");
-  },
-
-  // 이메일 중복 체크
-  emailcheck: async (email) => {
-    const res = await api.get(`/auth/exists/${encodeURIComponent(email)}`);
-    return res.data;
   },
 
   // 회원 가입
@@ -144,6 +136,17 @@ const AxiosApi = {
   // 🔹 특정 팀원의 상세 기여도
   getUserContributionDetail: (userId, boardId) =>
     api.get(`/activity/user/${userId}/board/${boardId}/detail`),
+
+  // 🔹 게시글 TOP5
+  getPostTop5: (boardId) => api.get(`/activity/board/${boardId}/top5/posts`),
+
+  // 🔹 댓글 TOP5
+  getCommentTop5: (boardId) =>
+    api.get(`/activity/board/${boardId}/top5/comments`),
+
+  // 🔹 리액션 TOP5
+  getReactionTop5: (boardId) =>
+    api.get(`/activity/board/${boardId}/top5/reactions`),
 };
 
 export default AxiosApi;
