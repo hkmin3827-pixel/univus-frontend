@@ -1,9 +1,11 @@
-import logo from "../../images/layoutLogo.png";
-import { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
 import { TeamContext } from "../../context/TeamContext";
 import { UserContext } from "../../context/UserContext";
-import styled from "styled-components";
+import logo from "../../images/layoutLogo.png";
+
 const ProfileImg = styled.img`
   width: 36px;
   height: 36px;
@@ -13,13 +15,17 @@ const ProfileImg = styled.img`
   transition: 0.2s ease-in-out;
 
   &:hover {
-    opacity: 0.6; /* 불투명 효과 */
+    opacity: 0.6;
   }
 `;
+
 function TopBar({ onMenuClick, setOpenProject, resetMenuState }) {
   const navigate = useNavigate();
   const { myTeams, setSelectedTeam } = useContext(TeamContext);
   const { user } = useContext(UserContext);
+
+  // 검색어 상태
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   const goToProfile = () => {
     navigate("/profiledetail");
@@ -37,28 +43,37 @@ function TopBar({ onMenuClick, setOpenProject, resetMenuState }) {
     resetMenuState();
     const recentTeamId = localStorage.getItem("recentTeamId");
 
-    // 최근 선택된 팀 존재
     if (recentTeamId && myTeams.length > 0) {
       const recentTeam = myTeams.find((t) => t.id === Number(recentTeamId));
       if (recentTeam) {
         setSelectedTeam(recentTeam);
-        setOpenProject(false); // 사이드바 닫기
+        setOpenProject(false);
         navigate(`/team/${recentTeam.id}`);
         return;
       }
     }
 
-    // 팀이 1개 이상이면 첫 번째 팀으로
     if (myTeams.length > 0) {
       setSelectedTeam(myTeams[0]);
       localStorage.setItem("recentTeamId", myTeams[0].id);
       setOpenProject(false);
       navigate(`/team/${myTeams[0].id}`);
     } else {
-      // 팀이 없는 경우
       setSelectedTeam(null);
       setOpenProject(false);
       navigate("/home");
+    }
+  };
+
+  // 검색 input 엔터 이벤트 핸들러
+  const handleSearch = (e) => {
+    if (e.key === "Enter") {
+      const trimmed = searchKeyword.trim();
+      if (trimmed === "") return;
+
+      e.preventDefault();
+      console.log("검색어:", trimmed);
+      navigate(`/search?keyword=${encodeURIComponent(trimmed)}`);
     }
   };
 
@@ -74,7 +89,12 @@ function TopBar({ onMenuClick, setOpenProject, resetMenuState }) {
 
       <div className="search-box">
         <span className="material-symbols-outlined search-icon">search</span>
-        <input placeholder="검색어를 입력해주세요" />
+        <input
+          placeholder="검색어를 입력해주세요"
+          value={searchKeyword}
+          onChange={(e) => setSearchKeyword(e.target.value)}
+          onKeyDown={handleSearch}
+        />
       </div>
 
       <div className="top-icons">
@@ -86,7 +106,6 @@ function TopBar({ onMenuClick, setOpenProject, resetMenuState }) {
         </span>
         <span className="material-symbols-outlined">inventory</span>
 
-        {/* 프로필 이미지 */}
         {user.image && user.image.trim() !== "" ? (
           <ProfileImg src={user.image} alt="프로필" onClick={goToProfile} />
         ) : (
@@ -96,7 +115,6 @@ function TopBar({ onMenuClick, setOpenProject, resetMenuState }) {
         )}
       </div>
 
-      {/* 모바일 메뉴 버튼 */}
       <button className="menu-btn" onClick={onMenuClick}>
         <span className="material-symbols-outlined">menu</span>
       </button>
