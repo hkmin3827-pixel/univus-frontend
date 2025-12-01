@@ -29,7 +29,11 @@ function MyCommentsList({ comments }) {
             onClick={() => handleClick(item.postId)}
             style={{ cursor: "pointer" }}
           >
-            <p className="title">{item.content}</p>
+            <p className="title">
+              {item.content && item.content.length > 10
+                ? item.content.slice(0, 40) + "..."
+                : item.content}
+            </p>
             <p className="date">{formatDateTime(item.createTime)}</p>
           </div>
         ))

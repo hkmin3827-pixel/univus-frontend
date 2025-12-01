@@ -28,9 +28,14 @@ function NoticesList({ notices }) {
             onClick={() => handleClick(item.id)}
             style={{ cursor: "pointer" }}
           >
-            <p className={`title ${index === 0 ? "newest" : ""}`}>
-              {item.title}
-            </p>
+            <div className="notice-title-box">
+              <p className={`title ${index === 0 ? "newest" : ""}`}>
+                {item.title && item.title.length > 10
+                  ? item.title.slice(0, 18) + "..."
+                  : item.title}
+              </p>
+              {index === 0 && <span className="latest-badge"> latest</span>}
+            </div>
             <p className="date">{formatDateTime(item.createTime)}</p>
           </div>
         ))

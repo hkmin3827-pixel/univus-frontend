@@ -29,7 +29,11 @@ function MyPostsList({ posts }) {
             onClick={() => handleClick(item.id)}
             style={{ cursor: "pointer" }}
           >
-            <p className="title">{item.title}</p>
+            <p className="title">
+              {item.title && item.title.length > 10
+                ? item.title.slice(0, 40) + "..."
+                : item.title}
+            </p>
             <p className="date">{formatDateTime(item.createTime)}</p>
           </div>
         ))
