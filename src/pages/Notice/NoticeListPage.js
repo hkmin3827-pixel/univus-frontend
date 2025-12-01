@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import * as NoticeApi from "../../api/NoticeApi";
 import styled from "styled-components";
+import { TeamContext } from "../../context/TeamContext";
 
 const PageWrapper = styled.div`
   width: 100%;
@@ -78,6 +79,7 @@ const NoticeListPage = () => {
   const navigate = useNavigate();
   const [noticeList, setNoticeList] = useState([]);
   const [sort, setSort] = useState("latest");
+  const { selectedTeam } = useContext(TeamContext);
 
   const fetchList = async () => {
     try {

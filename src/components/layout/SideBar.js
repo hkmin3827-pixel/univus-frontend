@@ -109,11 +109,17 @@ function SideBar({
           <ul>
             <li
               className={`menu-item ${
-                selectedMenu === "project" ? "active" : ""
+                "project" && openProject ? "active" : ""
               }`}
               onClick={() => {
-                setSelectedMenu("project");
-                setOpenProject(!openProject);
+                if (openProject) {
+                  setSelectedMenu(null);
+                  setOpenProject(false);
+                } else {
+                  // 닫혀있는 상태 -> 열기
+                  setSelectedMenu("project");
+                  setOpenProject(true);
+                }
               }}
             >
               내 프로젝트
@@ -150,6 +156,10 @@ function SideBar({
                 selectedMenu === "notice" && !openProject ? "active" : ""
               }`}
               onClick={() => {
+                if (!selectedTeam) {
+                  alert("먼저 팀을 선택해주세요.");
+                  return;
+                }
                 setSelectedMenu("notice");
                 setOpenProject(false);
                 setSelectedBoardId(null);

@@ -7,8 +7,6 @@ import { TeamProvider } from "./context/TeamContext";
 import Home from "./pages/Home";
 import Members from "./pages/Admin/Members";
 import TeamCreate from "./pages/TeamCreate";
-import TeamInvite from "./pages/TeamInvite";
-import TeamDashboard from "./pages/TeamDashboard";
 import MemberDetails from "./pages/Admin/MembersDetail";
 import Profile from "./pages/Profile";
 import ProfileDetail from "./pages/ProfileDetail";
@@ -55,9 +53,7 @@ function App() {
 
               <Route path="/teams/:teamId" element={<TeamDetail />} />
               <Route path="/teamentry/:token" element={<TeamEntry />} />
-              <Route path="/team/invite" element={<TeamInvite />} />
               <Route path="/team/:teamId" element={<TeamPage />} />
-              <Route path="/team/dashboard" element={<TeamDashboard />} />
               <Route path="/team/entry" element={<TeamLink />} />
               <Route path="/schedulepage" element={<SchedulePage />} />
               <Route path="/profiledetail" element={<ProfileDetail />} />
