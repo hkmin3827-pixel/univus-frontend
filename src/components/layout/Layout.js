@@ -29,6 +29,8 @@ function Layout() {
           onMenuClick={toggleSidebar}
           setOpenProject={setOpenProject}
           resetMenuState={resetMenuState}
+          isOpen={isSidebarOpen}
+          closeSidebar={closeSidebar}
         />
 
         <div className="content-wrapper">

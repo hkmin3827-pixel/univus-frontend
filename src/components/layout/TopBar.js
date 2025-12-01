@@ -19,7 +19,13 @@ const ProfileImg = styled.img`
   }
 `;
 
-function TopBar({ onMenuClick, setOpenProject, resetMenuState }) {
+function TopBar({
+  onMenuClick,
+  setOpenProject,
+  resetMenuState,
+  isOpen,
+  closeSidebar,
+}) {
   const navigate = useNavigate();
   const { myTeams, selectedTeam, setSelectedTeam } = useContext(TeamContext);
   const { user } = useContext(UserContext);
@@ -41,6 +47,7 @@ function TopBar({ onMenuClick, setOpenProject, resetMenuState }) {
 
   const handleClickLogo = () => {
     resetMenuState();
+    closeSidebar();
     // const recentTeamId = localStorage.getItem("recentTeamId");
 
     if (selectedTeam && myTeams.length > 0) {
@@ -115,7 +122,9 @@ function TopBar({ onMenuClick, setOpenProject, resetMenuState }) {
       </div>
 
       <button className="menu-btn" onClick={onMenuClick}>
-        <span className="material-symbols-outlined">menu</span>
+        <span className="material-symbols-outlined">
+          {isOpen ? "close" : "menu"}
+        </span>
       </button>
     </header>
   );

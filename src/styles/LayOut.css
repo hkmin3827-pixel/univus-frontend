@@ -57,6 +57,8 @@ textarea {
 
 .logo {
   width: 180px;
+
+  line-height: 1;
 }
 
 .search-box {
@@ -106,20 +108,37 @@ textarea {
   cursor: pointer;
   color: #5f52ff;
 }
-.topbar .material-symbols-outlined:hover {
+.menu-btn:hover .material-symbols-outlined,
+.menu-btn:active .material-symbols-outlined {
   color: #4538d3;
 }
-
 /* 햄버거 버튼 (PC 숨김) */
 .menu-btn {
-  background: none;
+  background: none !important;
   border: none;
+  box-shadow: none !important;
+  outline: none !important;
   cursor: pointer;
   display: none;
+  padding: 0;
 }
-
+.top-icons .material-symbols-outlined:hover,
+.top-icons .material-symbols-outlined:active {
+  color: #4538d3;
+}
 .menu-btn .material-symbols-outlined {
-  font-size: 30px;
+  color: #444;
+}
+.menu-btn .material-symbols-outlined:hover {
+  color: black;
+}
+.menu-btn:hover,
+.menu-btn:focus,
+.menu-btn:active,
+.menu-btn:focus-visible {
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 /* =========================================================
@@ -139,6 +158,7 @@ textarea {
   flex-direction: column;
   justify-content: flex-start;
   gap: 20px;
+  overflow-y: auto;
 }
 .sidebar-top-group {
   display: flex;
@@ -233,8 +253,8 @@ textarea {
 
 /* 로그아웃 */
 .bottom-menu {
-  position: absolute;
-  bottom: 20px;
+  position: relative;
+  margin-top: auto;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -328,18 +348,42 @@ textarea {
   /* 햄버거 보이기 */
   .menu-btn {
     display: block;
+    margin-left: 10px;
+    order: 3;
   }
-
+  .sidebar.show ~ .topbar .menu-btn .material-symbols-outlined {
+    color: #4538d3;
+  }
   /* 사이드바 -> 모바일 슬라이드 */
   .sidebar {
     z-index: 2000;
     transform: translateX(100%); /* → 오른쪽으로 숨기기 */
+    top: 70px;
     left: auto;
     right: 0;
+    height: calc(100vh - 70px);
     transition: transform 0.3s ease;
+    overflow-y: auto;
     width: 220px;
   }
-
+  .topbar {
+    display: flex;
+    justify-content: space-between; /* 로고 - 오른쪽 영역 거리 확보 */
+    align-items: center;
+    gap: 5px;
+  }
+  .topbar .logo {
+    width: 150px;
+    display: flex; /* ← flex container */
+    align-items: center; /* ← 내부 요소 세로 중앙 */
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 8px;
+  }
+  .logo img {
+    height: 32px; /* 원하는 로고 크기 */
+    object-fit: contain;
+  }
   .sidebar.show {
     transform: translateX(0);
   }
@@ -348,6 +392,22 @@ textarea {
   .main-content {
     margin-left: 0;
     width: 100%;
+  }
+  .top-icons {
+    gap: 15px !important;
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* 로고와의 간격 확보 */
+    order: 2;
+  }
+  .top-icons .material-symbols-outlined {
+    font-size: 24px;
+  }
+  .bottom-menu {
+    position: relative; /* ← absolute 삭제 */
+    bottom: auto;
+    margin-top: auto; /* ← 리스트 맨 아래로 밀기 */
+    padding-bottom: 20px;
   }
 
   /* 오버레이 */
