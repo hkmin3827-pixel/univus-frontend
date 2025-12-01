@@ -82,7 +82,7 @@ function SideBar({
 
   const openInviteModal = async () => {
     try {
-      const res = await TeamApi.createTeamInvite(teamId);
+      const res = await TeamApi.createTeamInvite(selectedTeam.id);
       setInviteLink(res.data.inviteUrl);
       setModalOpen(true);
     } catch (err) {
@@ -131,7 +131,7 @@ function SideBar({
             {openProject && (
               <ul className="project-board-list">
                 {boards.length === 0 ? (
-                  <li className="empty">새 게시판을 생성해주세요</li>
+                  <li className="empty">새 프로젝트를 생성해주세요</li>
                 ) : (
                   boards.map((b) => (
                     <li

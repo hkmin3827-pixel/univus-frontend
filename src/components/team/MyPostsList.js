@@ -19,9 +19,9 @@ function MyPostsList({ posts }) {
 
   return (
     <div className="team-list-box">
-      <h3>📝 내가 작성한 게시글</h3>
+      <h3>📝 내가 작성한 리포트</h3>
       {posts.length === 0 ? (
-        <p className="empty">게시글이 없습니다.</p>
+        <p className="empty">작성한 리포트가 없습니다.</p>
       ) : (
         posts.map((item) => (
           <div

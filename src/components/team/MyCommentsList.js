@@ -18,9 +18,9 @@ function MyCommentsList({ comments }) {
 
   return (
     <div className="team-list-box">
-      <h3>💬 내가 작성한 댓글</h3>
+      <h3>💬 내가 작성한 피드백</h3>
       {comments.length === 0 ? (
-        <p className="empty">댓글이 없습니다.</p>
+        <p className="empty">작성한 피드백이 없습니다.</p>
       ) : (
         comments.map((item) => (
           <div

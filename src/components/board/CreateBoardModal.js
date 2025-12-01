@@ -13,7 +13,7 @@ function CreateBoardModal({ isOpen, onClose, teamId, onCreated }) {
 
   const handleSubmit = async () => {
     if (!name.trim()) {
-      alert("게시판 이름은 필수입니다.");
+      alert("프로젝트명 입력은 필수입니다.");
       return;
     }
 
@@ -24,9 +24,9 @@ function CreateBoardModal({ isOpen, onClose, teamId, onCreated }) {
 
     try {
       const res = await BoardApi.createBoard(teamId, name, description);
-      console.log("게시판 생성 성공:", res.data);
+      console.log("프로젝트 생성 성공:", res.data);
 
-      alert("게시판이 생성되었습니다.");
+      alert("프로젝트가 생성되었습니다.");
 
       if (onCreated) onCreated(); // 안전하게 호출
       onClose();
@@ -35,7 +35,7 @@ function CreateBoardModal({ isOpen, onClose, teamId, onCreated }) {
       setDescription("");
     } catch (e) {
       if (e.response?.data?.message?.includes("이미 존재")) {
-        alert("게시판 생성 실패. 같은 이름의 게시판이 이미 존재합니다.");
+        alert("프로젝트 생성 실패. 같은 이름의 프로젝트가 이미 존재합니다.");
       } else {
         alert("생성 실패: 서버 오류");
       }
@@ -57,7 +57,7 @@ function CreateBoardModal({ isOpen, onClose, teamId, onCreated }) {
 
         <label>설명 (선택)</label>
         <textarea
-          placeholder="게시판 설명을 입력하세요"
+          placeholder="프로젝트 설명을 입력하세요"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />

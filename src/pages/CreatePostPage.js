@@ -59,10 +59,10 @@ function CreatePostPage() {
         url,
         fileName
       );
-      alert("게시물이 등록되었습니다.");
+      alert("리포트가 등록되었습니다.");
       navigate(`/post/detail/${res.data}`); // 저장 후 상세로 이동
     } catch (err) {
-      alert("게시물 작성 실패");
+      alert("리포트 작성에 실패하였습니다. 다시 시도해주세요. ");
       console.error(err);
     }
   };
@@ -77,7 +77,7 @@ function CreatePostPage() {
         <span className="material-symbols-outlined">arrow_back</span>
       </button>
 
-      <h1 className="page-title">새 게시물 작성</h1>
+      <h1 className="page-title">새 리포트 작성</h1>
 
       <input
         className="title-input"
