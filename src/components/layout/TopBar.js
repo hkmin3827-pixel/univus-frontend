@@ -19,9 +19,15 @@ const ProfileImg = styled.img`
   }
 `;
 
-function TopBar({ onMenuClick, setOpenProject, resetMenuState }) {
+function TopBar({
+  onMenuClick,
+  setOpenProject,
+  resetMenuState,
+  isOpen,
+  closeSidebar,
+}) {
   const navigate = useNavigate();
-  const { myTeams, setSelectedTeam } = useContext(TeamContext);
+  const { myTeams, selectedTeam, setSelectedTeam } = useContext(TeamContext);
   const { user } = useContext(UserContext);
 
   // 검색어 상태
@@ -41,14 +47,14 @@ function TopBar({ onMenuClick, setOpenProject, resetMenuState }) {
 
   const handleClickLogo = () => {
     resetMenuState();
-    const recentTeamId = localStorage.getItem("recentTeamId");
+    closeSidebar();
+    // const recentTeamId = localStorage.getItem("recentTeamId");
 
-    if (recentTeamId && myTeams.length > 0) {
-      const recentTeam = myTeams.find((t) => t.id === Number(recentTeamId));
-      if (recentTeam) {
-        setSelectedTeam(recentTeam);
+    if (selectedTeam && myTeams.length > 0) {
+      if (selectedTeam) {
+        setSelectedTeam(selectedTeam);
         setOpenProject(false);
-        navigate(`/team/${recentTeam.id}`);
+        navigate(`/team/${selectedTeam.id}`);
         return;
       }
     }
@@ -116,7 +122,9 @@ function TopBar({ onMenuClick, setOpenProject, resetMenuState }) {
       </div>
 
       <button className="menu-btn" onClick={onMenuClick}>
-        <span className="material-symbols-outlined">menu</span>
+        <span className="material-symbols-outlined">
+          {isOpen ? "close" : "menu"}
+        </span>
       </button>
     </header>
   );

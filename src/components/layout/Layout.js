@@ -12,10 +12,15 @@ function Layout() {
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
+    if (!isSidebarOpen) {
+      setSelectedMenu("");
+      resetMenuState();
+    }
   };
 
   const closeSidebar = () => {
     setIsSidebarOpen(false);
+    resetMenuState();
   };
   const resetMenuState = () => {
     setSelectedMenu("");
@@ -29,6 +34,8 @@ function Layout() {
           onMenuClick={toggleSidebar}
           setOpenProject={setOpenProject}
           resetMenuState={resetMenuState}
+          isOpen={isSidebarOpen}
+          closeSidebar={closeSidebar}
         />
 
         <div className="content-wrapper">

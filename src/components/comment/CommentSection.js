@@ -31,7 +31,7 @@ function CommentSection({ postId }) {
       setComments(res.data.content);
       setTotalPages(res.data.totalPages);
     } catch (err) {
-      console.error("댓글 불러오기 실패:", err);
+      console.error("피드백 목록 불러오기 실패:", err);
     }
   };
 
@@ -43,18 +43,18 @@ function CommentSection({ postId }) {
       setPage(0);
       fetchComments();
     } catch (err) {
-      console.error("댓글 작성 실패:", err);
+      console.error("피드백 작성 실패:", err);
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("댓글을 삭제하시겠습니까?")) return;
+    if (!window.confirm("피드백을 삭제하시겠습니까?")) return;
     try {
       await CommentApi.deleteComment(id);
       setMenuOpenId(null);
       fetchComments();
     } catch (err) {
-      console.error("댓글 삭제 실패:", err);
+      console.error("피드백 삭제 실패:", err);
     }
   };
 
@@ -72,7 +72,7 @@ function CommentSection({ postId }) {
       setEditContent("");
       fetchComments();
     } catch (err) {
-      console.error("댓글 수정 실패:", err);
+      console.error("피드백 수정 실패:", err);
     }
   };
 
@@ -89,20 +89,20 @@ function CommentSection({ postId }) {
 
   return (
     <div className="comment-container">
-      <h2 className="comment-title">댓글 {comments.length}</h2>
+      <h2 className="comment-title">피드백 {comments.length}</h2>
 
       <div className="comment-input-box">
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          placeholder="댓글을 입력하세요."
+          placeholder="피드백을 입력하세요."
         />
         <button className="comment-submit" onClick={handleSubmit}>
           등록
         </button>
       </div>
 
-      {/* 댓글 리스트 */}
+      {/* 피드백 리스트 */}
       <ul className="comment-list">
         {comments.map((c) => {
           const isOwner = c.userEmail === loginUserEmail;

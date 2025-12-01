@@ -1,16 +1,22 @@
 .home-container {
   display: flex;
   gap: 20px;
-  /* margin-top: 70px; */
+  margin-top: 20px;
   padding: 20px;
-  height: 490px;
+  height: 470px;
   background-color: #f5efff;
   border-radius: 30px;
 }
+.calendar-container {
+  flex: 1;
+  min-height: 0; /* 부모 flex 높이 강제 방지 */
+  overflow: visible;
+}
+
 .calendar-box {
   width: 40%;
   min-width: 350px;
-  height: 450px; /* 달력 크기 줄이기 위함*/
+  height: 430px; /* 달력 크기 줄이기 위함*/
   overflow: hidden;
   background: white;
   border-radius: 12px;
@@ -86,4 +92,22 @@
 }
 .fc-daygrid-dot-event {
   width: auto !important;
+}
+
+.fc-daygrid-more-link {
+  font-size: 11px;
+  color: #6c63ff;
+  font-weight: 600;
+  cursor: pointer;
+}
+.fc-daygrid-day-frame {
+  min-height: 120px !important; /* 원하는 값으로 조절 */
+  height: auto !important;
+  overflow: visible !important;
+}
+.fc-daygrid-day-events {
+  overflow: visible !important;
+}
+.fc-daygrid-day {
+  height: auto !important;
 }

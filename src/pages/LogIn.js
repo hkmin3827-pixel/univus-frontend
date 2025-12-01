@@ -73,7 +73,12 @@ const LogIn = () => {
       const response = await AxiosApi.login(inputEmail, inputPw);
 
       if (response.status === 200 && response.data) {
-        const { id, email, name, role, image, regDate } = response.data;
+        const { id, email, name, role, image, regDate,active } = response.data;
+
+            if (!active) {
+        setError("비활성화된 계정입니다. 관리자에게 문의해 주세요.");
+        return; // ★ 아래 로그인 처리 로직 실행하지 않음
+            };
 
         localStorage.setItem("isLogin", "TRUE");
         localStorage.setItem("email", email);

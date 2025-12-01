@@ -1,10 +1,11 @@
 // PostDetailPage.jsx
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PostApi from "../api/PostApi";
 import CommentSection from "../components/comment/CommentSection";
 import "../styles/PostDetailPage.css";
 import styled from "styled-components";
+import { TeamContext } from "../context/TeamContext";
 
 const ProfileImg = styled.img`
   width: 30px;
@@ -16,6 +17,7 @@ const ProfileImg = styled.img`
 `;
 
 function PostDetailPage() {
+  const { selectedTeam } = useContext(TeamContext);
   const { postId } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
@@ -31,7 +33,7 @@ function PostDetailPage() {
         console.log("상세 조회 데이터:", res.data);
         setPost(res.data);
       } catch (err) {
-        console.error("게시물 조회 실패:", err);
+        console.error("리포트 조회 실패:", err);
       }
     };
     fetchPostDetail();
@@ -72,7 +74,12 @@ function PostDetailPage() {
   return (
     <div className="post-detail-container">
       {/* 제목 + 뒤로가기 한 줄 */}
-      <button className="back-btn" onClick={() => navigate(-1)}>
+      <button
+        className="back-btn"
+        onClick={() =>
+          navigate(`/team/${selectedTeam.id}/board/${post.boardId}`)
+        }
+      >
         <span className="material-symbols-outlined">arrow_back</span>
       </button>
       <h1 className="post-title">{post?.title}</h1>

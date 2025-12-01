@@ -35,6 +35,12 @@ const TeamApi = {
   acceptInvite: (token) => teamApi.post(`/teams/invites/${token}/accept`),
 
   getMyTeams: () => teamApi.get(`/teams/my`),
+
+  getMyPosts: (teamId) => teamApi.get(`/post/my/${teamId}`),
+
+  getMyComments: (teamId) => teamApi.get(`/comment/my/${teamId}`),
+
+  getTeamMembers: (teamId) => teamApi.get(`/team/${teamId}/members`),
 };
 
 export default TeamApi;

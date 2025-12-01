@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PostApi from "../api/PostApi";
 import "../styles/CreatePostPage.css";
 import { storage } from "../api/Firebase";
+import { TeamContext } from "../context/TeamContext";
 
 function CreatePostPage() {
+  const { selectedTeam } = useContext(TeamContext);
   const { boardId } = useParams();
   const navigate = useNavigate();
 
@@ -57,10 +59,10 @@ function CreatePostPage() {
         url,
         fileName
       );
-      alert("게시물이 등록되었습니다.");
+      alert("리포트가 등록되었습니다.");
       navigate(`/post/detail/${res.data}`); // 저장 후 상세로 이동
     } catch (err) {
-      alert("게시물 작성 실패");
+      alert("리포트 작성에 실패하였습니다. 다시 시도해주세요. ");
       console.error(err);
     }
   };
@@ -68,11 +70,14 @@ function CreatePostPage() {
   return (
     <div className="create-post-container">
       {/* Back Button */}
-      <button className="back-btn" onClick={() => navigate(-1)}>
+      <button
+        className="back-btn"
+        onClick={() => navigate(`/team/${selectedTeam.id}/board/${boardId}`)}
+      >
         <span className="material-symbols-outlined">arrow_back</span>
       </button>
 
-      <h1 className="page-title">새 게시물 작성</h1>
+      <h1 className="page-title">새 리포트 작성</h1>
 
       <input
         className="title-input"

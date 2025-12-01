@@ -77,6 +77,30 @@ const AxiosApi = {
     return await api.get(`/user/${email}`);
   },
 
+  //관리자 회원 목록
+  adminMembers: async () => {
+    return await api.get("/user/admin/list");
+  },
+
+  // 회원 탈퇴 (일반 회원)
+  accountDelete: async (email) => {
+    return await api.patch(`/user/withdraw/${email}`);
+  },
+
+  //관리자 상세 회원
+  detailmembersbyAdmin: async (email) => {
+    return await api.get(`/user/admin/${email}`);
+  },
+
+  // 관리자 회원 탈퇴 (비활성 처리)
+  adminaccountWithdraw: async (email) => {
+    return await api.patch(`/user/admin/${email}/withdraw`);
+  },
+
+  // 관리자 회원 복구 (다시 활성)
+  adminaccountRecover: async (email) => {
+    return await api.patch(`/user/admin/${email}/recover`);
+  },
   // ------------------ TEAM / BOARD API ------------------
   // 팀 목록 조회 (팀 선택 모달에서 사용)
   getMyTeams: async () => {
@@ -147,6 +171,14 @@ const AxiosApi = {
   // 🔹 리액션 TOP5
   getReactionTop5: (boardId) =>
     api.get(`/activity/board/${boardId}/top5/reactions`),
+
+  // 검색 기능
+  searchComments: async (keyword, page = 0, size = 10) => {
+    const res = await api.get("/comment/search", {
+      params: { keyword, page, size },
+    });
+    return res.data;
+  },
 };
 
 export default AxiosApi;

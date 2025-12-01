@@ -227,8 +227,8 @@ const BoardInsightPage = () => {
         </Card>
 
         {/* ⭐ TOP5 카드 3개 ⭐ */}
-        {renderTop5Card("게시글 TOP5", postTop5)}
-        {renderTop5Card("댓글 TOP5", commentTop5)}
+        {renderTop5Card("리포트 TOP5", postTop5)}
+        {renderTop5Card("피드백 TOP5", commentTop5)}
         {renderTop5Card("리액션 TOP5", reactionTop5)}
       </Grid>
     </PageContainer>
