@@ -1,0 +1,59 @@
+.members-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+/* 개별 멤버 카드 */
+.member-card {
+  display: flex;
+  align-items: center;
+  background: #f4f5ff;
+  border: 1px solid #ecebff;
+  border-radius: 12px;
+  padding: 10px 18px;
+  position: relative;
+}
+
+.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  /* background: #5f52ff; */
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  font-size: 18px;
+  margin-right: 5px;
+}
+
+.member-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.member-name {
+  font-weight: 700;
+  font-size: 16px;
+}
+.member-email {
+  font-size: 14px;
+  color: #666;
+}
+.member-card .material-symbols-outlined {
+  font-size: 40px;
+  font-weight: 300;
+}
+
+/* 팀장 표시 */
+.crown {
+  position: absolute;
+  right: 16px;
+  font-size: 16px;
+}
+.profile-img {
+  margin-right: 10px;
+}

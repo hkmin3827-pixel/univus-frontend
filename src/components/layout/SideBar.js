@@ -95,7 +95,18 @@ function SideBar({
     <>
       <aside className={`sidebar ${isOpen ? "show" : ""}`}>
         <div className="sidebar-top-group">
-          <TeamSelect myTeams={myTeams} size="sidebar" />
+          <div className="team-select-row">
+            {selectedTeam && (
+              <span
+                class="material-symbols-outlined info-btn"
+                onClick={() => navigate(`/team/${teamId}/info`)}
+              >
+                info
+              </span>
+            )}
+            <TeamSelect myTeams={myTeams} size="sidebar" />
+          </div>
+
           <button
             className="new-project-btn"
             onClick={() => setIsCreateModalOpen(true)}

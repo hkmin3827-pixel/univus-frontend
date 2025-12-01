@@ -182,6 +182,19 @@ textarea {
   justify-content: center; /* 텍스트 중앙 */
   align-items: center;
 }
+.team-select-row {
+  position: relative;
+}
+.team-select-row .material-symbols-outlined {
+  font-size: 20px;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  color: #666;
+}
+.team-select-row .material-symbols-outlined:hover {
+  color: black;
+}
 .sidebar-toggle-btn {
   width: 100%;
   height: 48px;
