@@ -1,9 +1,7 @@
-// src/components/team/MyPostsList.jsx
-import React, { useEffect, useState } from "react";
-import "../../styles/MyPostsList.css";
 import { useNavigate } from "react-router-dom";
+import "../../styles/NoticesList.css";
 
-function MyPostsList({ posts }) {
+function NoticesList({ notices }) {
   const navigate = useNavigate();
   const formatDateTime = (dateTimeString) => {
     if (!dateTimeString) return "";
@@ -12,20 +10,21 @@ function MyPostsList({ posts }) {
     const timePart = timeWithMs.split(".")[0];
     return `${datePart} ${timePart}`;
   };
-  const handleClick = (postId) => {
-    navigate(`/post/detail/${postId}`);
+
+  const handleClick = (noticeId) => {
+    navigate(`/notice/detail/${noticeId}`);
   };
 
   return (
-    <div className="team-list-box">
-      <h3>📝 내가 작성한 리포트</h3>
-      {posts.length === 0 ? (
-        <p className="empty">작성한 리포트가 없습니다.</p>
+    <div className="notice-list-box">
+      <h3>📢 공지사항</h3>
+      {notices.length === 0 ? (
+        <p>등록된 공지사항이 없습니다.</p>
       ) : (
-        posts.map((item) => (
+        notices.map((item) => (
           <div
             key={item.id}
-            className="team-list-item"
+            className="notice-list-item"
             onClick={() => handleClick(item.id)}
             style={{ cursor: "pointer" }}
           >
@@ -38,4 +37,4 @@ function MyPostsList({ posts }) {
   );
 }
 
-export default MyPostsList;
+export default NoticesList;

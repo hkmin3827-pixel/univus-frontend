@@ -150,24 +150,6 @@ function SideBar({
                 )}
               </ul>
             )}
-
-            <li
-              className={`menu-item ${
-                selectedMenu === "notice" && !openProject ? "active" : ""
-              }`}
-              onClick={() => {
-                if (!selectedTeam) {
-                  alert("먼저 팀을 선택해주세요.");
-                  return;
-                }
-                setSelectedMenu("notice");
-                setOpenProject(false);
-                setSelectedBoardId(null);
-                navigate("/notice");
-              }}
-            >
-              공지사항
-            </li>
             <li
               className={`menu-item ${
                 selectedMenu === "insight" && !openProject ? "active" : ""
@@ -187,6 +169,24 @@ function SideBar({
             </li>
             <li
               className={`menu-item ${
+                selectedMenu === "notice" && !openProject ? "active" : ""
+              }`}
+              onClick={() => {
+                if (!selectedTeam) {
+                  alert("먼저 팀을 선택해주세요.");
+                  return;
+                }
+                setSelectedMenu("notice");
+                setOpenProject(false);
+                setSelectedBoardId(null);
+                navigate("/notice");
+              }}
+            >
+              공지사항
+            </li>
+
+            <li
+              className={`menu-item ${
                 selectedMenu === "calendar" && !openProject ? "active" : ""
               }`}
               onClick={() => {
@@ -198,7 +198,7 @@ function SideBar({
             >
               캘린더
             </li>
-            <li
+            {/* <li
               className={`menu-item ${
                 selectedMenu === "messenger" && !openProject ? "active" : ""
               }`}
@@ -210,7 +210,7 @@ function SideBar({
               }}
             >
               메신저
-            </li>
+            </li> */}
           </ul>
         </nav>
 

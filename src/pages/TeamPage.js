@@ -11,10 +11,15 @@ import MyCommentsList from "../components/team/MyCommentsList";
 import { TeamContext } from "../context/TeamContext";
 import "../styles/TeamPage.css";
 import TeamApi from "../api/TeamApi";
+import { useNavigate } from "react-router-dom";
+import { getNoticeList } from "../api/NoticeApi";
+import NoticesList from "../components/team/NoticesList";
 
 function TeamPage() {
   const [myPosts, setMyPosts] = useState([]);
   const [myComments, setMyComments] = useState([]);
+  const [notices, setNotices] = useState([]);
+  const navigate = useNavigate();
 
   const teamId = localStorage.getItem("recentTeamId");
   const userEmail = localStorage.getItem("email");
@@ -49,7 +54,13 @@ function TeamPage() {
     loadSchedules();
     loadMyPosts();
     loadMyComments();
+    fetchNotices();
   }, [selectedTeam?.id]);
+  const fetchNotices = async () => {
+    const res = await getNoticeList(0, 5); // 최신 5개
+    //  const res = await getNoticeList(selectedTeam.id, 0, 5);  // 추후 이걸로 수정
+    setNotices(res.data.content);
+  };
   const loadSchedules = async () => {
     try {
       const res = await ScheduleApi.getAllSchedules();
@@ -164,28 +175,31 @@ function TeamPage() {
           />
         </div>
 
-        {/* 예정된 일정 리스트 */}
-        <div className="schedule-box">
-          <h3>📌 예정된 일정 &lt;7days later&gt;</h3>
-          {upcomingEvents.length === 0 ? (
-            <p className="empty">등록된 일정이 없습니다.</p>
-          ) : (
-            upcomingEvents.map((item) => (
-              <div
-                key={item.id}
-                className="schedule-item"
-                onClick={() => setSelectedEvent(item)}
-              >
-                <div className="dot"></div>
-                <div>
-                  <p className="title">{item.title}</p>
-                  <p className="date">
-                    {new Date(item.start).toLocaleString()}
-                  </p>
+        <div className="schedule-notice-wrapper">
+          {/* 예정된 일정 리스트 */}
+          <div className="schedule-box">
+            <h3>📌 예정된 일정 &lt;7days later&gt;</h3>
+            {upcomingEvents.length === 0 ? (
+              <p className="empty">등록된 일정이 없습니다.</p>
+            ) : (
+              upcomingEvents.map((item) => (
+                <div
+                  key={item.id}
+                  className="schedule-item"
+                  onClick={() => setSelectedEvent(item)}
+                >
+                  <div className="dot"></div>
+                  <div>
+                    <p className="title">{item.title}</p>
+                    <p className="date">
+                      {new Date(item.start).toLocaleString()}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))
-          )}
+              ))
+            )}
+          </div>
+          <NoticesList notices={notices} />
         </div>
       </div>
       {/* 🔍 상세 모달 (보기 + 수정/삭제 버튼) */}
