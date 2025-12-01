@@ -57,7 +57,7 @@ const ActionButton = styled.button`
     const fetchData = async () => {
       try {
         // 1) 기본 member 정보 가져오기 (role 확인용)
-        const rsp = await AxiosApi.detailmembers(email);
+        const rsp = await AxiosApi.detailmembersbyAdmin(email);
         const baseMember = rsp.data;
         setMember(baseMember);
 
@@ -88,7 +88,7 @@ const ActionButton = styled.button`
   
   const refreshMember = async () => {
     try {
-      const rsp = await AxiosApi.detailmembers(email);
+      const rsp = await AxiosApi.detailmembersbyAdmin(email);
       setMember(rsp.data);
     } catch (err) {
       console.error(err);
@@ -103,7 +103,7 @@ const handleAdminDelete = async () => {
 
   try {
     setProcessing(true);
-    await AxiosApi.AdminaccountWithdraw(member.email);
+    await AxiosApi.adminaccountWithdraw(member.email);
     alert("회원이 비활성 처리되었습니다.");
     await refreshMember();
   }catch (err) {
@@ -120,7 +120,7 @@ const handleAdminRecover = async () => {
 
     try {
       setProcessing(true);
-      await AxiosApi.AdminaccountRecover(member.email);
+      await AxiosApi.adminaccountRecover(member.email);
       alert("회원이 다시 활성화되었습니다.");
       await refreshMember();
     } catch (err) {
@@ -167,6 +167,8 @@ const handleAdminRecover = async () => {
       </Body>
       <ButtonRow>
           {/* 관리자 회원 탈퇴(비활성) 버튼 */}
+          {member.role !== "ADMIN" &&(
+            <>
           <ActionButton
             onClick={handleAdminDelete}
             disabled={!isActive || processing}
@@ -181,6 +183,8 @@ const handleAdminRecover = async () => {
           >
             활성
           </ActionButton>
+          </>
+          )}
 
       <ActionButton onClick={() => navigate(-1)}>뒤로가기</ActionButton>
       </ButtonRow>
