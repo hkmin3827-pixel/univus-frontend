@@ -19,16 +19,18 @@ function NoticesList({ notices }) {
     <div className="notice-list-box">
       <h3>📢 공지사항</h3>
       {notices.length === 0 ? (
-        <p>등록된 공지사항이 없습니다.</p>
+        <p className="empty">등록된 공지사항이 없습니다.</p>
       ) : (
-        notices.map((item) => (
+        notices.map((item, index) => (
           <div
             key={item.id}
             className="notice-list-item"
             onClick={() => handleClick(item.id)}
             style={{ cursor: "pointer" }}
           >
-            <p className="title">{item.title}</p>
+            <p className={`title ${index === 0 ? "newest" : ""}`}>
+              {item.title}
+            </p>
             <p className="date">{formatDateTime(item.createTime)}</p>
           </div>
         ))
