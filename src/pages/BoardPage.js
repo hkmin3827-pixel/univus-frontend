@@ -4,21 +4,50 @@ import PostApi from "../api/PostApi";
 import "../styles/BoardPage.css";
 import AxiosApi from "../api/AxiosApi";
 import styled from "styled-components";
-import { UserContext } from "../context/UserContext";
 const ProfileImg = styled.img`
-  width: 25px;
-  height: 25px;
+  width: 27px;
+  height: 27px;
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
   transition: 0.2s ease-in-out;
 `;
+const CircleFixedButton = styled.button`
+  position: fixed;
+  bottom: 24px;
+  right: 30px;
+  z-index: 10;
 
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #1da1f2;
+  color: white;
+  font-size: 30px;
+  line-height: 1;
+  box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.4);
+
+  border: none;
+  cursor: pointer;
+  outline: none;
+
+  &:hover {
+    background-color: #1991db;
+  }
+
+  &:before {
+    content: "+";
+  }
+`;
 function BoardPage() {
   const { boardId, teamId } = useParams();
   const [boardName, setBoardName] = useState("");
   const [boardDescription, setBoardDescription] = useState("");
-  const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   const [page, setPage] = useState(0);
@@ -57,10 +86,6 @@ function BoardPage() {
     <div className="board-page-container">
       {/* 제목 & 버튼 */}
       <div className="board-header">
-        <button className="back-btn" onClick={() => navigate(-1)}>
-          <span className="material-symbols-outlined">arrow_back</span>
-        </button>
-
         <button
           className="new-post-btn"
           onClick={() => navigate(`/post/create/${boardId}`)}
@@ -85,8 +110,16 @@ function BoardPage() {
               className="post-card"
               onClick={() => navigate(`/post/detail/${p.id}`)}
             >
-              <h3>{p.title}</h3>
-              <p>{p.content?.slice(0, 80) ?? ""}...</p>
+              <h3 className="post-title">
+                {p.title && p.title.length > 30
+                  ? p.title.slice(0, 30) + "..."
+                  : p.title}
+              </h3>
+              <p className="post-content">
+                {p.content && p.content.length > 70
+                  ? p.content.slice(0, 70) + "..."
+                  : p.content}
+              </p>
               {p.fileUrl &&
                 (isImageFile(p.fileUrl) ? (
                   <img
@@ -130,6 +163,11 @@ function BoardPage() {
         >
           ▶
         </button>
+      </div>
+      <div className="create-btn-mobile">
+        <CircleFixedButton
+          onClick={() => navigate(`/post/create/${boardId}`)}
+        />
       </div>
     </div>
   );

@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PostApi from "../api/PostApi";
 import "../styles/CreatePostPage.css";
 import { storage } from "../api/Firebase";
+import { TeamContext } from "../context/TeamContext";
 
 function CreatePostPage() {
+  const { selectedTeam } = useContext(TeamContext);
   const { boardId } = useParams();
   const navigate = useNavigate();
 
@@ -68,7 +70,10 @@ function CreatePostPage() {
   return (
     <div className="create-post-container">
       {/* Back Button */}
-      <button className="back-btn" onClick={() => navigate(-1)}>
+      <button
+        className="back-btn"
+        onClick={() => navigate(`/team/${selectedTeam.id}/board/${boardId}`)}
+      >
         <span className="material-symbols-outlined">arrow_back</span>
       </button>
 

@@ -12,10 +12,15 @@ function Layout() {
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
+    if (!isSidebarOpen) {
+      setSelectedMenu("");
+      resetMenuState();
+    }
   };
 
   const closeSidebar = () => {
     setIsSidebarOpen(false);
+    resetMenuState();
   };
   const resetMenuState = () => {
     setSelectedMenu("");
