@@ -2,14 +2,12 @@ import { useEffect, useState } from "react";
 import TeamApi from "../api/TeamApi";
 import TeamInvitePopup from "./TeamInvitePopup";
 
-const TeamInvite = () => {
+const TeamInvite = ({ userEmail }) => {
   const [invites, setInvites] = useState([]);
-
-  const email = "test@example.com"; // 기본 이메일 (로그인 구현 전용)
 
   const fetchInvites = async () => {
     try {
-      const res = await TeamApi.getInvites(email);
+      const res = await TeamApi.getInvites(userEmail);
       setInvites(res.data);
     } catch (err) {
       console.log("초대 목록 불러오기 실패", err);
