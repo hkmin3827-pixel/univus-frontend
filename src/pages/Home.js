@@ -23,21 +23,7 @@ function Home() {
   // 이벤트 필터링 (현재 ~ 7일 뒤)
   const upcomingEvents = events.filter((item) => {
     const eventDate = new Date(item.start);
-
-    // 날짜만 비교하도록 시간 제거
-    const eventDay = new Date(
-      eventDate.getFullYear(),
-      eventDate.getMonth(),
-      eventDate.getDate()
-    );
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const limit = new Date(
-      sevenDaysLater.getFullYear(),
-      sevenDaysLater.getMonth(),
-      sevenDaysLater.getDate()
-    );
-
-    return eventDay >= today && eventDay <= limit;
+    return eventDate >= now && eventDate <= sevenDaysLater;
   });
   useEffect(() => {
     loadSchedules();
@@ -131,14 +117,14 @@ function Home() {
           plugins={[dayGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
           events={events}
-          dayMaxEventRows={1}
-          dayMaxEvents={true}
           eventClick={(info) => {
             const event = events.find((e) => e.id === info.event.id);
             setSelectedEvent(event);
           }}
-          height="420px"
+          dayMaxEvents={2}
+          height="100%"
           displayEventTime={false}
+          dayMaxEventRows={false}
           headerToolbar={{
             left: "title",
             right: "today prev,next",

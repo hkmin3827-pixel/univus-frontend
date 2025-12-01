@@ -1,0 +1,37 @@
+.team-lists-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.team-list-box {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  height: 250px;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.team-list-item {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.team-list-item:hover {
+  background: #f8f8ff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.team-list-box .title {
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.team-list-box .date {
+  font-size: 12px;
+  color: #777;
+}

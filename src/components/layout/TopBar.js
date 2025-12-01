@@ -21,7 +21,7 @@ const ProfileImg = styled.img`
 
 function TopBar({ onMenuClick, setOpenProject, resetMenuState }) {
   const navigate = useNavigate();
-  const { myTeams, setSelectedTeam } = useContext(TeamContext);
+  const { myTeams, selectedTeam, setSelectedTeam } = useContext(TeamContext);
   const { user } = useContext(UserContext);
 
   // 검색어 상태
@@ -41,14 +41,13 @@ function TopBar({ onMenuClick, setOpenProject, resetMenuState }) {
 
   const handleClickLogo = () => {
     resetMenuState();
-    const recentTeamId = localStorage.getItem("recentTeamId");
+    // const recentTeamId = localStorage.getItem("recentTeamId");
 
-    if (recentTeamId && myTeams.length > 0) {
-      const recentTeam = myTeams.find((t) => t.id === Number(recentTeamId));
-      if (recentTeam) {
-        setSelectedTeam(recentTeam);
+    if (selectedTeam && myTeams.length > 0) {
+      if (selectedTeam) {
+        setSelectedTeam(selectedTeam);
         setOpenProject(false);
-        navigate(`/team/${recentTeam.id}`);
+        navigate(`/team/${selectedTeam.id}`);
         return;
       }
     }

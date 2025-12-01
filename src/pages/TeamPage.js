@@ -1,14 +1,24 @@
 // src/pages/Home.js
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import ScheduleApi from "../api/ScheduleApi";
 import ScheduleModal from "../components/home/ScheduleModal";
 import ScheduleCreateModal from "./ScheduleCreateModal";
-import "../styles/HomeSchedule.css";
+import MyPostsList from "../components/team/MyPostsList";
+import MyCommentsList from "../components/team/MyCommentsList";
+import { TeamContext } from "../context/TeamContext";
+import "../styles/TeamPage.css";
+import TeamApi from "../api/TeamApi";
 
-function Home() {
+function TeamPage() {
+  const [myPosts, setMyPosts] = useState([]);
+  const [myComments, setMyComments] = useState([]);
+
+  const teamId = localStorage.getItem("recentTeamId");
+  const userEmail = localStorage.getItem("email");
+  const { selectedTeam } = useContext(TeamContext);
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
@@ -23,26 +33,23 @@ function Home() {
   // 이벤트 필터링 (현재 ~ 7일 뒤)
   const upcomingEvents = events.filter((item) => {
     const eventDate = new Date(item.start);
-
-    // 날짜만 비교하도록 시간 제거
-    const eventDay = new Date(
-      eventDate.getFullYear(),
-      eventDate.getMonth(),
-      eventDate.getDate()
-    );
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const limit = new Date(
-      sevenDaysLater.getFullYear(),
-      sevenDaysLater.getMonth(),
-      sevenDaysLater.getDate()
-    );
-
-    return eventDay >= today && eventDay <= limit;
+    return eventDate >= now && eventDate <= sevenDaysLater;
   });
+  // useEffect(() => {
+  //   loadSchedules();
+  //   loadMyPosts();
+  //   loadMyComments();
+  // }, [teamId]);
   useEffect(() => {
-    loadSchedules();
-  }, []);
+    if (!selectedTeam?.id) return;
 
+    setMyPosts([]); // 이전 팀 데이터 초기화
+    setMyComments([]);
+
+    loadSchedules();
+    loadMyPosts();
+    loadMyComments();
+  }, [selectedTeam?.id]);
   const loadSchedules = async () => {
     try {
       const res = await ScheduleApi.getAllSchedules();
@@ -123,49 +130,63 @@ function Home() {
     }
   };
 
-  return (
-    <div className="home-container">
-      {/* 캘린더 */}
-      <div className="calendar-box">
-        <FullCalendar
-          plugins={[dayGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-          events={events}
-          dayMaxEventRows={1}
-          dayMaxEvents={true}
-          eventClick={(info) => {
-            const event = events.find((e) => e.id === info.event.id);
-            setSelectedEvent(event);
-          }}
-          height="420px"
-          displayEventTime={false}
-          headerToolbar={{
-            left: "title",
-            right: "today prev,next",
-          }}
-        />
-      </div>
+  const loadMyPosts = async () => {
+    const res = await TeamApi.getMyPosts(selectedTeam.id);
+    setMyPosts(res.data);
+  };
 
-      {/* 예정된 일정 리스트 */}
-      <div className="schedule-box">
-        <h3>📌 예정된 일정 &lt;7days later&gt;</h3>
-        {upcomingEvents.length === 0 ? (
-          <p className="empty">등록된 일정이 없습니다.</p>
-        ) : (
-          upcomingEvents.map((item) => (
-            <div
-              key={item.id}
-              className="schedule-item"
-              onClick={() => setSelectedEvent(item)}
-            >
-              <div className="dot"></div>
-              <div>
-                <p className="title">{item.title}</p>
-                <p className="date">{new Date(item.start).toLocaleString()}</p>
+  const loadMyComments = async () => {
+    const res = await TeamApi.getMyComments(selectedTeam.id);
+    setMyComments(res.data);
+  };
+
+  return (
+    <div className="team-container">
+      {/* 캘린더 */}
+      <div className="team-top-container">
+        <div className="calendar-box">
+          <FullCalendar
+            plugins={[dayGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            events={events}
+            eventClick={(info) => {
+              const event = events.find((e) => e.id === info.event.id);
+              setSelectedEvent(event);
+            }}
+            dayMaxEvents={2}
+            height="100%"
+            displayEventTime={false}
+            dayMaxEventRows={false}
+            headerToolbar={{
+              left: "title",
+              right: "today prev,next",
+            }}
+          />
+        </div>
+
+        {/* 예정된 일정 리스트 */}
+        <div className="schedule-box">
+          <h3>📌 예정된 일정 &lt;7days later&gt;</h3>
+          {upcomingEvents.length === 0 ? (
+            <p className="empty">등록된 일정이 없습니다.</p>
+          ) : (
+            upcomingEvents.map((item) => (
+              <div
+                key={item.id}
+                className="schedule-item"
+                onClick={() => setSelectedEvent(item)}
+              >
+                <div className="dot"></div>
+                <div>
+                  <p className="title">{item.title}</p>
+                  <p className="date">
+                    {new Date(item.start).toLocaleString()}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))
-        )}
+            ))
+          )}
+        </div>
       </div>
       {/* 🔍 상세 모달 (보기 + 수정/삭제 버튼) */}
       {selectedEvent && (
@@ -186,8 +207,13 @@ function Home() {
           onSubmit={handleEditSubmit}
         />
       )}
+
+      <div className="team-lists-container">
+        <MyPostsList posts={myPosts} />
+        <MyCommentsList comments={myComments} />
+      </div>
     </div>
   );
 }
 
-export default Home;
+export default TeamPage;
