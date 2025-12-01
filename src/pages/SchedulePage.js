@@ -136,7 +136,7 @@ function SchedulePage() {
   }, [searchParams]);
 
   return (
-    <div className="calendar-container" style={{ margin: "20px" }}>
+    <div className="calendar-container">
       <h2 style={{ marginBottom: "20px" }}>📅 나의 일정 캘린더</h2>
 
       <FullCalendar
@@ -144,8 +144,10 @@ function SchedulePage() {
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         events={events}
-        height="100%"
+        height="auto"
         expandRows={true}
+        dayMaxEventRows={false}
+        dayMaxEvents={false}
         dateClick={handleDateClick}
         eventClick={handleEventClick}
         customButtons={{

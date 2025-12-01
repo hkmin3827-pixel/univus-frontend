@@ -20,8 +20,8 @@ export const TodoProvider = ({ children }) => {
     }
   };
 
-  const addTodo = async ({ boardId, email, content }) => {
-    await createTodo({ boardId, email, content });
+  const addTodo = async ({ teamId, boardId, content }) => {
+    await createTodo({ teamId, boardId, content });
     await fetchTodos();
   };
 

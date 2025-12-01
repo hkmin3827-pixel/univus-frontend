@@ -24,14 +24,12 @@ function CreateBoardModal({ isOpen, onClose, teamId, onCreated }) {
 
     try {
       const res = await BoardApi.createBoard(teamId, name, description);
-      const createdId = res.data;
       console.log("게시판 생성 성공:", res.data);
 
       alert("게시판이 생성되었습니다.");
 
       if (onCreated) onCreated(); // 안전하게 호출
       onClose();
-      navigate(`/team/${teamId}/board/${createdId}`);
 
       setName("");
       setDescription("");

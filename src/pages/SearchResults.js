@@ -114,7 +114,10 @@ const SearchResultsPage = () => {
       if (!keyword) return;
       try {
         const data = await AxiosApi.searchComments(keyword, page, 10);
-        let arr = data.content || [];
+        const arr = data.content || [];
+        const total = data.totalPages || 1;
+        setComments(arr);
+        setTotalPages(total);
 
         // 정렬
         arr.sort((a, b) =>

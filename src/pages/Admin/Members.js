@@ -18,11 +18,19 @@ width:100%;
 padding-bottom: 20px;
 border-bottom: 1px solid #A294F9;
 `
-const Name = styled.div`
-padding: 5px;
-margin-top:30px;
-border-bottom: 1px solid #A294F9;
-`
+const FilterSection = styled.div`
+  margin-top: 20px;     /* 위 간격 */
+  margin-bottom: 10px;  /* 아래 간격 */
+  width: 100%;
+`;
+
+const FilterTitle = styled.div`
+  font-size: 1rem;
+  margin: 10px 0 6px 0;
+  font-weight: 700;
+  color: #333;
+  border-bottom: 1px solid #A294F9;
+`;
 
 const MemberInfoWrapper = styled.div`
   display: flex;
@@ -93,6 +101,8 @@ const Members = () => {
   const navigate = useNavigate();
   const [members, setMembers] = useState([]);
   const [filterRole, setFilterRole] = useState("ALL"); // 전체 / ADMIN / STUDENT / PROFESSOR
+  const [statusFilter, setStatusFilter] = useState("ALL"); // 전체 / ACTIVE / INACTIVE
+
   useEffect(() => {
     const isLogin = localStorage.getItem("isLogin");
     const role = localStorage.getItem("role"); // "ADMIN" / "STUDENT" / "PROFESSOR"
@@ -105,7 +115,7 @@ const Members = () => {
 
     const getMembers = async () => {
       try {
-        const rsp= await AxiosApi.members();
+        const rsp= await AxiosApi.adminMembers();
         if (rsp.status === 200) setMembers(rsp.data);
       console.log(rsp.data);
       } catch (e) {
@@ -129,8 +139,17 @@ const onClickMember = (email) => {
 };
 
 const filteredMembers = members.filter((member) => {
-    if (filterRole === "ALL") return true;
-    return member.role === filterRole;
+       // 역할 필터
+   const roleMatch =
+     filterRole === "ALL" || member.role === filterRole;
+
+   // 상태 필터
+   const statusMatch =
+     statusFilter === "ALL" ||
+     (statusFilter === "ACTIVE" && member.active) ||
+     (statusFilter === "INACTIVE" && !member.active);
+
+   return roleMatch && statusMatch;
   });
 
   return (
@@ -139,13 +158,14 @@ const filteredMembers = members.filter((member) => {
       {localStorage.getItem("role") !== "ADMIN" ? null : (
         <Container>
           <Header>
-            <h1>어드민 페이지</h1>
+            <h1>어드민 페이지 - 회원정보조회</h1>
           </Header>
 
-          <Name>회원정보조회</Name>
-
           {/* 역할 필터 버튼 영역 */}
-          <FilterContainer>
+          <FilterSection>
+          <FilterTitle>역할 필터</FilterTitle>
+          <FilterContainer> 
+          
             <FilterButton
               active={filterRole === "ALL"}
               onClick={() => setFilterRole("ALL")}
@@ -171,6 +191,32 @@ const filteredMembers = members.filter((member) => {
               학생
             </FilterButton>
           </FilterContainer>
+          </FilterSection>
+          {/* 상태 필터 버튼 영역 */}
+          <FilterSection>
+          <FilterTitle>상태 필터</FilterTitle>
+        <FilterContainer>
+           <FilterButton
+             active={statusFilter === "ALL"}
+             onClick={() => setStatusFilter("ALL")}
+           >
+             전체
+           </FilterButton>
+           <FilterButton
+             active={statusFilter === "ACTIVE"}
+             onClick={() => setStatusFilter("ACTIVE")}
+           >
+             활성
+           </FilterButton>
+           <FilterButton
+             active={statusFilter === "INACTIVE"}
+             onClick={() => setStatusFilter("INACTIVE")}
+           >
+             비활성
+           </FilterButton>
+         </FilterContainer>
+         </FilterSection>
+
 
           {filteredMembers &&
             filteredMembers.map((member) => (
@@ -190,6 +236,9 @@ const filteredMembers = members.filter((member) => {
                       : member.role === "STUDENT"
                       ? "학생"
                       : member.role}
+                  </MemberDetail>
+                  <MemberDetail>
+                    상태: {member.active ? "활성" : "비활성"}
                   </MemberDetail>
                 </UserInfo>
               </MemberInfoWrapper>

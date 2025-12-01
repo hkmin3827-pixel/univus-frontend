@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PostApi from "../api/PostApi";
 import "../styles/CreatePostPage.css";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../api/Firebase";
-import styled from "styled-components";
+import { TeamContext } from "../context/TeamContext";
 
 function CreatePostPage() {
+  const { selectedTeam } = useContext(TeamContext);
   const { boardId } = useParams();
   const navigate = useNavigate();
 
@@ -38,7 +38,7 @@ function CreatePostPage() {
       setUrl(url);
       setFileName(file.name);
 
-      console.log("Firebase 업로드 성공:", url);
+      alert("업로드 완료");
     } catch (e) {
       console.log(e);
     }
@@ -70,7 +70,10 @@ function CreatePostPage() {
   return (
     <div className="create-post-container">
       {/* Back Button */}
-      <button className="back-btn" onClick={() => navigate(-1)}>
+      <button
+        className="back-btn"
+        onClick={() => navigate(`/team/${selectedTeam.id}/board/${boardId}`)}
+      >
         <span className="material-symbols-outlined">arrow_back</span>
       </button>
 

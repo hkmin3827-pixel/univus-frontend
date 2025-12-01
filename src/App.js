@@ -7,8 +7,6 @@ import { TeamProvider } from "./context/TeamContext";
 import Home from "./pages/Home";
 import Members from "./pages/Admin/Members";
 import TeamCreate from "./pages/TeamCreate";
-import TeamInvite from "./pages/TeamInvite";
-import TeamDashboard from "./pages/TeamDashboard";
 import MemberDetails from "./pages/Admin/MembersDetail";
 import Profile from "./pages/Profile";
 import ProfileDetail from "./pages/ProfileDetail";
@@ -27,7 +25,9 @@ import TodoPage from "./pages/TodoPage";
 import { TodoProvider } from "./context/TodoContext";
 import { UserProvider } from "./context/UserContext";
 import BoardInsightPage from "./pages/BoardInsightPage";
+import EditPostPage from "./pages/EditPostPage";
 import SearchResults from "./pages/SearchResults";
+import MemberInsightPage from "./pages/MemberInsightPage";
 
 function App() {
   return (
@@ -53,9 +53,7 @@ function App() {
 
               <Route path="/teams/:teamId" element={<TeamDetail />} />
               <Route path="/teamentry/:token" element={<TeamEntry />} />
-              <Route path="/team/invite" element={<TeamInvite />} />
               <Route path="/team/:teamId" element={<TeamPage />} />
-              <Route path="/team/dashboard" element={<TeamDashboard />} />
               <Route path="/team/entry" element={<TeamLink />} />
               <Route path="/schedulepage" element={<SchedulePage />} />
               <Route path="/profiledetail" element={<ProfileDetail />} />
@@ -80,6 +78,7 @@ function App() {
                 element={<CreatePostPage />}
               />
               <Route path="/post/detail/:postId" element={<PostDetailPage />} />
+              <Route path="posts/:postId/edit" element={<EditPostPage />} />
 
               <Route
                 path="/team/:teamId/board/:boardId/todo"
@@ -91,6 +90,10 @@ function App() {
                 element={<BoardInsightPage />}
               />
               <Route path="/search" element={<SearchResults />} />
+              <Route
+                path="/boards/:boardId/insight/member/:userId"
+                element={<MemberInsightPage />}
+              />
             </Route>
           </Routes>
         </BrowserRouter>

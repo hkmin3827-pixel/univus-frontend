@@ -7,6 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 }
 
 .board-info {
@@ -28,7 +29,7 @@
   line-height: 1.5;
 }
 
-.back-btn {
+/* .back-btn {
   border: none;
   background: none;
   color: #999;
@@ -40,7 +41,7 @@
 .back-btn:hover {
   background-color: inherit;
   color: #333;
-}
+} */
 .new-post-btn {
   background: #5f52ff;
   border: none;
@@ -48,6 +49,8 @@
   border-radius: 10px;
   color: white;
   font-weight: 600;
+  position: absolute;
+  right: 0;
 }
 
 .post-list {
@@ -70,7 +73,16 @@
 .post-card:hover {
   background: #f7f7ff;
 }
-
+.post-title {
+  font-weight: 500 !important;
+  padding-left: 10px;
+}
+.post-content {
+  font-size: 14px !important;
+  color: #666;
+  padding-top: 10px;
+  padding-left: 10px;
+}
 .pagination {
   display: flex;
   justify-content: center;
@@ -80,8 +92,8 @@
 }
 
 .thumbnail {
-  width: 120px;
-  height: 80px;
+  width: 220px;
+  height: 120px;
   object-fit: cover;
   border-radius: 8px;
   margin-top: 8px;
@@ -104,18 +116,77 @@
   height: 1px;
   background-color: #e5e5e5;
   border: none;
-  margin: 20px 0 30px;
-  margin-bottom: 0;
 }
 .post-writer {
   display: flex;
   align-items: center; /* 세로 중앙 정렬 */
   gap: 8px; /* 이미지와 이름 간 간격 */
-  margin-top: 10px;
 }
 
 .writer {
-  font-size: 12px;
+  font-size: 14px;
   color: #666;
   line-height: 1; /* 텍스트 높이 조정 */
+}
+
+.create-btn-mobile {
+  display: none;
+}
+@media (max-width: 940px) {
+  /* .back-btn {
+    display: none;
+  } */
+  .create-btn-mobile {
+    display: block;
+  }
+  .new-post-btn {
+    display: none;
+  }
+
+  .board-title {
+    font-size: 25px;
+    font-weight: 500;
+    margin-bottom: 3px;
+    letter-spacing: 1px;
+  }
+  .board-info {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .post-card {
+    height: auto;
+    min-height: 70px;
+    position: relative;
+  }
+  .post-title {
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    padding-left: 0;
+  }
+  .post-content {
+    display: none;
+  }
+  .post-writer {
+    display: flex;
+    align-items: center; /* 세로 중앙 정렬 */
+    gap: 8px; /* 이미지와 이름 간 간격 */
+    margin-top: 10px;
+    padding-bottom: 1px;
+  }
+  .file-preview {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
+  .writer {
+    font-size: 10px;
+    color: #666;
+    line-height: 1; /* 텍스트 높이 조정 */
+  }
+  .thumbnail {
+    width: 30%;
+    height: 80%;
+    object-fit: cover;
+    top: 40%;
+  }
 }

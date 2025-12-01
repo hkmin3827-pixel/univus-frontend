@@ -10,13 +10,6 @@
   gap: 16px;
 }
 
-/* 상단 헤더 줄 */
-.post-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
 /* 뒤로가기 버튼 */
 .back-btn {
   border: none;
@@ -24,6 +17,7 @@
   cursor: pointer;
   color: #999;
   padding: 4px;
+  align-self: flex-start;
 }
 .back-btn span {
   font-size: 28px;
@@ -40,22 +34,82 @@
   margin: 0;
 }
 
-/* 작성자 + 날짜 영역 */
+/* 작성자 + 점세개 + 날짜 컨테이너 */
 .post-info {
   display: flex;
-  justify-content: space-between;
-  font-size: 15px;
+  justify-content: space-between; /* 작성자 왼쪽 / 메뉴 오른쪽 */
+  align-items: center;
+  width: 100%;
   color: #666;
+}
+.post-info .writer {
+  font-size: 14px;
+}
+/* 오른쪽 영역 전체 */
+.post-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* 오른쪽 정렬 */
+  gap: 4px;
+  position: relative; /* 드롭다운 위치 기준점 */
+}
+
+/* 점세개 버튼 */
+.menu-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 드롭다운 메뉴 (점세개 아래) */
+.dropdown {
+  position: absolute;
+  top: 26px; /* 점세개 바로 아래 */
+  right: 0; /* 오른쪽 정렬 */
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 2000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.dropdown button {
+  border: none;
+  background: white;
+  padding: 10px 16px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 14px;
+}
+
+.dropdown button:hover {
+  background: #f2f2f2;
+}
+
+/* 날짜 (점세개 아래 오른쪽) */
+.post-date-row {
+  text-align: right;
+}
+.date {
+  color: #777;
+  font-size: 14px;
 }
 
 /* 구분선 */
 hr {
   border: 0;
   border-top: 1px solid #ececec;
-  margin: 18px 0;
+  margin: 3px 0;
 }
 
-/* 본문 내용 */
+/* 본문 */
 .post-content {
   font-size: 18px;
   line-height: 1.7;
@@ -64,33 +118,15 @@ hr {
   margin-bottom: 22px;
 }
 
-/* 첨부 이미지 박스 */
+/* 첨부 이미지 */
 .image-box {
   width: 100%;
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
-
-.image-box img {
-  max-width: 100%;
-  border-radius: 12px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
-}
-
-/* 파일 다운로드 */
-.file-download {
-  margin-top: 10px;
-  font-size: 16px;
-  text-decoration: underline;
-  color: #5566ff;
-  cursor: pointer;
-}
-
-/* 댓글 섹션 */
-.comment-section {
-  margin-top: 30px;
-}
-.image-preview a {
-  display: block;
+@media (max-width: 940px) {
+  .post-detail-container {
+    margin: 5px auto;
+  }
 }

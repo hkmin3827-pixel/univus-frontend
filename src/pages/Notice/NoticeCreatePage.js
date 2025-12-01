@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import * as NoticeApi from "../../api/NoticeApi";
 import NoticeWrite from "../../components/notice/NoticeWrite";
 import styled from "styled-components";
+import { TeamContext } from "../../context/TeamContext";
 
 const PageWrapper = styled.div`
   width: 100%;
@@ -18,6 +19,7 @@ const NoticeCreatePage = () => {
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
   const [notice, setNotice] = useState({ title: "", content: "" });
+  const { myTeams, selectedTeam } = useContext(TeamContext);
 
   useEffect(() => {
     if (role !== "PROFESSOR") {
