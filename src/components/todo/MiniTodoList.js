@@ -9,7 +9,7 @@ export default function MiniTodoList() {
 
   // 게시판이 선택되어 있으면 해당 boardId 필터링
   const filteredTodos = boardId
-    ? todos.filter((t) => t.boardId === parseInt(boardId))
+    ? todos.filter((t) => t.boardId === Number(boardId))
     : [];
 
   const pendingTodos = filteredTodos.filter((t) => !t.done);
