@@ -60,47 +60,58 @@ function TeamLink() {
   };
 
   return (
-    <div className="team-link-container">
+    <div className="team-create-container">
       <h2 className="team-title">팀 가입</h2>
+      <div className="team-content-wrapper">
+        <form
+          className="team-form"
+          onSubmit={(e) => {
+            e.preventDefault(); // 새로고침 방지
+            handleCheckInvite();
+          }}
+        >
+          <div className="form-control">
+            <label>초대 링크 코드 : </label>
 
-      <div className="link-form">
-        <div className="form-control">
-          <label>초대 링크 코드 : </label>
+            <input
+              type="text"
+              placeholder="초대 링크 입력"
+              value={token}
+              onChange={(e) => setToken(extractToken(e.target.value))}
+              className="invite-input"
+            />
+          </div>
+          <button
+            type="submit"
+            className="primary-btn"
+            onClick={handleCheckInvite}
+          >
+            조회
+          </button>
 
-          <input
-            type="text"
-            placeholder="초대 링크 입력"
-            value={token}
-            onChange={(e) => setToken(extractToken(e.target.value))}
-            className="invite-input"
-          />
-        </div>
-        <button className="primary-btn" onClick={handleCheckInvite}>
-          조회
-        </button>
+          {/* 에러 메시지 고정 위치 */}
+          <p className="error-text">{errorMsg}</p>
+        </form>
 
-        {/* 에러 메시지 고정 위치 */}
-        <p className="error-text">{errorMsg}</p>
+        {/* 초대 정보 보여주기 (조회 성공 시만 표시) */}
+        {inviteInfo && (
+          <div className="invite-info-box">
+            <p>
+              <strong>팀 이름 :</strong> {inviteInfo.teamName}
+            </p>
+            <p>
+              <strong>Leader :</strong> {inviteInfo.inviterName} (
+              {inviteInfo.inviterEmail})
+            </p>
+
+            {!inviteInfo.expired && (
+              <button className="primary-btn" onClick={handleAccept}>
+                팀 가입하기
+              </button>
+            )}
+          </div>
+        )}
       </div>
-
-      {/* 초대 정보 보여주기 (조회 성공 시만 표시) */}
-      {inviteInfo && (
-        <div className="invite-info-box">
-          <p>
-            <strong>팀 이름 :</strong> {inviteInfo.teamName}
-          </p>
-          <p>
-            <strong>Leader :</strong> {inviteInfo.inviterName} (
-            {inviteInfo.inviterEmail})
-          </p>
-
-          {!inviteInfo.expired && (
-            <button className="primary-btn" onClick={handleAccept}>
-              팀 가입하기
-            </button>
-          )}
-        </div>
-      )}
     </div>
   );
 }

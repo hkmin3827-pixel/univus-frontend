@@ -6,7 +6,6 @@
   height: 80vh; /* 화면 전체 높이 기준 */
   gap: 20px;
 }
-
 .invite-info-box {
   width: 420px;
   padding: 18px;
@@ -112,4 +111,50 @@
 
 button:hover {
   background-color: #4538d3;
+}
+
+/* TeamLink page 통일된 width */
+.team-content-wrapper {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+.team-content-wrapper .team-form,
+.team-content-wrapper .primary-btn,
+.team-content-wrapper .invite-input,
+.team-content-wrapper .invite-info-box {
+  width: 100% !important;
+}
+@media screen and (max-width: 939px) {
+  .team-create-container {
+    height: auto !important; /* vh 제거 */
+    justify-content: flex-start !important; /* 상단 정렬 */
+    padding-top: 10px !important; /* 위 여백 적당히 */
+    gap: 16px !important;
+  }
+
+  .team-create-container form {
+    width: 90% !important; /* 폼 폭 줄이기 */
+  }
+
+  .team-create-container button {
+    width: 100% !important; /* 버튼 폭 동일 */
+  }
+  .team-title {
+    margin-top: 10px !important; /* 제목 위 공간 최소화 */
+    margin-bottom: 18px !important;
+    font-size: 20px;
+    font-weight: 500;
+  }
+  .team-form {
+    font-size: 14px;
+  }
+  .team-content-wrapper {
+    width: 90% !important;
+  }
+  .invite-info-box {
+    margin-bottom: 30px;
+  }
 }

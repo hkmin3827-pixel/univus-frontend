@@ -82,3 +82,66 @@
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
+/* ===================== */
+/*     반응형 (모바일 기준) */
+/* ===================== */
+@media screen and (max-width: 939px) {
+  .team-container {
+    padding: 12px;
+    margin-top: 10px;
+    gap: 14px;
+  }
+
+  /* 캘린더 제거 */
+  .calendar-box {
+    display: none !important;
+  }
+
+  /* grid 속성 완전 제거 */
+  .team-top-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    width: 100% !important;
+  }
+
+  /* grid 속성 강제 초기화 */
+  .team-top-container,
+  .schedule-notice-wrapper {
+    grid-template-columns: unset !important;
+    grid-template-rows: unset !important;
+  }
+
+  .schedule-notice-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  /* 박스 높이 비율 */
+  .schedule-box,
+  .notice-list-box,
+  .team-lists-container > * {
+    height: 22vh;
+    min-height: 160px;
+  }
+
+  /* 게시글/댓글 2칸 → 1칸 */
+  .team-lists-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px;
+    width: 100%;
+  }
+  h3 {
+    font-size: 16px;
+  }
+  .schedule-item .title {
+    font-size: 14px;
+  }
+  .schedule-item .date {
+    font-size: 12px;
+  }
+}

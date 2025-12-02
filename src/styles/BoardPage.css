@@ -132,10 +132,15 @@
 .create-btn-mobile {
   display: none;
 }
-@media (max-width: 940px) {
+@media (max-width: 939px) {
   /* .back-btn {
     display: none;
   } */
+
+  .board-page-container {
+    padding: 3px !important;
+  }
+
   .create-btn-mobile {
     display: block;
   }
@@ -144,7 +149,7 @@
   }
 
   .board-title {
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 500;
     margin-bottom: 3px;
     letter-spacing: 1px;
@@ -155,11 +160,11 @@
   }
   .post-card {
     height: auto;
-    min-height: 70px;
+    min-height: 7cqi;
     position: relative;
   }
   .post-title {
-    font-size: 18px !important;
+    font-size: 16px !important;
     font-weight: 500 !important;
     padding-left: 0;
   }

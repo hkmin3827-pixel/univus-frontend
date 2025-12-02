@@ -89,15 +89,14 @@ const TeamCreate = () => {
         <button type="submit" className="primary-btn">
           팀 생성하기
         </button>
+        <button
+          className={`secondary-btn ${!createdTeamId ? "disabled" : ""}`}
+          disabled={!createdTeamId}
+          onClick={handleInviteClick}
+        >
+          초대 링크 발급
+        </button>
       </form>
-
-      <button
-        className={`secondary-btn ${!createdTeamId ? "disabled" : ""}`}
-        disabled={!createdTeamId}
-        onClick={handleInviteClick}
-      >
-        초대 링크 발급
-      </button>
 
       <InviteModal
         link={inviteLink}

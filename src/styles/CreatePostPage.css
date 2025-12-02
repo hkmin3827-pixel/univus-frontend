@@ -75,6 +75,7 @@
   margin-top: 18px;
   font-weight: bold;
   cursor: pointer;
+  margin-bottom: 30px;
 }
 
 .submit-btn:hover {
@@ -101,4 +102,23 @@
   margin-top: 6px;
   font-size: 15px;
   color: #444;
+}
+@media (max-width: 939px) {
+  .create-post-container {
+    padding: 0 !important;
+  }
+  .page-title {
+    font-size: 18px;
+  }
+  .preview-box img {
+    width: 50%;
+  }
+  .file-label {
+    width: 120px;
+    font-size: 15px;
+  }
+  .link-invite-info {
+    width: 90%;
+    margin: 0 auto;
+  }
 }
