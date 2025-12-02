@@ -113,7 +113,6 @@ const TeamEdit = () => {
             저장
           </ButtonComponent>
 
-          {/* 취소 버튼 */}
           <CancelButton
             type="button"
             onClick={handleCancel}
