@@ -45,6 +45,14 @@ function TopBar({
     navigate("/team/entry");
   };
 
+  const goToActivityLog = () => {
+    if (!selectedTeam) {
+      alert("팀을 먼저 선택해주세요.");
+      return;
+    }
+    navigate(`/team/${selectedTeam.id}/activity`);
+  };
+
   const handleClickLogo = () => {
     resetMenuState();
     closeSidebar();
@@ -119,7 +127,9 @@ function TopBar({
         <span className="material-symbols-outlined" onClick={goToTeamEntry}>
           add_link
         </span>
-        <span className="material-symbols-outlined">inventory</span>
+        <span className="material-symbols-outlined" onClick={goToActivityLog}>
+          inventory
+        </span>
 
         {user.image && user.image.trim() !== "" ? (
           <ProfileImg src={user.image} alt="프로필" onClick={goToProfile} />

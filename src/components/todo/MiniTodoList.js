@@ -4,30 +4,18 @@ import { useTodo } from "../../context/TodoContext";
 
 export default function MiniTodoList() {
   const { teamId, boardId } = useParams();
-  const { todos } = useTodo();
+  const todoContext = useTodo();
   const navigate = useNavigate();
+  if (!todoContext) return null;
 
-  // 게시판이 선택되어 있으면 해당 boardId 필터링
-  const filteredTodos = boardId
-    ? todos.filter((t) => t.boardId === Number(boardId))
-    : [];
+  const { todos } = todoContext;
+  const key = `${teamId}-${boardId}`;
+  const currentTodos = todos[key] || [];
 
-  const pendingTodos = filteredTodos.filter((t) => !t.done);
-  const completedTodos = filteredTodos.filter((t) => t.done);
+  const pendingTodos = currentTodos.filter((t) => !t.done);
 
   const handlePlusClick = () => {
-    if (!boardId) {
-      alert("먼저 게시판을 선택하세요!");
-      return;
-    }
-    navigate(`/team/${teamId}/board/${boardId}/todo`);
-  };
-
-  const handleTodoClick = () => {
-    if (!boardId) {
-      alert("먼저 게시판을 선택하세요!");
-      return;
-    }
+    if (!boardId) return alert("먼저 게시판을 선택하세요!");
     navigate(`/team/${teamId}/board/${boardId}/todo`);
   };
 
@@ -89,10 +77,7 @@ export default function MiniTodoList() {
             readOnly
             style={{ marginRight: "6px" }}
           />
-          <span
-            style={{ flex: 1, fontSize: "13px", cursor: "pointer" }}
-            onClick={handleTodoClick}
-          >
+          <span style={{ flex: 1, fontSize: "13px", cursor: "pointer" }}>
             {todo.content.length > 15
               ? todo.content.slice(0, 15) + "…"
               : todo.content}

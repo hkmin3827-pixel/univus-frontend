@@ -1,25 +1,44 @@
-import React, { useEffect, useState } from "react";
-import { getAllTodo, createTodo, modifyTodo, deleteTodo } from "../api/TodoApi";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import TodoList from "../components/todo/TodoList";
 import TodoForm from "../components/todo/TodoForm";
 import { useTodo } from "../context/TodoContext";
-import { useParams } from "react-router-dom";
 
 export default function TodoPage() {
   const { teamId, boardId } = useParams();
-  console.log("teamId", teamId, "boardId", boardId);
-  const { todos, loading, addTodo, toggleTodo, removeTodo } = useTodo();
+  const {
+    todos,
+    loading,
+    fetchTodos,
+    addTodo,
+    toggleTodo,
+    removeTodo,
+    resetTodos,
+  } = useTodo();
 
-  const pendingTodos = todos.filter((todo) => !todo.done);
-  const completedTodos = todos.filter((todo) => todo.done);
+  const currentKey = `${teamId}-${boardId}`;
+  const currentTodos = todos[currentKey] || [];
 
-  const handleCreate = (content) =>
-    addTodo({
-      teamId: Number(teamId),
-      boardId: Number(boardId),
-      content,
-    });
-  console.log("teamId", teamId, "boardId", boardId);
+  useEffect(() => {
+    if (teamId && boardId) {
+      fetchTodos(Number(teamId), Number(boardId));
+    }
+  }, [teamId, boardId]);
+
+  const pendingTodos = currentTodos.filter((t) => !t.done);
+  const completedTodos = currentTodos.filter((t) => t.done);
+
+  const handleCreate = (content) => {
+    addTodo({ teamId: Number(teamId), boardId: Number(boardId), content });
+  };
+
+  const handleToggle = (id, done) => {
+    toggleTodo(Number(teamId), Number(boardId), id, done);
+  };
+
+  const handleDelete = (id) => {
+    removeTodo(Number(teamId), Number(boardId), id);
+  };
 
   return (
     <div
@@ -60,8 +79,8 @@ export default function TodoPage() {
           </h2>
           <TodoList
             todos={pendingTodos}
-            onToggleDone={toggleTodo}
-            onDelete={removeTodo}
+            onToggleDone={handleToggle}
+            onDelete={handleDelete}
           />
 
           <h2
@@ -77,8 +96,8 @@ export default function TodoPage() {
           </h2>
           <TodoList
             todos={completedTodos}
-            onToggleDone={toggleTodo}
-            onDelete={removeTodo}
+            onToggleDone={handleToggle}
+            onDelete={handleDelete}
           />
         </>
       )}

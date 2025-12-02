@@ -31,6 +31,7 @@ import TeamInfo from "./pages/TeamInfo";
 import UserProfile from "./pages/UserProfile";
 import TeamEdit from "./pages/TeamEdit";
 import SearchResultsPage from "./pages/SearchResultsPage";
+import ActivityLog from "./pages/ActivityLog";
 
 function App() {
   return (
@@ -98,6 +99,10 @@ function App() {
                   element={<MemberInsightPage />}
                 />
                 <Route path="/search" element={<SearchResultsPage />} />
+                <Route
+                  path="/team/:teamId/activity"
+                  element={<ActivityLog />}
+                />
               </Route>
             </Routes>
           </TodoProvider>

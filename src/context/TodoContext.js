@@ -1,59 +1,88 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 import { getAllTodo, createTodo, modifyTodo, deleteTodo } from "../api/TodoApi";
 
 const TodoContext = createContext();
 
 export const TodoProvider = ({ children }) => {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState({}); // key: "teamId-boardId"
   const [loading, setLoading] = useState(true);
-  const resetTodos = () => setTodos([]);
 
-  const fetchTodos = async () => {
+  const resetTodos = () => setTodos({});
+
+  const fetchTodos = async (teamId, boardId) => {
+    if (!teamId || !boardId) return;
+    const key = `${teamId}-${boardId}`;
     try {
       setLoading(true);
-      const res = await getAllTodo();
-      setTodos(res.data);
+      const res = await getAllTodo(teamId, boardId);
+      setTodos((prev) => ({ ...prev, [key]: res.data }));
     } catch (err) {
-      console.error("Todo 불러오기 실패:", err);
+      console.error(err);
+      setTodos((prev) => ({ ...prev, [key]: [] }));
     } finally {
       setLoading(false);
     }
   };
 
   const addTodo = async ({ teamId, boardId, content }) => {
-    await createTodo({ teamId, boardId, content });
-    await fetchTodos();
+    if (!teamId || !boardId) return;
+    const key = `${teamId}-${boardId}`;
+    try {
+      const newTodo = await createTodo({ teamId, boardId, content });
+      setTodos((prev) => ({
+        ...prev,
+        [key]: [...(prev[key] || []), newTodo],
+      }));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const toggleTodo = async (id, done) => {
-    const todo = todos.find((t) => t.id === id);
+  const toggleTodo = async (teamId, boardId, id, done) => {
+    const key = `${teamId}-${boardId}`;
+    const todo = todos[key]?.find((t) => t.id === id);
     if (!todo) return;
 
-    // UI 적용
-    setTodos((prev) => prev.map((t) => (t.id === id ? { ...t, done } : t)));
+    setTodos((prev) => ({
+      ...prev,
+      [key]: prev[key].map((t) => (t.id === id ? { ...t, done } : t)),
+    }));
 
     try {
       await modifyTodo(id, { content: todo.content, done });
     } catch (err) {
-      console.error("Todo 수정 실패:", err);
-      setTodos((prev) =>
-        prev.map((t) => (t.id === id ? { ...t, done: !done } : t))
-      );
+      console.error(err);
+      setTodos((prev) => ({
+        ...prev,
+        [key]: prev[key].map((t) => (t.id === id ? { ...t, done: !done } : t)),
+      }));
     }
   };
 
-  const removeTodo = async (id) => {
-    await deleteTodo(id);
-    setTodos((prev) => prev.filter((t) => t.id !== id));
+  const removeTodo = async (teamId, boardId, id) => {
+    const key = `${teamId}-${boardId}`;
+    try {
+      await deleteTodo(id);
+      setTodos((prev) => ({
+        ...prev,
+        [key]: prev[key].filter((t) => t.id !== id),
+      }));
+    } catch (err) {
+      console.error(err);
+    }
   };
-
-  useEffect(() => {
-    fetchTodos();
-  }, []);
 
   return (
     <TodoContext.Provider
-      value={{ todos, loading, fetchTodos, addTodo, toggleTodo, removeTodo }}
+      value={{
+        todos,
+        loading,
+        fetchTodos,
+        addTodo,
+        toggleTodo,
+        removeTodo,
+        resetTodos,
+      }}
     >
       {children}
     </TodoContext.Provider>
