@@ -19,6 +19,9 @@ const TeamApi = {
   createTeam: (teamName, description) =>
     teamApi.post("/teams", { teamName, description }),
 
+  updateTeam: (teamId, teamName, description) =>
+    teamApi.put(`/teams/modify/${teamId}`, teamName, description),
+
   // 팀 상세 조회: GET /teams/{teamId}
   getTeam: (teamId) => teamApi.get(`/teams/${teamId}`),
 
@@ -41,6 +44,13 @@ const TeamApi = {
   getMyComments: (teamId) => teamApi.get(`/comment/my/${teamId}`),
 
   getTeamMembers: (teamId) => teamApi.get(`/team/${teamId}/members`),
+
+  leaveTeam: (teamId) => teamApi.delete(`/team/${teamId}/leave`),
+
+  kickMember: (teamId, targetUserId) =>
+    teamApi.delete(`/team/${teamId}/kick?targetUserId=${targetUserId}`, {
+      params: { targetUserId },
+    }),
 };
 
 export default TeamApi;

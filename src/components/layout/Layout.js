@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TopBar from "./TopBar";
 import SideBar from "./SideBar";
 import "../../styles/LayOut.css";
 import { Outlet } from "react-router-dom";
+import { useContext } from "react";
+import { TeamContext } from "../../context/TeamContext";
+import { UserContext } from "../../context/UserContext";
 
 function Layout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

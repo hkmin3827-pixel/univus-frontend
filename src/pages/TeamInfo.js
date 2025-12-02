@@ -1,8 +1,8 @@
 // src/pages/ProfileDetail.jsx (파일 위치는 프로젝트 구조에 맞게)
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { TeamContext } from "../context/TeamContext";
 import TeamApi from "../api/TeamApi";
+import { TeamContext } from "../context/TeamContext";
 import {
   Container,
   FormBox,
@@ -14,6 +14,7 @@ import {
 } from "../components/profile/ProfileComponent";
 import "../styles/TeamInfo.css";
 import styled from "styled-components";
+import { UserContext } from "../context/UserContext";
 const ProfileImg = styled.img`
   width: 35px;
   height: 35px;
@@ -26,6 +27,7 @@ const TeamInfo = () => {
   const navigate = useNavigate();
   const { selectedTeam } = useContext(TeamContext);
   const [members, setMembers] = useState([]);
+  const { user } = useContext(UserContext);
 
   const fetchTeamMembers = async () => {
     try {
@@ -37,19 +39,42 @@ const TeamInfo = () => {
   };
   useEffect(() => {
     console.log("selectedTeam:", selectedTeam);
-    console.log("selectedTeam.id:", selectedTeam?.id);
+    console.log("user:", user); // 여기에 값 있어야 버튼 보임
+    console.log("user.id:", user?.id);
+    console.log("leaderId:", selectedTeam?.leaderId);
     if (!selectedTeam) return;
     fetchTeamMembers();
-  }, [selectedTeam]);
+  }, [selectedTeam, user]);
   if (!selectedTeam) {
     return <div className="team-info-container">팀이 선택되지 않았습니다.</div>;
   }
+
+  const handleLeaveTeam = async () => {
+    if (!window.confirm("정말 팀에서 탈퇴하시겠습니까?")) return;
+    try {
+      if (selectedTeam.leaderId === user.id) {
+        alert("팀장은 팀삭제 외에 탈퇴 불가능합니다.");
+        return;
+      }
+
+      await TeamApi.leaveTeam(selectedTeam.id);
+      navigate("/home");
+    } catch (err) {
+      console.error("팀 탈퇴 실패:", err);
+      alert("탈퇴 중 오류가 발생했습니다.");
+    }
+  };
 
   // 진입 시 로그인 정보 + 프로필 불러오기
 
   return (
     <Container>
       <FormBox>
+        {selectedTeam.leaderId === user.id && (
+          <button style={{ marginLeft: "auto", marginBottom: "20px" }}>
+            팀 정보 수정
+          </button>
+        )}
         <Title>{selectedTeam.teamName} 상세 정보</Title>
 
         {/* 팀 기본 정보 */}
@@ -76,7 +101,13 @@ const TeamInfo = () => {
             <p className="empty">아직 팀원이 없습니다.</p>
           ) : (
             members.map((m) => (
-              <div key={m.userId} className="member-card">
+              <div
+                key={m.userId}
+                className="member-card"
+                onClick={() => {
+                  navigate(`/userprofile/${m.userId}`);
+                }}
+              >
                 {m.userImage && m.userImage.trim() !== "" ? (
                   <ProfileImg
                     className="profile-img"
@@ -101,7 +132,9 @@ const TeamInfo = () => {
             ))
           )}
         </div>
-        <button>팀 탈퇴하기</button>
+        <span className="team-out" onClick={handleLeaveTeam}>
+          팀 탈퇴하기
+        </span>
       </FormBox>
     </Container>
   );

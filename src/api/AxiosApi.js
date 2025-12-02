@@ -74,7 +74,7 @@ const AxiosApi = {
 
   // 상세 회원
   detailmembers: async (email) => {
-    return await api.get(`/user/${email}`);
+    return await api.get(`/user/email/${email}`);
   },
 
   //관리자 회원 목록
@@ -179,6 +179,8 @@ const AxiosApi = {
     });
     return res.data;
   },
+
+  getUserById: (userId) => api.get(`/user/id/${userId}`),
 };
 
 export default AxiosApi;

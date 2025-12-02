@@ -57,3 +57,10 @@
 .profile-img {
   margin-right: 10px;
 }
+.team-out {
+  color: rgb(185, 39, 39);
+  cursor: pointer;
+  font-size: 14px;
+  display: block;
+  margin: 10px auto;
+}
