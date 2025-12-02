@@ -75,11 +75,19 @@ function TopBar({
   const handleSearch = (e) => {
     if (e.key === "Enter") {
       const trimmed = searchKeyword.trim();
-      if (trimmed === "") return;
-
+      if (trimmed.length === 0) return;
+      if (!selectedTeam) {
+        alert("팀을 먼저 선택해주세요.");
+        return;
+      }
       e.preventDefault();
       console.log("검색어:", trimmed);
-      navigate(`/search?keyword=${encodeURIComponent(trimmed)}`);
+      navigate(
+        `/search?teamId=${selectedTeam.id}&keyword=${encodeURIComponent(
+          trimmed
+        )}`
+      );
+      setSearchKeyword("");
     }
   };
 
@@ -96,6 +104,7 @@ function TopBar({
       <div className="search-box">
         <span className="material-symbols-outlined search-icon">search</span>
         <input
+          type="text"
           placeholder="검색어를 입력해주세요"
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}

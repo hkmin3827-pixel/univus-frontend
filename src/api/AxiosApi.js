@@ -148,11 +148,6 @@ const AxiosApi = {
     return await api.post(`/teams/invite/${inviteId}/accept`);
   },
 
-  // 초대 거절
-  declineInvite: async (inviteId) => {
-    return await api.post(`/teams/invite/${inviteId}/decline`);
-  },
-
   // 출석
   getMyActivityLogByBoard: (boardId) =>
     api.get(`/activity/boards/${boardId}/me`),
@@ -179,15 +174,12 @@ const AxiosApi = {
   getReactionTop5: (boardId) =>
     api.get(`/activity/board/${boardId}/top5/reactions`),
 
-  // 검색 기능
-  searchComments: async (keyword, page = 0, size = 10) => {
-    const res = await api.get("/comment/search", {
-      params: { keyword, page, size },
-    });
-    return res.data;
-  },
-
   getUserById: (userId) => api.get(`/user/id/${userId}`),
+
+  search: (teamId, keyword) =>
+    api.get(`/search`, {
+      params: { teamId, keyword },
+    }),
 };
 
 export default AxiosApi;

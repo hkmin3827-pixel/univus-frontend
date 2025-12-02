@@ -26,11 +26,11 @@ import { TodoProvider } from "./context/TodoContext";
 import { UserProvider } from "./context/UserContext";
 import BoardInsightPage from "./pages/BoardInsightPage";
 import EditPostPage from "./pages/EditPostPage";
-import SearchResults from "./pages/SearchResults";
 import MemberInsightPage from "./pages/MemberInsightPage";
 import TeamInfo from "./pages/TeamInfo";
 import UserProfile from "./pages/UserProfile";
 import TeamEdit from "./pages/TeamEdit";
+import SearchResultsPage from "./pages/SearchResultsPage";
 
 function App() {
   return (
@@ -93,11 +93,11 @@ function App() {
                   path="/boards/:boardId/insight"
                   element={<BoardInsightPage />}
                 />
-                <Route path="/search" element={<SearchResults />} />
                 <Route
                   path="/boards/:boardId/insight/member/:userId"
                   element={<MemberInsightPage />}
                 />
+                <Route path="/search" element={<SearchResultsPage />} />
               </Route>
             </Routes>
           </TodoProvider>
