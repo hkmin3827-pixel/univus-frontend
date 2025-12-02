@@ -153,6 +153,13 @@ const AxiosApi = {
     return await api.post(`/teams/invite/${inviteId}/decline`);
   },
 
+  // 출석
+  getMyActivityLogByBoard: (boardId) =>
+    api.get(`/activity/boards/${boardId}/me`),
+
+  checkInAttendance: (boardId) =>
+    api.post(`/activity/boards/${boardId}/check-in`),
+
   // 🔹 보드별 팀원 기여도 리스트
   getBoardContribution: (boardId) =>
     api.get(`/activity/board/${boardId}/contribution`),
