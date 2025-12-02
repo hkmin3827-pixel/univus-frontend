@@ -30,6 +30,7 @@ import SearchResults from "./pages/SearchResults";
 import MemberInsightPage from "./pages/MemberInsightPage";
 import TeamInfo from "./pages/TeamInfo";
 import UserProfile from "./pages/UserProfile";
+import TeamEdit from "./pages/TeamEdit";
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
                 <Route path="/team/:teamId" element={<TeamPage />} />
                 <Route path="/team/entry" element={<TeamLink />} />
                 <Route path="/team/:teamId/info" element={<TeamInfo />} />
+                <Route path="/teams/:teamId/edit" element={<TeamEdit />} />
                 <Route path="/schedulepage" element={<SchedulePage />} />
                 <Route path="/profiledetail" element={<ProfileDetail />} />
                 <Route path="/userprofile/:userId" element={<UserProfile />} />
