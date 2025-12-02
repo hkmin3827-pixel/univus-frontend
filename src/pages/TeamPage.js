@@ -12,7 +12,7 @@ import { TeamContext } from "../context/TeamContext";
 import "../styles/TeamPage.css";
 import TeamApi from "../api/TeamApi";
 import { useNavigate } from "react-router-dom";
-import { getNoticeList } from "../api/NoticeApi";
+import { getNoticeListByTeam } from "../api/NoticeApi";
 import NoticesList from "../components/team/NoticesList";
 
 function TeamPage() {
@@ -57,8 +57,8 @@ function TeamPage() {
     fetchNotices();
   }, [selectedTeam?.id]);
   const fetchNotices = async () => {
-    const res = await getNoticeList(0, 5); // 최신 5개
-    //  const res = await getNoticeList(selectedTeam.id, 0, 5);  // 추후 이걸로 수정
+    const res = await getNoticeListByTeam(0, 5); // 최신 5개
+    //  const res = await getNoticeListByTeam(selectedTeam.id, 0, 5);  // 추후 이걸로 수정
     setNotices(res.data.content);
   };
   const loadSchedules = async () => {

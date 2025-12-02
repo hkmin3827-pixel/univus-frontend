@@ -82,8 +82,10 @@ const NoticeListPage = () => {
   const { selectedTeam } = useContext(TeamContext);
 
   const fetchList = async () => {
+    if (!selectedTeam) return;
+
     try {
-      const res = await NoticeApi.getNoticeList();
+      const res = await NoticeApi.getNoticeListByTeam(selectedTeam.id, 0, 10);
       const arr = res.data?.content || [];
 
       arr.sort((a, b) =>
@@ -100,7 +102,7 @@ const NoticeListPage = () => {
 
   useEffect(() => {
     fetchList();
-  }, [sort]);
+  }, [sort, selectedTeam]);
 
   return (
     <PageWrapper>

@@ -69,7 +69,14 @@ const Button = styled.button`
   }
 `;
 
-const NoticeWrite = ({ notice, setNotice, onSubmit, editMode, onCancel }) => {
+const NoticeWrite = ({
+  notice,
+  setNotice,
+  onSubmit,
+  editMode,
+  onCancel,
+  myTeams,
+}) => {
   return (
     <Screen>
       <Wrapper>
@@ -79,6 +86,20 @@ const NoticeWrite = ({ notice, setNotice, onSubmit, editMode, onCancel }) => {
             value={notice.title}
             onChange={(e) => setNotice({ ...notice, title: e.target.value })}
           />
+
+          <select
+            value={notice.teamId || ""}
+            onChange={(e) =>
+              setNotice({ ...notice, teamId: Number(e.target.value) })
+            }
+          >
+            <option value="">팀을 선택하세요</option>
+            {myTeams.map((team) => (
+              <option key={team.id} value={team.id}>
+                {team.name}
+              </option>
+            ))}
+          </select>
 
           <TextArea
             placeholder="내용을 입력하세요"
