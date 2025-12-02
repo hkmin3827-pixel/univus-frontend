@@ -13,7 +13,12 @@ export default function TodoPage() {
   const pendingTodos = todos.filter((todo) => !todo.done);
   const completedTodos = todos.filter((todo) => todo.done);
 
-  const handleCreate = (content) => addTodo({ teamId, boardId, content });
+  const handleCreate = (content) =>
+    addTodo({
+      teamId: Number(teamId),
+      boardId: Number(boardId),
+      content,
+    });
   console.log("teamId", teamId, "boardId", boardId);
 
   return (

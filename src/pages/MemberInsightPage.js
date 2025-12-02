@@ -64,8 +64,8 @@ const MemberInsightPage = () => {
   const chartData = useMemo(() => {
     if (!detail) return [];
     return [
-      { name: "게시글", value: detail.postCount },
-      { name: "댓글", value: detail.commentCount },
+      { name: "리포트", value: detail.postCount },
+      { name: "피드백", value: detail.commentCount },
       { name: "리액션", value: detail.reactionCount },
       { name: "투두 완료", value: detail.todoCompleted },
       { name: "투두 미완료", value: detail.todoUncompleted },
@@ -106,11 +106,11 @@ const MemberInsightPage = () => {
             {/* 수치 카드 */}
             <StatGrid style={{ marginTop: 20 }}>
               <StatCard>
-                <StatLabel>게시글</StatLabel>
+                <StatLabel>리포트</StatLabel>
                 <StatValue>{detail.postCount}</StatValue>
               </StatCard>
               <StatCard>
-                <StatLabel>댓글</StatLabel>
+                <StatLabel>피드백</StatLabel>
                 <StatValue>{detail.commentCount}</StatValue>
               </StatCard>
               <StatCard>

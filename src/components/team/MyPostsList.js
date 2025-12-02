@@ -1,6 +1,5 @@
 // src/components/team/MyPostsList.jsx
 import React, { useEffect, useState } from "react";
-import PostApi from "../../api/PostApi"; // API 위치에 맞게 수정
 import "../../styles/MyPostsList.css";
 import { useNavigate } from "react-router-dom";
 
@@ -19,9 +18,9 @@ function MyPostsList({ posts }) {
 
   return (
     <div className="team-list-box">
-      <h3>📝 내가 작성한 게시글</h3>
+      <h3>📝 내가 작성한 리포트</h3>
       {posts.length === 0 ? (
-        <p className="empty">게시글이 없습니다.</p>
+        <p className="empty">작성한 리포트가 없습니다.</p>
       ) : (
         posts.map((item) => (
           <div
@@ -30,7 +29,11 @@ function MyPostsList({ posts }) {
             onClick={() => handleClick(item.id)}
             style={{ cursor: "pointer" }}
           >
-            <p className="title">{item.title}</p>
+            <p className="title">
+              {item.title && item.title.length > 10
+                ? item.title.slice(0, 40) + "..."
+                : item.title}
+            </p>
             <p className="date">{formatDateTime(item.createTime)}</p>
           </div>
         ))

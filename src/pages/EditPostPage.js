@@ -89,7 +89,7 @@ function EditPostPage() {
 
     try {
       await PostApi.updatePost(postId, title, content, fileUrl, fileName);
-      alert("게시물 수정 완료!");
+      alert("리포트 수정 완료!");
       navigate(-1);
     } catch (err) {
       console.log("수정 실패:", err);
@@ -102,7 +102,7 @@ function EditPostPage() {
         <span className="material-symbols-outlined">arrow_back</span>
       </button>
 
-      <h1 className="page-title">게시글 수정</h1>
+      <h1 className="page-title">리포트 수정</h1>
 
       <input
         className="title-input"

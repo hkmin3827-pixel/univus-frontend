@@ -82,7 +82,7 @@ function SideBar({
 
   const openInviteModal = async () => {
     try {
-      const res = await TeamApi.createTeamInvite(teamId);
+      const res = await TeamApi.createTeamInvite(selectedTeam.id);
       setInviteLink(res.data.inviteUrl);
       setModalOpen(true);
     } catch (err) {
@@ -95,7 +95,18 @@ function SideBar({
     <>
       <aside className={`sidebar ${isOpen ? "show" : ""}`}>
         <div className="sidebar-top-group">
-          <TeamSelect myTeams={myTeams} size="sidebar" />
+          <div className="team-select-row">
+            {selectedTeam && (
+              <span
+                class="material-symbols-outlined info-btn"
+                onClick={() => navigate(`/team/${teamId}/info`)}
+              >
+                info
+              </span>
+            )}
+            <TeamSelect myTeams={myTeams} size="sidebar" />
+          </div>
+
           <button
             className="new-project-btn"
             onClick={() => setIsCreateModalOpen(true)}
@@ -131,7 +142,7 @@ function SideBar({
             {openProject && (
               <ul className="project-board-list">
                 {boards.length === 0 ? (
-                  <li className="empty">새 게시판을 생성해주세요</li>
+                  <li className="empty">새 프로젝트를 생성해주세요</li>
                 ) : (
                   boards.map((b) => (
                     <li
@@ -150,24 +161,6 @@ function SideBar({
                 )}
               </ul>
             )}
-
-            <li
-              className={`menu-item ${
-                selectedMenu === "notice" && !openProject ? "active" : ""
-              }`}
-              onClick={() => {
-                if (!selectedTeam) {
-                  alert("먼저 팀을 선택해주세요.");
-                  return;
-                }
-                setSelectedMenu("notice");
-                setOpenProject(false);
-                setSelectedBoardId(null);
-                navigate("/notice");
-              }}
-            >
-              공지사항
-            </li>
             <li
               className={`menu-item ${
                 selectedMenu === "insight" && !openProject ? "active" : ""
@@ -187,6 +180,24 @@ function SideBar({
             </li>
             <li
               className={`menu-item ${
+                selectedMenu === "notice" && !openProject ? "active" : ""
+              }`}
+              onClick={() => {
+                if (!selectedTeam) {
+                  alert("먼저 팀을 선택해주세요.");
+                  return;
+                }
+                setSelectedMenu("notice");
+                setOpenProject(false);
+                setSelectedBoardId(null);
+                navigate("/notice");
+              }}
+            >
+              공지사항
+            </li>
+
+            <li
+              className={`menu-item ${
                 selectedMenu === "calendar" && !openProject ? "active" : ""
               }`}
               onClick={() => {
@@ -198,7 +209,7 @@ function SideBar({
             >
               캘린더
             </li>
-            <li
+            {/* <li
               className={`menu-item ${
                 selectedMenu === "messenger" && !openProject ? "active" : ""
               }`}
@@ -210,7 +221,7 @@ function SideBar({
               }}
             >
               메신저
-            </li>
+            </li> */}
           </ul>
         </nav>
 

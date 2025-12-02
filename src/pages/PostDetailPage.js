@@ -33,7 +33,7 @@ function PostDetailPage() {
         console.log("상세 조회 데이터:", res.data);
         setPost(res.data);
       } catch (err) {
-        console.error("게시물 조회 실패:", err);
+        console.error("리포트 조회 실패:", err);
       }
     };
     fetchPostDetail();

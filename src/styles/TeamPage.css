@@ -28,6 +28,20 @@
   overflow-y: auto;
   max-height: 430px;
 }
+.schedule-notice-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 정확히 반반 */
+  gap: 20px;
+  width: 100%;
+  height: 430px;
+}
+.notice-list-box {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
+}
 .schedule-item {
   display: flex;
   align-items: center;

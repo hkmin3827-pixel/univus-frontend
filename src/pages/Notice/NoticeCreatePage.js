@@ -18,8 +18,12 @@ const PageWrapper = styled.div`
 const NoticeCreatePage = () => {
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
-  const [notice, setNotice] = useState({ title: "", content: "" });
   const { myTeams, selectedTeam } = useContext(TeamContext);
+  const [notice, setNotice] = useState({
+    title: "",
+    content: "",
+    teamId: selectedTeam?.id,
+  });
 
   useEffect(() => {
     if (role !== "PROFESSOR") {
@@ -29,8 +33,8 @@ const NoticeCreatePage = () => {
   }, [role, navigate]);
 
   const handleSubmit = async () => {
-    if (!notice.title.trim() || !notice.content.trim()) {
-      alert("제목과 내용을 모두 입력해주세요.");
+    if (!notice.title.trim() || !notice.content.trim() || !notice.teamId) {
+      alert("제목, 내용, 팀을 모두 선택해주세요.");
       return;
     }
 
@@ -50,6 +54,7 @@ const NoticeCreatePage = () => {
         notice={notice}
         setNotice={setNotice}
         onSubmit={handleSubmit}
+        myTeams={myTeams}
       />
     </PageWrapper>
   );

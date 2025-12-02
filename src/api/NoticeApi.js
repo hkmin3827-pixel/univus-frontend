@@ -3,9 +3,9 @@ import axios from "axios";
 const BASE_URL = "http://localhost:8111";
 const API = `${BASE_URL}/notice`;
 
-// 공지 목록 조회
-export const getNoticeList = (page = 0, size = 10) => {
-  return axios.get(`${API}/list?page=${page}&size=${size}`);
+// 팀별 공지 목록 조회
+export const getNoticeListByTeam = (teamId, page = 0, size = 10) => {
+  return axios.get(`${API}/list/${teamId}?page=${page}&size=${size}`);
 };
 
 // 공지 상세 조회

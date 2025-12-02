@@ -28,6 +28,7 @@ import BoardInsightPage from "./pages/BoardInsightPage";
 import EditPostPage from "./pages/EditPostPage";
 import SearchResults from "./pages/SearchResults";
 import MemberInsightPage from "./pages/MemberInsightPage";
+import TeamInfo from "./pages/TeamInfo";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
               <Route path="/teamentry/:token" element={<TeamEntry />} />
               <Route path="/team/:teamId" element={<TeamPage />} />
               <Route path="/team/entry" element={<TeamLink />} />
+              <Route path="/team/:teamId/info" element={<TeamInfo />} />
               <Route path="/schedulepage" element={<SchedulePage />} />
               <Route path="/profiledetail" element={<ProfileDetail />} />
               <Route path="/profile" element={<Profile />} />
