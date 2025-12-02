@@ -6,6 +6,7 @@ export const PageContainer = styled.div`
   background: #f5f7ff;
   min-height: 100vh;
   box-sizing: border-box;
+  border-radius: 30px;
 `;
 
 // 상단 제목

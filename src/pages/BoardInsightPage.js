@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import AxiosApi from "../api/AxiosApi";
+import useBoardAutoAttendance from "../hooks/useBoardAutoAttendance";
 
 import {
   PageContainer,
@@ -37,6 +38,8 @@ import {
 const BoardInsightPage = () => {
   const { boardId } = useParams();
   const navigate = useNavigate();
+
+  useBoardAutoAttendance(boardId);
 
   const [members, setMembers] = useState([]);
   const [selectedMember, setSelectedMember] = useState(null);
