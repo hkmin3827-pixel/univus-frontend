@@ -34,9 +34,15 @@ const StyledButton = styled.button`
     `}
 `;
 
-const ButtonComponent = ({ children, enabled, disabled, ...rest }) => {
+const ButtonComponent = ({
+  children,
+  enabled,
+  disabled,
+  type = "button",
+  ...rest
+}) => {
   return (
-    <StyledButton enabled={enabled} disabled={disabled} {...rest}>
+    <StyledButton type={type} enabled={enabled} disabled={disabled} {...rest}>
       {children}
     </StyledButton>
   );

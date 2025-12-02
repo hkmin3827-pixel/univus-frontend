@@ -72,7 +72,10 @@ const TeamInfo = () => {
     <Container>
       <FormBox>
         {selectedTeam.leaderId === user.id && (
-          <button onClick={() => navigate(`/teams/${teamId}/edit`)}>
+          <button
+            type="button"
+            onClick={() => navigate(`/teams/${teamId}/edit`)}
+          >
             팀 정보 수정
           </button>
         )}
