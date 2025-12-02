@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import TeamApi from "../api/TeamApi";
 import styled from "styled-components";
-
+import { useContext } from "react";
+import { TeamContext } from "../context/TeamContext";
 // ⬇ 프로필에서 쓰는 공통 스타일
 import {
   Container,
@@ -46,6 +47,7 @@ const CancelButton = styled(ButtonComponent)`
 const TeamEdit = () => {
   const { teamId } = useParams();
   const navigate = useNavigate();
+  const { selectedTeam, setSelectedTeam } = useContext(TeamContext);
 
   const [teamName, setTeamName] = useState("");
   const [description, setDescription] = useState("");
@@ -57,6 +59,7 @@ const TeamEdit = () => {
         const res = await TeamApi.getTeam(teamId);
         setTeamName(res.data.teamName);
         setDescription(res.data.description || "");
+        setSelectedTeam(res.data);
       } catch (err) {
         console.error(err);
         alert("팀 정보를 불러오는데 실패했습니다.");
@@ -70,7 +73,7 @@ const TeamEdit = () => {
     try {
       await TeamApi.updateTeam(teamId, teamName, description);
       alert("팀 정보가 수정되었습니다.");
-      navigate(`/teams/${teamId}`);
+      navigate(`/team/${teamId}`);
     } catch (err) {
       console.error(err);
       alert("팀 정보 수정에 실패했습니다.");

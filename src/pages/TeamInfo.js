@@ -23,6 +23,32 @@ const ProfileImg = styled.img`
   cursor: pointer;
   transition: 0.2s ease-in-out;
 `;
+const EditButton = styled.button`
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #5f52ff;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+
+  &:hover {
+    background: #4338ca;
+    transform: translateY(-2px);
+  }
+
+  .material-symbols-outlined {
+    font-size: 20px;
+    color: white;
+  }
+`;
 const TeamInfo = () => {
   const navigate = useNavigate();
   const { teamId } = useParams();
@@ -70,11 +96,11 @@ const TeamInfo = () => {
 
   return (
     <Container>
-      <FormBox>
+      <FormBox style={{ position: "relative" }}>
         {selectedTeam.leaderId === user.id && (
-          <button onClick={() => navigate(`/teams/${teamId}/edit`)}>
-            팀 정보 수정
-          </button>
+          <EditButton onClick={() => navigate(`/teams/${teamId}/edit`)}>
+            <span className="material-symbols-outlined">edit</span>
+          </EditButton>
         )}
         <Title>{selectedTeam.teamName} 상세 정보</Title>
 
