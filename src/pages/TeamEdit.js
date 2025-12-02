@@ -70,7 +70,7 @@ const TeamEdit = () => {
     try {
       await TeamApi.updateTeam(teamId, teamName, description);
       alert("팀 정보가 수정되었습니다.");
-      navigate(`/teams/${teamId}`);
+      navigate(`/team/${teamId}`);
     } catch (err) {
       console.error(err);
       alert("팀 정보 수정에 실패했습니다.");
