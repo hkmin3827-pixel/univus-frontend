@@ -20,7 +20,10 @@ const TeamApi = {
     teamApi.post("/teams", { teamName, description }),
 
   updateTeam: (teamId, teamName, description) =>
-    teamApi.put(`/teams/modify/${teamId}`, teamName, description),
+    teamApi.put(`/teams/modify/${teamId}`, {
+      teamName,
+      description,
+    }),
 
   // 팀 상세 조회: GET /teams/{teamId}
   getTeam: (teamId) => teamApi.get(`/teams/${teamId}`),

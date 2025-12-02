@@ -1,6 +1,6 @@
 // src/pages/ProfileDetail.jsx (파일 위치는 프로젝트 구조에 맞게)
 import { useEffect, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import TeamApi from "../api/TeamApi";
 import { TeamContext } from "../context/TeamContext";
 import {
@@ -25,6 +25,7 @@ const ProfileImg = styled.img`
 `;
 const TeamInfo = () => {
   const navigate = useNavigate();
+  const { teamId } = useParams();
   const { selectedTeam } = useContext(TeamContext);
   const [members, setMembers] = useState([]);
   const { user } = useContext(UserContext);
@@ -71,7 +72,7 @@ const TeamInfo = () => {
     <Container>
       <FormBox>
         {selectedTeam.leaderId === user.id && (
-          <button style={{ marginLeft: "auto", marginBottom: "20px" }}>
+          <button onClick={() => navigate(`/teams/${teamId}/edit`)}>
             팀 정보 수정
           </button>
         )}
