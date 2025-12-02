@@ -63,14 +63,14 @@ function App() {
                   path="/team/:teamId/board/:boardId"
                   element={<BoardPage />}
                 />
-                <Route path="notice" element={<NoticeListPage />} />
-                <Route path="notice/create" element={<NoticeWritePage />} />
+                <Route path="/notice" element={<NoticeListPage />} />
+                <Route path="/notice/create" element={<NoticeWritePage />} />
                 <Route
-                  path="notice/detail/:noticeId"
+                  path="/notice/detail/:noticeId"
                   element={<NoticeDetailPage />}
                 />
                 <Route
-                  path="notice/edit/:noticeId"
+                  path="/notice/edit/:noticeId"
                   element={<NoticeEditPage />}
                 />
 

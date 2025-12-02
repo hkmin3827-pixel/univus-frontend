@@ -1,5 +1,5 @@
 // src/context/TeamContext.js
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import TeamApi from "../api/TeamApi";
 
 export const TeamContext = createContext(null);
@@ -36,6 +36,10 @@ export const TeamProvider = ({ children }) => {
       return [];
     }
   };
+
+  useEffect(() => {
+    fetchTeams();
+  }, []);
 
   return (
     <TeamContext.Provider

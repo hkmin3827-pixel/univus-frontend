@@ -18,12 +18,19 @@ const PageWrapper = styled.div`
 const NoticeCreatePage = () => {
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
-  const { myTeams, selectedTeam } = useContext(TeamContext);
+  const { selectedTeam } = useContext(TeamContext);
+
   const [notice, setNotice] = useState({
     title: "",
     content: "",
-    teamId: selectedTeam?.id,
+    teamId: null,
   });
+
+  useEffect(() => {
+    if (selectedTeam) {
+      setNotice((prev) => ({ ...prev, teamId: selectedTeam.id }));
+    }
+  }, [selectedTeam]);
 
   useEffect(() => {
     if (role !== "PROFESSOR") {
@@ -54,7 +61,8 @@ const NoticeCreatePage = () => {
         notice={notice}
         setNotice={setNotice}
         onSubmit={handleSubmit}
-        myTeams={myTeams}
+        editMode={false}
+        selectedTeam={selectedTeam}
       />
     </PageWrapper>
   );
