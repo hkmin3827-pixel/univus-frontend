@@ -88,7 +88,9 @@ function BoardPage() {
       <div className="board-header">
         <button
           className="new-post-btn"
-          onClick={() => navigate(`/post/create/${boardId}`)}
+          onClick={() =>
+            navigate(`/team/${teamId}/board/${boardId}/post/create`)
+          }
         >
           + 새로운 리포트
         </button>
@@ -108,7 +110,9 @@ function BoardPage() {
             <div
               key={p.id}
               className="post-card"
-              onClick={() => navigate(`/post/detail/${p.id}`)}
+              onClick={() =>
+                navigate(`/team/${teamId}/board/${boardId}/post/detail/${p.id}`)
+              }
             >
               <h3 className="post-title">
                 {p.title && p.title.length > 30
@@ -166,7 +170,9 @@ function BoardPage() {
       </div>
       <div className="create-btn-mobile">
         <CircleFixedButton
-          onClick={() => navigate(`/post/create/${boardId}`)}
+          onClick={() =>
+            navigate(`/team/${teamId}/board/${boardId}/post/create`)
+          }
         />
       </div>
     </div>

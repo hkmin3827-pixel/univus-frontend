@@ -18,6 +18,7 @@ const ProfileImg = styled.img`
 `;
 
 function PostDetailPage() {
+  const { boardId, teamId } = useParams();
   const { selectedTeam } = useContext(TeamContext);
   const { postId } = useParams();
   const navigate = useNavigate();
@@ -69,7 +70,7 @@ function PostDetailPage() {
     return `${datePart} ${timePart}`;
   };
   const handleEdit = () => {
-    navigate(`/posts/${postId}/edit`);
+    navigate(`/team/${teamId}/board/${boardId}/posts/${postId}/edit`);
   };
 
   return (
@@ -162,8 +163,8 @@ function PostDetailPage() {
           )}
         </div>
       )}
-      <hr/>
-      <ReactionBar postId={postId}/>
+      <hr />
+      <ReactionBar postId={postId} />
       <hr />
       <CommentSection postId={postId} />
     </div>

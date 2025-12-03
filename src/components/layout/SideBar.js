@@ -209,23 +209,10 @@ function SideBar({
             >
               캘린더
             </li>
-            {/* <li
-              className={`menu-item ${
-                selectedMenu === "messenger" && !openProject ? "active" : ""
-              }`}
-              onClick={() => {
-                setSelectedMenu("messenger");
-                setOpenProject(false);
-                setSelectedBoardId(null);
-                navigate("/messenger");
-              }}
-            >
-              메신저
-            </li> */}
           </ul>
         </nav>
 
-        {selectedTeam && <MiniTodoList selectedTeamId={selectedTeam.id} />}
+        {selectedBoardId && <MiniTodoList boardId={selectedBoardId} />}
 
         <div className="bottom-menu">
           <ul>

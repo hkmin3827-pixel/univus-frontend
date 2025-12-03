@@ -82,8 +82,8 @@ function EditPostPage() {
   };
 
   const handleUpdate = async () => {
-    if (!title.trim() || !content.trim()) {
-      alert("제목과 내용을 모두 입력해주세요.");
+    if (!title.trim()) {
+      alert("제목은 반드시 입력해주세요.");
       return;
     }
 

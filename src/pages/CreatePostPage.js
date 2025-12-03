@@ -7,7 +7,7 @@ import { TeamContext } from "../context/TeamContext";
 
 function CreatePostPage() {
   const { selectedTeam } = useContext(TeamContext);
-  const { boardId } = useParams();
+  const { teamId, boardId } = useParams();
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
@@ -60,7 +60,7 @@ function CreatePostPage() {
         fileName
       );
       alert("리포트가 등록되었습니다.");
-      navigate(`/post/detail/${res.data}`); // 저장 후 상세로 이동
+      navigate(`/team/${teamId}/board/${boardId}/post/detail/${res.data}`); // 저장 후 상세로 이동
     } catch (err) {
       alert("리포트 작성에 실패하였습니다. 다시 시도해주세요. ");
       console.error(err);

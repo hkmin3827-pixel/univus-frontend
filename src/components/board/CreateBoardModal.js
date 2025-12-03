@@ -1,13 +1,11 @@
 import { useState } from "react";
 import "../../styles/Modal.css";
 import TeamApi from "../../api/TeamApi";
-import { useNavigate } from "react-router-dom";
 import BoardApi from "../../api/BoardApi";
 
 function CreateBoardModal({ isOpen, onClose, teamId, onCreated }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const navigate = useNavigate();
 
   if (!isOpen) return null;
 

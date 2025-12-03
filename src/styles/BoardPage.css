@@ -74,6 +74,7 @@
   background: #f7f7ff;
 }
 .post-title {
+  font-size: 22px !important;
   font-weight: 500 !important;
   padding-left: 10px;
 }

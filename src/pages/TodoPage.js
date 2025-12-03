@@ -16,28 +16,27 @@ export default function TodoPage() {
     resetTodos,
   } = useTodo();
 
-  const currentKey = `${teamId}-${boardId}`;
-  const currentTodos = todos[currentKey] || [];
+  const currentTodos = todos[boardId] || [];
 
   useEffect(() => {
-    if (teamId && boardId) {
-      fetchTodos(Number(teamId), Number(boardId));
+    if (boardId) {
+      fetchTodos(Number(boardId));
     }
-  }, [teamId, boardId]);
+  }, [boardId]);
 
   const pendingTodos = currentTodos.filter((t) => !t.done);
   const completedTodos = currentTodos.filter((t) => t.done);
 
   const handleCreate = (content) => {
-    addTodo({ teamId: Number(teamId), boardId: Number(boardId), content });
+    addTodo({ boardId: Number(boardId), content });
   };
 
   const handleToggle = (id, done) => {
-    toggleTodo(Number(teamId), Number(boardId), id, done);
+    toggleTodo(Number(boardId), id, done);
   };
 
   const handleDelete = (id) => {
-    removeTodo(Number(teamId), Number(boardId), id);
+    removeTodo(Number(boardId), id);
   };
 
   return (
