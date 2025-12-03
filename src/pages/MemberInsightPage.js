@@ -2,7 +2,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import AxiosApi from "../api/AxiosApi";
-
+import profileDefaultImg from "../images/profileDefaultImg.png";
 import {
   PageContainer,
   Title,
@@ -28,7 +28,7 @@ import {
 } from "recharts";
 
 const MemberInsightPage = () => {
-  const { boardId, userId } = useParams();
+  const { teamId, boardId, userId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -87,7 +87,11 @@ const MemberInsightPage = () => {
             {/* 상단 프로필 정보 */}
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <Avatar
-                src={detail.userImage}
+                src={
+                  detail?.userImage && detail?.userImage.trim() !== ""
+                    ? detail?.userImage
+                    : profileDefaultImg
+                }
                 style={{ width: 50, height: 50 }}
               />
               <div>
@@ -163,7 +167,7 @@ const MemberInsightPage = () => {
           fontWeight: 600,
           color: "#4f46e5",
         }}
-        onClick={() => navigate(`/boards/${boardId}/insight`)}
+        onClick={() => navigate(`/team/${teamId}/boards/${boardId}/insight`)}
       >
         ← 팀 인사이트로 돌아가기
       </Card>

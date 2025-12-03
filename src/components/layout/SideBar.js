@@ -172,8 +172,7 @@ function SideBar({
                 }
                 setSelectedMenu("insight");
                 setOpenProject(false);
-                setSelectedBoardId(null);
-                navigate(`/boards/${selectedBoardId}/insight`);
+                navigate(`/team/${teamId}/boards/${selectedBoardId}/insight`);
               }}
             >
               인사이트
@@ -212,7 +211,9 @@ function SideBar({
           </ul>
         </nav>
 
-        {selectedBoardId && <MiniTodoList boardId={selectedBoardId} />}
+        {selectedBoardId && (
+          <MiniTodoList selectedBoardId={selectedBoardId.id} />
+        )}
 
         <div className="bottom-menu">
           <ul>

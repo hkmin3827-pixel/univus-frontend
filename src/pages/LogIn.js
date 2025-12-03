@@ -8,6 +8,7 @@ import logo from "../images/layoutLogo.png";
 import "../styles/login.css";
 import { TeamContext } from "../context/TeamContext";
 import { UserContext } from "../context/UserContext";
+import profileDefaultImg from "../images/profileDefaultImg.png";
 
 import {
   Container,
@@ -84,7 +85,7 @@ const LogIn = () => {
         localStorage.setItem("email", email);
         localStorage.setItem("role", role);
         localStorage.setItem("userId", id);
-        localStorage.setItem("profileImage", image || "");
+        localStorage.setItem("profileImage", image || profileDefaultImg);
         // 필요하면 name, image, regDate도 저장 가능
         setUser({
           id,

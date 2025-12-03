@@ -17,6 +17,7 @@ import {
 } from "../components/profile/ProfileComponent";
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import profileDefaultImg from "../images/profileDefaultImg.png";
 
 const ProfileDetail = () => {
   const navigate = useNavigate();
@@ -129,7 +130,7 @@ const ProfileDetail = () => {
                   src={
                     imageUrl && imageUrl.trim() !== ""
                       ? imageUrl
-                      : "/images/default-profile.png" // 기본 이미지 경로 (원하는 걸로 교체)
+                      : profileDefaultImg
                   }
                   alt="프로필 이미지"
                 />

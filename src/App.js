@@ -98,11 +98,11 @@ function App() {
                   />
 
                   <Route
-                    path="/boards/:boardId/insight"
+                    path="/team/:teamId/boards/:boardId/insight"
                     element={<BoardInsightPage />}
                   />
                   <Route
-                    path="/boards/:boardId/insight/member/:userId"
+                    path="/team/:teamId/boards/:boardId/insight/member/:userId"
                     element={<MemberInsightPage />}
                   />
                   <Route path="/search" element={<SearchResultsPage />} />

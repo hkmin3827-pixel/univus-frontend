@@ -3,6 +3,7 @@ import CommentApi from "../../api/CommentApi";
 import "../../styles/CommentSection.css";
 import { UserContext } from "../../context/UserContext";
 import styled from "styled-components";
+import profileDefaultImg from "../../images/profileDefaultImg.png";
 
 const ProfileImg = styled.img`
   width: 25px;
@@ -112,13 +113,14 @@ function CommentSection({ postId }) {
               <div className="comment-header">
                 {/* 아바타 + 정보 */}
                 <div className="comment-header-left">
-                  {c.writerImage && c.writerImage.trim() !== "" ? (
-                    <ProfileImg src={c.writerImage} alt="프로필" />
-                  ) : (
-                    <span className="material-symbols-outlined">
-                      account_circle
-                    </span>
-                  )}
+                  <ProfileImg
+                    src={
+                      c?.writerImage && c.writerImage.trim() !== ""
+                        ? c.writerImage
+                        : profileDefaultImg
+                    }
+                    alt="프로필"
+                  />
                   <div className="comment-info">
                     <span className="comment-writer">{c.userName}</span>
                     <span className="comment-date">
