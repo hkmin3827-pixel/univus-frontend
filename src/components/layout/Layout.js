@@ -4,14 +4,16 @@ import SideBar from "./SideBar";
 import "../../styles/LayOut.css";
 import { Outlet } from "react-router-dom";
 import { useContext } from "react";
-import { TeamContext } from "../../context/TeamContext";
-import { UserContext } from "../../context/UserContext";
+import ActivityDropdown from "../activityLogModal/ActivityDropdown";
+import { useActivityLog } from "../../context/ActivityLogContext";
 
 function Layout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [openProject, setOpenProject] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState("");
   const [selectedBoardId, setSelectedBoardId] = useState(null);
+  const [activityModalOpen, setActivityModalOpen] = useState(false);
+  const { activities } = useActivityLog();
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
@@ -39,7 +41,12 @@ function Layout() {
           resetMenuState={resetMenuState}
           isOpen={isSidebarOpen}
           closeSidebar={closeSidebar}
+          toggleActivity={() => setActivityModalOpen((prev) => !prev)}
         />
+
+        {activityModalOpen && (
+          <ActivityDropdown closeDropdown={() => setActivityModalOpen(false)} />
+        )}
 
         <div className="content-wrapper">
           <SideBar

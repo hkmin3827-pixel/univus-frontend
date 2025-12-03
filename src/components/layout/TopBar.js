@@ -19,12 +19,24 @@ const ProfileImg = styled.img`
   }
 `;
 
+const Badge = styled.span`
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: red;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 50%;
+`;
+
 function TopBar({
   onMenuClick,
   setOpenProject,
   resetMenuState,
   isOpen,
   closeSidebar,
+  toggleActivity,
 }) {
   const navigate = useNavigate();
   const { myTeams, selectedTeam, setSelectedTeam } = useContext(TeamContext);
@@ -46,11 +58,9 @@ function TopBar({
   };
 
   const goToActivityLog = () => {
-    if (!selectedTeam) {
-      alert("팀을 먼저 선택해주세요.");
-      return;
-    }
-    navigate(`/team/${selectedTeam.id}/activity`);
+    if (!selectedTeam) return alert("팀을 먼저 선택해주세요.");
+    // setActivityModalOpen((prev) => !prev);
+    toggleActivity();
   };
 
   const handleClickLogo = () => {
@@ -127,7 +137,7 @@ function TopBar({
         <span className="material-symbols-outlined" onClick={goToTeamEntry}>
           add_link
         </span>
-        <span className="material-symbols-outlined" onClick={goToActivityLog}>
+        <span className="material-symbols-outlined" onClick={toggleActivity}>
           inventory
         </span>
 
