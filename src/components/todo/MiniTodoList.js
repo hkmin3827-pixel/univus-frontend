@@ -74,8 +74,14 @@ export default function MiniTodoList() {
           <input
             type="checkbox"
             checked={todo.done}
-            readOnly
-            style={{ marginRight: "6px" }}
+            onChange={() =>
+              todoContext.toggleTodo(
+                Number(teamId),
+                Number(boardId),
+                todo.id,
+                !todo.done
+              )
+            }
           />
           <span style={{ flex: 1, fontSize: "13px", cursor: "pointer" }}>
             {todo.content.length > 15

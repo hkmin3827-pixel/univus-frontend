@@ -3,9 +3,11 @@ import axios from "axios";
 const BASE_URL = "http://localhost:8111";
 const API = `${BASE_URL}/todo`;
 
-// Todo 목록 조회 (로그인 유저 기준 전체)
-export const getAllTodo = () => {
-  return axios.get(`${API}/list`);
+// Todo 목록 조회
+export const getAllTodo = (teamId, boardId) => {
+  return axios.get(`${API}/list`, {
+    params: { teamId, boardId },
+  });
 };
 
 // Todo ID 조회

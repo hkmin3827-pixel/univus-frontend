@@ -28,7 +28,9 @@ export const TodoProvider = ({ children }) => {
     if (!teamId || !boardId) return;
     const key = `${teamId}-${boardId}`;
     try {
-      const newTodo = await createTodo({ teamId, boardId, content });
+      const res = await createTodo({ teamId, boardId, content });
+      const newTodo = res.data;
+
       setTodos((prev) => ({
         ...prev,
         [key]: [...(prev[key] || []), newTodo],
