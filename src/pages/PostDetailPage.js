@@ -6,6 +6,7 @@ import CommentSection from "../components/comment/CommentSection";
 import "../styles/PostDetailPage.css";
 import styled from "styled-components";
 import { TeamContext } from "../context/TeamContext";
+import ReactionBar from "../components/reaction/reactionComponents";
 
 const ProfileImg = styled.img`
   width: 30px;
@@ -161,6 +162,8 @@ function PostDetailPage() {
           )}
         </div>
       )}
+      <hr/>
+      <ReactionBar postId={postId}/>
       <hr />
       <CommentSection postId={postId} />
     </div>
