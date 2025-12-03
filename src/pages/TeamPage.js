@@ -57,8 +57,7 @@ function TeamPage() {
     fetchNotices();
   }, [selectedTeam?.id]);
   const fetchNotices = async () => {
-    const res = await getNoticeListByTeam(0, 5); // 최신 5개
-    //  const res = await getNoticeListByTeam(selectedTeam.id, 0, 5);  // 추후 이걸로 수정
+    const res = await getNoticeListByTeam(selectedTeam.id, 0, 5);
     setNotices(res.data.content);
   };
   const loadSchedules = async () => {
