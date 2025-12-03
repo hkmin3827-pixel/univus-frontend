@@ -2,15 +2,11 @@ import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import ReactionApi from "../../api/ReactionApi";
 
-
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@12,400,0,0&icon_names=sentiment_satisfied,sentiment_neutral,sentiment_dissatisfied" />
-
-
 const Wrapper = styled.div`
   margin: 16px 0;
   padding: 12px 0;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
 `;
 
 const ButtonGroup = styled.div`
@@ -20,11 +16,13 @@ const ButtonGroup = styled.div`
 
 const ReactionButton = styled.button`
   padding: 6px 10px;
+  margin-top: 4px;
+  font-size: 14px;
   border-radius: 999px;
   border: 1px solid #d1d5db;
   background: #ffffff;
   cursor: pointer;
-  min-width: 110px;
+  min-width: 90px;
   transition: 0.15s ease-in-out;
 
   /* 아이콘 + 숫자를 가로로 나란히 정렬 */
@@ -33,29 +31,20 @@ const ReactionButton = styled.button`
   justify-content: center;
   gap: 4px;
 
-  /* 아이콘과 숫자 둘 다 이 크기를 쓰게 됨 */
-  font-size: 20px;
-
-  /* 아이콘도 동일한 크기로 강제 */
-  .material-symbols-outlined {
-    font-size: 18px;
-    line-height: 1;
-  }
-
-    &:not(:disabled):hover {
+  &:not(:disabled):hover {
     border-color: #9484ffff;
-    background: #f4f3ff;
+    background: #f5efff;
   }
 
   &:not(:disabled):hover .material-symbols-outlined {
     color: #9484ffff;
   }
-  
+
   ${(props) =>
     props.active &&
     css`
-      border-color: #A294F9;
-      background: #eef2ff;
+      border-color: #9484ffff;
+      background: #e5d9f2;
       font-weight: 600;
     `}
 
@@ -94,8 +83,7 @@ const ReactionBar = ({ postId }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postId]);
 
-  const countByType = (type) =>
-    reactions.filter((r) => r.type === type).length;
+  const countByType = (type) => reactions.filter((r) => r.type === type).length;
 
   const positiveCount = countByType("POSITIVE");
   const neutralCount = countByType("NEUTRAL");
@@ -130,10 +118,8 @@ const ReactionBar = ({ postId }) => {
           active={myReaction === "POSITIVE"}
           disabled={loading}
         >
-          <span class="material-symbols-outlined">
-            sentiment_satisfied
-            </span>
-            {positiveCount}
+          <span>😆</span>
+          {positiveCount}
         </ReactionButton>
 
         <ReactionButton
@@ -141,10 +127,8 @@ const ReactionBar = ({ postId }) => {
           active={myReaction === "NEUTRAL"}
           disabled={loading}
         >
-          <span class="material-symbols-outlined">
-            sentiment_neutral
-            </span>
-             {neutralCount}
+          <span>🤨</span>
+          {neutralCount}
         </ReactionButton>
 
         <ReactionButton
@@ -152,10 +136,8 @@ const ReactionBar = ({ postId }) => {
           active={myReaction === "NEGATIVE"}
           disabled={loading}
         >
-          <span class="material-symbols-outlined">
-            sentiment_dissatisfied
-            </span>
-             {negativeCount}
+          <span>☹️</span>
+          {negativeCount}
         </ReactionButton>
       </ButtonGroup>
     </Wrapper>

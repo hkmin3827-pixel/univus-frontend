@@ -162,8 +162,7 @@ function PostDetailPage() {
           )}
         </div>
       )}
-      <hr/>
-      <ReactionBar postId={postId}/>
+      <ReactionBar postId={postId} />
       <hr />
       <CommentSection postId={postId} />
     </div>
