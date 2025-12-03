@@ -7,6 +7,7 @@ import "../styles/PostDetailPage.css";
 import styled from "styled-components";
 import { TeamContext } from "../context/TeamContext";
 import ReactionBar from "../components/reaction/reactionComponents";
+import profileDefaultImg from "../images/profileDefaultImg.png";
 
 const ProfileImg = styled.img`
   width: 30px;
@@ -79,7 +80,7 @@ function PostDetailPage() {
       <button
         className="back-btn"
         onClick={() =>
-          navigate(`/team/${selectedTeam.id}/board/${post.boardId}`)
+          navigate(`/team/${selectedTeam?.id}/board/${post.boardId}`)
         }
       >
         <span className="material-symbols-outlined">arrow_back</span>
@@ -88,11 +89,15 @@ function PostDetailPage() {
       <div className="post-info">
         <div className="post-writer">
           {/* 프로필 이미지 */}
-          {post?.writerImage ? (
-            <ProfileImg src={post.writerImage} />
-          ) : (
-            <span className="material-symbols-outlined">account_circle</span>
-          )}
+
+          <ProfileImg
+            src={
+              post?.writerImage && post.writerImage.trim() !== ""
+                ? post.writerImage
+                : profileDefaultImg
+            }
+            alt="프로필"
+          />
           <span className="writer">{post?.userName}</span>
         </div>
         <div className="post-right">

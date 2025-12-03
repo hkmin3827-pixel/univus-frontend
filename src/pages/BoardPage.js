@@ -4,6 +4,7 @@ import PostApi from "../api/PostApi";
 import "../styles/BoardPage.css";
 import AxiosApi from "../api/AxiosApi";
 import styled from "styled-components";
+import profileDefaultImg from "../images/profileDefaultImg.png";
 const ProfileImg = styled.img`
   width: 27px;
   height: 27px;
@@ -137,13 +138,14 @@ function BoardPage() {
                 ))}
               <div className="post-writer">
                 {/* 프로필 이미지 */}
-                {p.writerImage && p.writerImage.trim() !== "" ? (
-                  <ProfileImg src={p.writerImage} alt="프로필" />
-                ) : (
-                  <span className="material-symbols-outlined">
-                    account_circle
-                  </span>
-                )}
+                <ProfileImg
+                  src={
+                    p?.writerImage && p.writerImage.trim() !== ""
+                      ? p.writerImage
+                      : profileDefaultImg
+                  }
+                  alt="프로필"
+                />
                 <span className="writer">{p.userName}</span>
               </div>
             </div>

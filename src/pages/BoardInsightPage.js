@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import AxiosApi from "../api/AxiosApi";
 import useBoardAutoAttendance from "../hooks/useBoardAutoAttendance";
+import profileDefaultImg from "../images/profileDefaultImg.png";
 
 import {
   PageContainer,
@@ -36,7 +37,7 @@ import {
 } from "recharts";
 
 const BoardInsightPage = () => {
-  const { boardId } = useParams();
+  const { teamId, boardId } = useParams();
   const navigate = useNavigate();
 
   useBoardAutoAttendance(boardId);
@@ -61,6 +62,7 @@ const BoardInsightPage = () => {
         console.log("📌 board contribution =", res.data);
 
         setMembers(res.data || []);
+        console.log("Member data: ", members);
       } catch (e) {
         console.error("❌ 팀원 기여도 불러오기 실패", e);
         setMembers([]);
@@ -121,9 +123,12 @@ const BoardInsightPage = () => {
   /* 4) 팀원 상세 페이지로 이동 */
   const handleMemberClick = (member) => {
     setSelectedMember(member);
-    navigate(`/boards/${boardId}/insight/member/${member.userId}`, {
-      state: { boardId, member },
-    });
+    navigate(
+      `/team/${teamId}/boards/${boardId}/insight/member/${member.userId}`,
+      {
+        state: { boardId, member },
+      }
+    );
   };
 
   /* 5) TOP5 카드 */
@@ -138,7 +143,13 @@ const BoardInsightPage = () => {
             <RankItem key={item.userId}>
               <RankLeft>
                 <RankNum>{idx + 1}</RankNum>
-                <Avatar src={item.userImage} />
+                <Avatar
+                  src={
+                    item?.userImage && item?.userImage.trim() !== ""
+                      ? item?.userImage
+                      : profileDefaultImg
+                  }
+                />
                 <RankName>{item.userName}</RankName>
               </RankLeft>
               <RankCount>{item.count}</RankCount>
@@ -215,7 +226,13 @@ const BoardInsightPage = () => {
                       onClick={() => handleMemberClick(m)}
                     >
                       <MemberLeft>
-                        <Avatar src={m.userImage} />
+                        <Avatar
+                          src={
+                            m?.userImage && m?.userImage.trim() !== ""
+                              ? m?.userImage
+                              : profileDefaultImg
+                          }
+                        />
                         <MemberName>
                           {idx + 1}. {m.userName}
                         </MemberName>

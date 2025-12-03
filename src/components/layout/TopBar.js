@@ -5,10 +5,11 @@ import styled from "styled-components";
 import { TeamContext } from "../../context/TeamContext";
 import { UserContext } from "../../context/UserContext";
 import logo from "../../images/layoutLogo.png";
+import profileDefaultImg from "../../images/profileDefaultImg.png";
 
 const ProfileImg = styled.img`
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
@@ -141,13 +142,15 @@ function TopBar({
           inventory
         </span>
 
-        {user.image && user.image.trim() !== "" ? (
-          <ProfileImg src={user.image} alt="프로필" onClick={goToProfile} />
-        ) : (
-          <span className="material-symbols-outlined" onClick={goToProfile}>
-            account_circle
-          </span>
-        )}
+        <ProfileImg
+          src={
+            user.image && user.image.trim() !== ""
+              ? user.image
+              : profileDefaultImg
+          }
+          alt="프로필"
+          onClick={goToProfile}
+        />
       </div>
 
       <button className="menu-btn" onClick={onMenuClick}>
