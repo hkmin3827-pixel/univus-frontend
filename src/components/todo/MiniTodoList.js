@@ -1,17 +1,14 @@
+// src/components/sidebar/MiniTodoList.jsx
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTodo } from "../../context/TodoContext";
 
 export default function MiniTodoList() {
   const { teamId, boardId } = useParams();
-  const todoContext = useTodo();
   const navigate = useNavigate();
-  if (!todoContext) return null;
+  const { todos, toggleTodo } = useTodo();
 
-  const { todos } = todoContext;
-  const key = `${teamId}-${boardId}`;
-  const currentTodos = todos[key] || [];
-
+  const currentTodos = todos[boardId] || [];
   const pendingTodos = currentTodos.filter((t) => !t.done);
 
   const handlePlusClick = () => {
@@ -74,15 +71,9 @@ export default function MiniTodoList() {
           <input
             type="checkbox"
             checked={todo.done}
-            onChange={() =>
-              todoContext.toggleTodo(
-                Number(teamId),
-                Number(boardId),
-                todo.id,
-                !todo.done
-              )
-            }
+            onChange={() => toggleTodo(boardId, todo.id, !todo.done)}
           />
+
           <span style={{ flex: 1, fontSize: "13px", cursor: "pointer" }}>
             {todo.content.length > 15
               ? todo.content.slice(0, 15) + "…"

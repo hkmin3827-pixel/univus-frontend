@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   margin: 16px 0;
   padding: 12px 0;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
 `;
 
 const ButtonGroup = styled.div`
@@ -21,11 +21,13 @@ const ButtonGroup = styled.div`
 
 const ReactionButton = styled.button`
   padding: 6px 10px;
+  margin-top: 4px;
+  font-size: 14px;
   border-radius: 999px;
   border: 1px solid #d1d5db;
   background: #ffffff;
   cursor: pointer;
-  min-width: 110px;
+  min-width: 90px;
   transition: 0.15s ease-in-out;
 
   /* 아이콘 + 숫자를 가로로 나란히 정렬 */
@@ -45,7 +47,7 @@ const ReactionButton = styled.button`
 
   &:not(:disabled):hover {
     border-color: #9484ffff;
-    background: #f4f3ff;
+    background: #f5efff;
   }
 
   &:not(:disabled):hover .material-symbols-outlined {

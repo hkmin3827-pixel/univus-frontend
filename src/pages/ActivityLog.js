@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { TeamContext } from "../context/TeamContext";
 import { getTeamCompletedTodos } from "../api/TodoApi";
+import { useActivityLog } from "../context/ActivityLogContext";
 
 const Container = styled.div`
   padding: 20px;
@@ -16,21 +17,16 @@ const ActivityItem = styled.div`
 
 function ActivityLog() {
   const { selectedTeam } = useContext(TeamContext);
-  const [activities, setActivities] = useState([]);
+  const { activities, refreshActivities } = useActivityLog();
 
   useEffect(() => {
     if (!selectedTeam) return;
-
-    getTeamCompletedTodos(selectedTeam.id)
-      .then((res) => {
-        setActivities(res.data);
-      })
-      .catch((err) => console.error(err));
-  }, [selectedTeam]);
-
+    console.log("refreshActivities 호출됨");
+    refreshActivities(selectedTeam.id);
+  }, [selectedTeam, refreshActivities]);
   return (
     <Container>
-      <h2>팀 활동 알람</h2>
+      <h2>{selectedTeam.teamName} 팀 활동 알람</h2>
       {activities.length === 0 ? (
         <p>완료된 업무가 없습니다.</p>
       ) : (

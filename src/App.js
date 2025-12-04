@@ -31,6 +31,7 @@ import TeamInfo from "./pages/TeamInfo";
 import UserProfile from "./pages/UserProfile";
 import TeamEdit from "./pages/TeamEdit";
 import SearchResultsPage from "./pages/SearchResultsPage";
+import { ActivityLogProvider } from "./context/ActivityLogContext";
 import ActivityLog from "./pages/ActivityLog";
 
 function App() {
@@ -38,74 +39,81 @@ function App() {
     <BrowserRouter>
       <UserProvider>
         <TeamProvider>
-          <TodoProvider>
-            <Routes>
-              <Route path="/" element={<LogIn />} />
-              <Route path="/signup" element={<SignUp />} />
+          <ActivityLogProvider>
+            <TodoProvider>
+              <Routes>
+                <Route path="/" element={<LogIn />} />
+                <Route path="/signup" element={<SignUp />} />
 
-              <Route path="/admin/" element={<Members />} />
-              <Route path="/admin/:email" element={<MemberDetails />} />
+                <Route path="/admin/" element={<Members />} />
+                <Route path="/admin/:email" element={<MemberDetails />} />
 
-              <Route element={<Layout />}>
-                <Route path="/home" element={<Home />} />
-                <Route path="/teams/new" element={<TeamCreate />} />
+                <Route element={<Layout />}>
+                  <Route path="/home" element={<Home />} />
+                  <Route path="/teams/new" element={<TeamCreate />} />
 
-                <Route path="/teams/:teamId" element={<TeamDetail />} />
-                <Route path="/teamentry/:token" element={<TeamEntry />} />
-                <Route path="/team/:teamId" element={<TeamPage />} />
-                <Route path="/team/entry" element={<TeamLink />} />
-                <Route path="/team/:teamId/info" element={<TeamInfo />} />
-                <Route path="/teams/:teamId/edit" element={<TeamEdit />} />
-                <Route path="/schedulepage" element={<SchedulePage />} />
-                <Route path="/profiledetail" element={<ProfileDetail />} />
-                <Route path="/userprofile/:userId" element={<UserProfile />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route
-                  path="/team/:teamId/board/:boardId"
-                  element={<BoardPage />}
-                />
-                <Route path="/notice" element={<NoticeListPage />} />
-                <Route path="/notice/create" element={<NoticeWritePage />} />
-                <Route
-                  path="/notice/detail/:noticeId"
-                  element={<NoticeDetailPage />}
-                />
-                <Route
-                  path="/notice/edit/:noticeId"
-                  element={<NoticeEditPage />}
-                />
+                  <Route path="/teams/:teamId" element={<TeamDetail />} />
+                  <Route path="/teamentry/:token" element={<TeamEntry />} />
+                  <Route path="/team/:teamId" element={<TeamPage />} />
+                  <Route path="/team/entry" element={<TeamLink />} />
+                  <Route path="/team/:teamId/info" element={<TeamInfo />} />
+                  <Route path="/teams/:teamId/edit" element={<TeamEdit />} />
+                  <Route path="/schedulepage" element={<SchedulePage />} />
+                  <Route path="/profiledetail" element={<ProfileDetail />} />
+                  <Route
+                    path="/userprofile/:userId"
+                    element={<UserProfile />}
+                  />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route
+                    path="/team/:teamId/board/:boardId"
+                    element={<BoardPage />}
+                  />
+                  <Route
+                    path="/team/:teamId/board/:boardId/post/create"
+                    element={<CreatePostPage />}
+                  />
+                  <Route
+                    path="/team/:teamId/board/:boardId/post/detail/:postId"
+                    element={<PostDetailPage />}
+                  />
+                  <Route
+                    path="/team/:teamId/board/:boardId/posts/:postId/edit"
+                    element={<EditPostPage />}
+                  />
+                  <Route path="/notice" element={<NoticeListPage />} />
+                  <Route path="/notice/create" element={<NoticeWritePage />} />
+                  <Route
+                    path="/notice/detail/:noticeId"
+                    element={<NoticeDetailPage />}
+                  />
+                  <Route
+                    path="/notice/edit/:noticeId"
+                    element={<NoticeEditPage />}
+                  />
 
-                <Route
-                  path="/post/create/:boardId"
-                  element={<CreatePostPage />}
-                />
-                <Route
-                  path="/post/detail/:postId"
-                  element={<PostDetailPage />}
-                />
-                <Route path="posts/:postId/edit" element={<EditPostPage />} />
+                  <Route
+                    path="/team/:teamId/board/:boardId/todo"
+                    element={<TodoPage />}
+                  />
 
-                <Route
-                  path="/team/:teamId/board/:boardId/todo"
-                  element={<TodoPage />}
-                />
-
-                <Route
-                  path="/boards/:boardId/insight"
-                  element={<BoardInsightPage />}
-                />
-                <Route
-                  path="/boards/:boardId/insight/member/:userId"
-                  element={<MemberInsightPage />}
-                />
-                <Route path="/search" element={<SearchResultsPage />} />
-                <Route
-                  path="/team/:teamId/activity"
-                  element={<ActivityLog />}
-                />
-              </Route>
-            </Routes>
-          </TodoProvider>
+                  <Route
+                    path="/team/:teamId/boards/:boardId/insight"
+                    element={<BoardInsightPage />}
+                  />
+                  <Route
+                    path="/team/:teamId/boards/:boardId/insight/member/:userId"
+                    element={<MemberInsightPage />}
+                  />
+                  <Route path="/search" element={<SearchResultsPage />} />
+                  <Route
+                    path="/team/:teamId/activity"
+                    element={<ActivityLog />}
+                  />
+                </Route>
+              </Routes>
+            </TodoProvider>
+          </ActivityLogProvider>
         </TeamProvider>
       </UserProvider>
     </BrowserRouter>

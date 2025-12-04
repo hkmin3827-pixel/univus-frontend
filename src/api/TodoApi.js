@@ -37,7 +37,13 @@ export const createTodo = (data) => {
 
 // Todo 수정
 export const modifyTodo = (id, data) => {
-  return axios.put(`${API}/modify/${id}`, data);
+  const token = localStorage.getItem("accessToken");
+  return axios.put(`${API}/modify/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
 };
 
 // Todo 삭제
@@ -48,4 +54,7 @@ export const deleteTodo = (id) => {
 // 팀 단위 완료 Todo 조회
 export const getTeamCompletedTodos = (teamId) => {
   return axios.get(`${API}/team/${teamId}/completed`);
+};
+export const getTodoByBoardId = (boardId) => {
+  return axios.get(`${API}/board/${boardId}/list`);
 };

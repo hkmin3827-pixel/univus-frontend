@@ -15,6 +15,7 @@ import {
 } from "../components/profile/ProfileComponent";
 import styled from "styled-components";
 import { uploadProfileImage } from "../api/Firebase";
+import profileDefaultImg from "../images/profileDefaultImg.png";
 
 const EditWrapper = styled.div`
   width: 100%;
@@ -158,7 +159,11 @@ const Profile = () => {
           <Label>프로필</Label>
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <ProfileImage
-              src={imageUrl?.trim() ? imageUrl : "/images/default-profile.png"}
+              src={
+                imageUrl && imageUrl.trim() !== ""
+                  ? imageUrl
+                  : profileDefaultImg
+              }
             />
             <ButtonComponent type="button" onClick={openFilePicker}>
               이미지 변경

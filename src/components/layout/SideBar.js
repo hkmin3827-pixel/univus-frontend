@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { TeamContext } from "../../context/TeamContext";
 import AxiosApi from "../../api/AxiosApi";
 import TeamApi from "../../api/TeamApi";
@@ -8,7 +8,6 @@ import CreateBoardModal from "../board/CreateBoardModal";
 import TeamSelect from "../team/TeamSelect";
 import BoardApi from "../../api/BoardApi";
 import InviteModal from "../team/InviteModal";
-import { useParams } from "react-router-dom";
 import MiniTodoList from "../todo/MiniTodoList";
 import { useTodo } from "../../context/TodoContext";
 
@@ -28,10 +27,12 @@ function SideBar({
   const [myTeams, setMyTeams] = useState([]);
   const [inviteLink, setInviteLink] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+
   const navigate = useNavigate();
   const { teamId } = useParams();
   const { resetTodos } = useTodo();
 
+  /** 🔹 팀 목록 불러오기 */
   const fetchTeams = async () => {
     try {
       const res = await TeamApi.getMyTeams();
@@ -41,6 +42,7 @@ function SideBar({
     }
   };
 
+  /** 🔹 선택된 팀의 게시판 목록 불러오기 */
   const fetchBoards = async () => {
     if (!selectedTeam) {
       setBoards([]);
@@ -62,17 +64,18 @@ function SideBar({
   useEffect(() => {
     fetchBoards();
   }, [selectedTeam]);
+
+  /** 🔹 로그아웃 */
   const handleLogout = async () => {
     try {
-      await AxiosApi.logout(); // 백엔드 로그아웃 호출 (세션 무효화)
-      // 프론트 상태 정리
+      await AxiosApi.logout();
       localStorage.clear();
       resetTodos();
       setSelectedTeam(null);
       setMyTeams([]);
       navigate("/");
     } catch (err) {
-      console.error("로그아웃 실패:", err); // // 그래도 로컬은 비우고 보내고 싶으면:
+      console.error("로그아웃 실패:", err);
       localStorage.clear();
       setSelectedTeam(null);
       setMyTeams([]);
@@ -80,6 +83,7 @@ function SideBar({
     }
   };
 
+  /** 🔹 초대 링크 생성 */
   const openInviteModal = async () => {
     try {
       const res = await TeamApi.createTeamInvite(selectedTeam.id);
@@ -91,6 +95,25 @@ function SideBar({
     }
   };
 
+  /** 🔥🔥 인사이트 클릭할 때 boardName 전달 */
+  const handleInsightClick = () => {
+    if (!selectedBoardId) {
+      alert("먼저 게시판을 선택해주세요.");
+      return;
+    }
+
+    const selectedBoard = boards.find((b) => b.id === selectedBoardId);
+
+    setSelectedMenu("insight");
+    setOpenProject(false);
+
+    navigate(`/team/${teamId}/boards/${selectedBoardId}/insight`, {
+      state: {
+        boardName: selectedBoard?.name, // ← ⭐ 이거 때문에 제목이 제대로 표시됨
+      },
+    });
+  };
+
   return (
     <>
       <aside className={`sidebar ${isOpen ? "show" : ""}`}>
@@ -98,7 +121,7 @@ function SideBar({
           <div className="team-select-row">
             {selectedTeam && (
               <span
-                class="material-symbols-outlined info-btn"
+                className="material-symbols-outlined info-btn"
                 onClick={() => navigate(`/team/${teamId}/info`)}
               >
                 info
@@ -118,6 +141,7 @@ function SideBar({
 
         <nav className="menu-list">
           <ul>
+            {/* 🔹 내 프로젝트 드롭다운 */}
             <li
               className={`menu-item ${
                 "project" && openProject ? "active" : ""
@@ -127,7 +151,6 @@ function SideBar({
                   setSelectedMenu(null);
                   setOpenProject(false);
                 } else {
-                  // 닫혀있는 상태 -> 열기
                   setSelectedMenu("project");
                   setOpenProject(true);
                 }
@@ -161,23 +184,17 @@ function SideBar({
                 )}
               </ul>
             )}
+
+            {/* 🔥 인사이트 (boardName 전달 추가됨) */}
             <li
               className={`menu-item ${
                 selectedMenu === "insight" && !openProject ? "active" : ""
               }`}
-              onClick={() => {
-                if (!selectedBoardId) {
-                  alert("먼저 게시판을 선택해주세요.");
-                  return;
-                }
-                setSelectedMenu("insight");
-                setOpenProject(false);
-                setSelectedBoardId(null);
-                navigate(`/boards/${selectedBoardId}/insight`);
-              }}
+              onClick={handleInsightClick}
             >
               인사이트
             </li>
+
             <li
               className={`menu-item ${
                 selectedMenu === "notice" && !openProject ? "active" : ""
@@ -209,23 +226,11 @@ function SideBar({
             >
               캘린더
             </li>
-            {/* <li
-              className={`menu-item ${
-                selectedMenu === "messenger" && !openProject ? "active" : ""
-              }`}
-              onClick={() => {
-                setSelectedMenu("messenger");
-                setOpenProject(false);
-                setSelectedBoardId(null);
-                navigate("/messenger");
-              }}
-            >
-              메신저
-            </li> */}
           </ul>
         </nav>
 
-        {selectedTeam && <MiniTodoList selectedTeamId={selectedTeam.id} />}
+        {/* 🔥 selectedBoardId는 숫자이므로 .id 제거함 */}
+        {selectedBoardId && <MiniTodoList selectedBoardId={selectedBoardId} />}
 
         <div className="bottom-menu">
           <ul>
@@ -233,6 +238,7 @@ function SideBar({
               <span className="material-symbols-outlined">link</span>팀 초대
               링크 발급
             </li>
+
             <li id="zoom">
               <a
                 href="https://zoom.us/ko/join"
@@ -245,8 +251,10 @@ function SideBar({
                 ZOOM으로 이동
               </a>
             </li>
+
             <li onClick={handleLogout}>
-              <span className="material-symbols-outlined">logout</span>로그아웃
+              <span className="material-symbols-outlined">logout</span>
+              로그아웃
             </li>
           </ul>
         </div>
@@ -258,6 +266,7 @@ function SideBar({
         teamId={selectedTeam?.id}
         onCreated={() => fetchBoards()}
       />
+
       <InviteModal
         link={inviteLink}
         isOpen={modalOpen}
