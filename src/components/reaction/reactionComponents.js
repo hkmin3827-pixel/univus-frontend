@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import ReactionApi from "../../api/ReactionApi";
 
-
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@12,400,0,0&icon_names=sentiment_satisfied,sentiment_neutral,sentiment_dissatisfied" />
-
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@12,400,0,0&icon_names=sentiment_satisfied,sentiment_neutral,sentiment_dissatisfied"
+/>;
 
 const Wrapper = styled.div`
   margin: 16px 0;
@@ -42,7 +43,7 @@ const ReactionButton = styled.button`
     line-height: 1;
   }
 
-    &:not(:disabled):hover {
+  &:not(:disabled):hover {
     border-color: #9484ffff;
     background: #f4f3ff;
   }
@@ -50,11 +51,11 @@ const ReactionButton = styled.button`
   &:not(:disabled):hover .material-symbols-outlined {
     color: #9484ffff;
   }
-  
+
   ${(props) =>
     props.active &&
     css`
-      border-color: #A294F9;
+      border-color: #a294f9;
       background: #eef2ff;
       font-weight: 600;
     `}
@@ -94,8 +95,7 @@ const ReactionBar = ({ postId }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postId]);
 
-  const countByType = (type) =>
-    reactions.filter((r) => r.type === type).length;
+  const countByType = (type) => reactions.filter((r) => r.type === type).length;
 
   const positiveCount = countByType("POSITIVE");
   const neutralCount = countByType("NEUTRAL");
@@ -130,10 +130,8 @@ const ReactionBar = ({ postId }) => {
           active={myReaction === "POSITIVE"}
           disabled={loading}
         >
-          <span class="material-symbols-outlined">
-            sentiment_satisfied
-            </span>
-            {positiveCount}
+          <span class="material-symbols-outlined">sentiment_satisfied</span>
+          {positiveCount}
         </ReactionButton>
 
         <ReactionButton
@@ -141,10 +139,8 @@ const ReactionBar = ({ postId }) => {
           active={myReaction === "NEUTRAL"}
           disabled={loading}
         >
-          <span class="material-symbols-outlined">
-            sentiment_neutral
-            </span>
-             {neutralCount}
+          <span class="material-symbols-outlined">sentiment_neutral</span>
+          {neutralCount}
         </ReactionButton>
 
         <ReactionButton
@@ -152,10 +148,8 @@ const ReactionBar = ({ postId }) => {
           active={myReaction === "NEGATIVE"}
           disabled={loading}
         >
-          <span class="material-symbols-outlined">
-            sentiment_dissatisfied
-            </span>
-             {negativeCount}
+          <span class="material-symbols-outlined">sentiment_dissatisfied</span>
+          {negativeCount}
         </ReactionButton>
       </ButtonGroup>
     </Wrapper>
