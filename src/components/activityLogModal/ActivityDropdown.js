@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   top: 60px;
   right: 20px;
   width: 320px;
-  max-height: 400px;
+  max-height: 240px;
   background: white;
   border-radius: 12px;
   padding: 16px;
@@ -65,10 +65,7 @@ function ActivityDropdown({ closeDropdown }) {
   }, [selectedTeam]);
 
   return (
-    <Wrapper
-      ref={ref}
-      onClick={(e) => e.stopPropagation()} // 클릭 전파 막기
-    >
+    <Wrapper ref={ref} onClick={(e) => e.stopPropagation()}>
       <Tail />
       <h4 style={{ marginBottom: "10px" }}>
         {selectedTeam?.teamName} 활동 알림
