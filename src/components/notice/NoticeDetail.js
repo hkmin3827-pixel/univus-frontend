@@ -1,256 +1,216 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import profileDefaultImg from "../../images/profileDefaultImg.png";
 
+/* 컨테이너 */
 const Container = styled.div`
   width: 100%;
   max-width: 900px;
-  padding: 36px;
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  margin: 33px auto;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
+
+  @media (max-width: 940px) {
+    margin: 5px auto;
+  }
 `;
 
-const IconButton = styled.button`
+/* 뒤로가기 버튼 */
+const BackBtn = styled.button`
   border: none;
   background: none;
+  outline: none;
   cursor: pointer;
-  font-size: ${(props) => props.size || "26px"};
   color: #999;
-  transition: 0.1s;
+  padding: 4px;
+  align-self: flex-start;
 
-  &:hover {
-    color: #3737ff; /* hover 진한 보라 */
+  span {
+    font-size: 28px;
+    transition: 0.15s;
   }
-  &:active {
-    color: #3737ff; /* 눌렀을 때 */
+
+  &:hover span {
+    color: #333;
+  }
+
+  &:active span {
+    color: #333;
   }
 `;
 
-const BackButton = styled.button`
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  border: none;
-  background: none;
-  font-size: 26px;
-  cursor: pointer;
-  color: #999;
-  z-index: 9999;
-
-  &:hover {
-    color: #3737ff;
-  }
-  &:active {
-    color: #3737ff;
-  }
-`;
-
+/* 제목 */
 const Title = styled.h1`
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 700;
   margin: 0;
 `;
 
-const HeaderRow = styled.div`
+/* 상단 정보: 프로필 + 작성자 + 메뉴 + 날짜 */
+const InfoRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  color: #666;
 `;
 
-const ProfileRow = styled.div`
+const WriterRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 6px;
 `;
 
-const ProfileImg = styled.img`
-  width: 48px;
-  height: 48px;
+const WriterImg = styled.img`
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   object-fit: cover;
 `;
 
-const InfoColumn = styled.div`
+/* 우측 메뉴 */
+const RightMenu = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  align-items: flex-end;
+  gap: 4px;
+  position: relative;
 `;
 
-const NameText = styled.span`
-  font-weight: 600;
-  font-size: 15px;
-`;
-
-const TimeText = styled.span`
-  font-size: 13px;
-  color: #666;
-`;
-
-const MoreMenu = styled.div`
-  position: absolute;
-  top: 32px;
-  right: 0;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
-  overflow: hidden;
-  width: 120px;
-  z-index: 10;
-`;
-
-const MenuItem = styled.div`
-  padding: 10px 14px;
-  font-size: 14px;
+const MenuButton = styled.button`
+  background: none;
+  border: none;
+  outline: none;
   cursor: pointer;
-  color: ${(props) => (props.red ? "red" : "#333")};
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  &:hover {
-    background: #f3f4ff;
+  span {
+    font-size: 28px;
+    color: #999;
+    transition: 0.15s;
+  }
+
+  &:hover span {
+    color: #333;
+  }
+
+  &:active span {
+    color: #333;
   }
 `;
 
+const Dropdown = styled.div`
+  position: absolute;
+  top: 26px;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+  z-index: 2000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+
+  button {
+    border: none;
+    background: white;
+    padding: 10px 16px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+  }
+
+  button:hover {
+    background: #f2f2f2;
+  }
+`;
+
+const DateText = styled.span`
+  color: #777;
+  font-size: 14px;
+`;
+
+/* 구분선 */
+const Divider = styled.hr`
+  border: 0;
+  border-top: 1px solid #ececec;
+  margin: 3px 0;
+`;
+
+/* 본문 */
 const Content = styled.div`
   font-size: 18px;
   line-height: 1.7;
   white-space: pre-wrap;
   word-break: break-word;
-`;
-
-const FileSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
-const FileLink = styled.button`
-  background: none;
-  border: none;
-  color: #5f5fff;
-  text-decoration: underline;
-  cursor: pointer;
-  padding: 0;
-  align-self: flex-start;
+  margin-bottom: 22px;
 `;
 
 const NoticeDetail = ({ notice, onBack, onEdit, onDelete }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef();
-
-  /* ----------------------------
-     (1) 메뉴 외부 클릭 감지
-     ---------------------------- */
-  useEffect(() => {
-    const handler = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setMenuOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
-
   if (!notice) return null;
 
-  /* ----------------------------
-     (2) 생성 시간 포맷 정리
-     ---------------------------- */
-  const formatDate = (value) => {
-    if (!value) return null;
+  const formatDateTime = (value) => {
+    if (!value) return "";
     const d = new Date(value);
-    return isNaN(d.getTime()) ? null : d;
+    return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(
+      2,
+      "0"
+    )}.${String(d.getDate()).padStart(2, "0")} ${String(d.getHours()).padStart(
+      2,
+      "0"
+    )}:${String(d.getMinutes()).padStart(2, "0")}`;
   };
-
-  const dateObj = formatDate(notice.createTime);
-
-  const formattedTime = dateObj
-    ? `${dateObj.getFullYear()}.${String(dateObj.getMonth() + 1).padStart(
-        2,
-        "0"
-      )}.${String(dateObj.getDate()).padStart(2, "0")} 
-     ${String(dateObj.getHours()).padStart(2, "0")}:${String(
-        dateObj.getMinutes()
-      ).padStart(2, "0")}`
-    : "작성 시간 정보 없음";
-
-  /* ----------------------------
-     (3) 파일 다운로드
-     ---------------------------- */
-  const handleDownload = () => {
-    if (!notice.fileUrl) return;
-    const link = document.createElement("a");
-    link.href = notice.fileUrl;
-    link.download = notice.fileName;
-    link.click();
-  };
-
-  const isImage = (file = "") => /\.(png|jpg|jpeg|gif)$/i.test(file);
 
   return (
-    <>
-      <Container>
-        <BackButton onClick={onBack}>←</BackButton>
-        <Title>{notice.title}</Title>
+    <Container>
+      <BackBtn onClick={onBack}>
+        <span className="material-symbols-outlined">arrow_back</span>
+      </BackBtn>
 
-        <HeaderRow>
-          {/* 작성자 정보 */}
-          <ProfileRow>
-            {notice.professorImage && (
-              <ProfileImg src={notice.professorImage} />
-            )}
-            <InfoColumn>
-              <NameText>
-                {notice.professorName} ({notice.email})
-              </NameText>
-              <TimeText>{formattedTime}</TimeText>
-            </InfoColumn>
-          </ProfileRow>
+      <Title>{notice.title}</Title>
 
-          {/* ...(더보기) 메뉴 */}
-          <div style={{ position: "relative" }} ref={menuRef}>
-            <IconButton size="22px" onClick={() => setMenuOpen((p) => !p)}>
-              ⋮
-            </IconButton>
+      <InfoRow>
+        {/* 프로필 + 작성자 */}
+        <WriterRow>
+          <WriterImg
+            src={
+              notice.professorImage && notice.professorImage.trim() !== ""
+                ? notice.professorImage
+                : profileDefaultImg
+            }
+            alt="작성자"
+          />
+          <span className="writer">
+            {notice.professorName} ({notice.email})
+          </span>
+        </WriterRow>
 
-            {menuOpen && (
-              <MoreMenu>
-                <MenuItem onClick={onEdit}>수정</MenuItem>
-                <MenuItem red onClick={onDelete}>
-                  삭제
-                </MenuItem>
-              </MoreMenu>
-            )}
-          </div>
-        </HeaderRow>
+        {/* 오른쪽 메뉴 + 날짜 */}
+        <RightMenu>
+          <MenuButton onClick={() => setMenuOpen((prev) => !prev)}>
+            <span className="material-symbols-outlined">more_vert</span>
+          </MenuButton>
 
-        {/* 본문 */}
-        <Content>{notice.content}</Content>
+          {menuOpen && (
+            <Dropdown>
+              <button onClick={onEdit}>수정</button>
+              <button onClick={onDelete}>삭제</button>
+            </Dropdown>
+          )}
 
-        {/* 첨부파일 */}
-        {notice.fileUrl && (
-          <FileSection>
-            <span style={{ fontWeight: 600 }}>첨부파일</span>
+          <DateText>{formatDateTime(notice.createTime)}</DateText>
+        </RightMenu>
+      </InfoRow>
 
-            {isImage(notice.fileName) ? (
-              <>
-                <img
-                  src={notice.fileUrl}
-                  alt="첨부 이미지"
-                  style={{ maxWidth: "60%", borderRadius: "10px" }}
-                />
-                <a href={notice.fileUrl} target="_blank" rel="noreferrer">
-                  원본 보기
-                </a>
-              </>
-            ) : (
-              <FileLink onClick={handleDownload}>{notice.fileName}</FileLink>
-            )}
-          </FileSection>
-        )}
-      </Container>
-    </>
+      <Divider />
+
+      <Content>{notice.content}</Content>
+    </Container>
   );
 };
 

@@ -2,16 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import * as NoticeApi from "../../api/NoticeApi";
 import NoticeDetail from "../../components/notice/NoticeDetail";
-import styled from "styled-components";
-
-const PageWrapper = styled.div`
-  width: 100%;
-  min-height: 100vh;
-  background: #ffffff;
-  display: flex;
-  justify-content: center;
-  padding: 40px 20px;
-`;
 
 const NoticeDetailPage = () => {
   const { noticeId } = useParams();
@@ -32,11 +22,11 @@ const NoticeDetailPage = () => {
   }, [noticeId]);
 
   return (
-    <PageWrapper>
+    <div style={{ width: "100%" }}>
       <NoticeDetail
         notice={notice}
         onBack={() => navigate("/notice")}
-        onEdit={() => navigate(`/notice/edit/${noticeId}`)} // 여기서 Edit 페이지로 이동
+        onEdit={() => navigate(`/notice/edit/${noticeId}`)}
         onDelete={async () => {
           if (window.confirm("정말 삭제하시겠습니까?")) {
             try {
@@ -49,7 +39,7 @@ const NoticeDetailPage = () => {
           }
         }}
       />
-    </PageWrapper>
+    </div>
   );
 };
 
