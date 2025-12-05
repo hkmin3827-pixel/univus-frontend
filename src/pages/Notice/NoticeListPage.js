@@ -8,42 +8,56 @@ const PageWrapper = styled.div`
   width: 100%;
   min-height: 100vh;
   background: #f3f4ff;
-  padding: 50px 20px;
+  padding: 3rem 1rem;
+
+  @media (max-width: 768px) {
+    padding: 2rem 0.5rem;
+  }
 `;
 
 const Header = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   max-width: 1100px;
-  margin: 0 auto 30px;
+  margin: 0 auto 2rem;
 `;
 
 const Title = styled.h1`
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
   font-weight: 800;
   color: #222;
+  margin: 0;
 `;
 
 const Controls = styled.div`
   display: flex;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+
+  @media (min-width: 768px) {
+    margin-top: 0;
+  }
 `;
 
 const Button = styled.button`
-  padding: 8px 16px;
+  padding: 0.5rem 1rem;
   background-color: #5f5fff;
   color: white;
   font-weight: 600;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  font-size: clamp(0.9rem, 2vw, 1rem);
 `;
 
 const SortSelect = styled.select`
-  padding: 6px 12px;
+  padding: 0.4rem 0.8rem;
   border-radius: 6px;
   border: 1px solid #ccc;
+  font-size: clamp(0.85rem, 2vw, 1rem);
 `;
 
 const ListWrapper = styled.div`
@@ -62,6 +76,14 @@ const HeadRow = styled.div`
   padding: 16px 20px;
   font-weight: 700;
   border-bottom: 2px solid #5f5fff;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr 120px; /* 작성일 컬럼 숨김 */
+    & > div:last-child {
+      display: none;
+    }
+  }
 `;
 
 const Row = styled.div`
@@ -70,8 +92,17 @@ const Row = styled.div`
   padding: 16px 20px;
   border-bottom: 1px solid #efefef;
   cursor: pointer;
+  font-size: clamp(0.85rem, 2vw, 1rem);
+
   &:hover {
     background: #f7f8ff;
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr 120px; /* 작성일 숨김 */
+    & > div:last-child {
+      display: none;
+    }
   }
 `;
 

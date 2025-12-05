@@ -22,3 +22,39 @@
 .fc-daygrid-day {
   height: auto !important;
 }
+
+/* ===== 반응형 헤더/버튼 처리 ===== */
+@media (max-width: 768px) {
+  /* 전체 버튼 크기 축소 */
+  .fc-toolbar-chunk button {
+    padding: 4px 8px !important;
+    font-size: 0.8rem !important;
+  }
+
+  /* 캘린더 제목 크기 축소 */
+  .fc-toolbar-title {
+    font-size: 1rem !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 60%;
+  }
+
+  /* 오른쪽 버튼 그룹이 화면 넘치지 않게 조정 */
+  .fc-toolbar-chunk:last-child {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* 아주 작은 화면에서는 today 버튼 숨기고 + 버튼만 보이게 */
+  .fc-today-button {
+    display: none;
+  }
+
+  .fc-toolbar-chunk:last-child {
+    justify-content: flex-end;
+  }
+}

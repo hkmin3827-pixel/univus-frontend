@@ -8,9 +8,11 @@ export const PageContainer = styled.div`
   background: #f5f7ff;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: auto;
+  height: auto;
   box-sizing: border-box;
   border-radius: 30px;
+  overflow: visible;
 
   @media (min-width: 1200px) {
     min-height: 1200px;
@@ -28,6 +30,7 @@ export const Title = styled.h2`
 export const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-auto-rows: min-content;
   gap: 20px;
 
   @media (max-width: 900px) {
@@ -43,7 +46,7 @@ export const Card = styled.div`
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
   box-sizing: border-box;
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
 `;
 
 export const CardTitle = styled.div`
