@@ -6,9 +6,15 @@ export const PageContainer = styled.div`
   max-width: 100%; /* 가로 최대도 화면 전체 */
   padding: 24px 32px;
   background: #f5f7ff;
-  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   box-sizing: border-box;
   border-radius: 30px;
+
+  @media (min-width: 1200px) {
+    min-height: 1200px;
+  }
 `;
 
 // 상단 제목
