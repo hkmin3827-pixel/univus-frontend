@@ -8,10 +8,6 @@ const Card = styled.div`
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-
-  @media (max-width: 480px) {
-    padding: 20px;
-  }
 `;
 
 const Title = styled.h1`
@@ -63,11 +59,6 @@ const UploadButton = styled.button`
   cursor: pointer;
 `;
 
-const PreviewImage = styled.img`
-  max-width: 50%;
-  border-radius: 10px;
-`;
-
 const ButtonGroup = styled.div`
   display: flex;
   justify-content: center;
@@ -77,21 +68,40 @@ const ButtonGroup = styled.div`
 `;
 
 const SubmitButton = styled.button`
-  padding: 12px 20px; // 좌우 폭 줄임
-  flex: 1 1 120px;
-  min-width: 0;
-  max-width: 200px;
-  text-align: center;
+  padding: 12px 20px;
   background: #5f5fff;
   color: white;
   border-radius: 10px;
   border: none;
   cursor: pointer;
-  font-weight: 600;
+  min-width: 100px;
+  white-space: nowrap;
 `;
 
 const CancelButton = styled(SubmitButton)`
   background: #b5b5b5;
+`;
+
+const ExistingFileBox = styled.div`
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fafafa;
+`;
+
+const PreviewImage = styled.img`
+  max-width: 50%;
+  border-radius: 10px;
+`;
+
+const FileRemoveButton = styled.button`
+  background: #ff4e4e;
+  border: none;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 10px;
 `;
 
 const NoticeWrite = ({
@@ -102,24 +112,47 @@ const NoticeWrite = ({
   onUploadClick,
   onSubmit,
   onCancel,
+  editMode,
 }) => {
   return (
     <Card>
-      {" "}
-      <Title>공지사항 작성</Title>
+      <Title>{editMode ? "공지사항 수정" : "공지사항 작성"}</Title>
+
       <TitleInput
         placeholder="제목을 입력하세요"
         value={notice.title}
         onChange={(e) => setNotice({ ...notice, title: e.target.value })}
       />
+
       <ContentTextArea
         placeholder="내용을 입력하세요"
         value={notice.content}
         onChange={(e) => setNotice({ ...notice, content: e.target.value })}
       />
+
+      {/* 수정 모드일 때 기존 파일 표시 */}
+      {editMode && notice.fileName && (
+        <ExistingFileBox>
+          📎 기존 업로드 파일: <strong>{notice.fileName}</strong>
+          <FileRemoveButton
+            onClick={() =>
+              setNotice({
+                ...notice,
+                fileName: null,
+                fileUrl: null,
+                file: null,
+              })
+            }
+          >
+            삭제
+          </FileRemoveButton>
+        </ExistingFileBox>
+      )}
+
+      {/* 새 파일 선택 */}
       <FileSection>
         <FileLabel>
-          📎 파일 선택
+          📎 새 파일 선택
           <input type="file" hidden onChange={onFileChange} />
         </FileLabel>
 
@@ -133,11 +166,14 @@ const NoticeWrite = ({
             cursor: notice.file ? "pointer" : "not-allowed",
           }}
         >
-          Upload
+          파일 업로드
         </UploadButton>
       </FileSection>
+
       <ButtonGroup>
-        <SubmitButton onClick={onSubmit}>등록</SubmitButton>
+        <SubmitButton onClick={onSubmit}>
+          {editMode ? "수정 완료" : "등록"}
+        </SubmitButton>
         <CancelButton onClick={onCancel}>취소</CancelButton>
       </ButtonGroup>
     </Card>
