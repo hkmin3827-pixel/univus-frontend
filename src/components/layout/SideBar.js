@@ -68,11 +68,12 @@ function SideBar({
   /** 🔹 로그아웃 */
   const handleLogout = async () => {
     try {
-      await AxiosApi.logout();
       localStorage.clear();
       resetTodos();
       setSelectedTeam(null);
       setMyTeams([]);
+      localStorage.clear();
+      await AxiosApi.logout();
       navigate("/");
     } catch (err) {
       console.error("로그아웃 실패:", err);

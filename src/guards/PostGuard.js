@@ -1,8 +1,7 @@
+import { Outlet } from "react-router-dom";
 import usePostGuard from "../hooks/usePostGuard";
 
-const PostGuard = ({ children }) => {
+export default function PostGuard() {
   usePostGuard();
-  return children;
-};
-
-export default PostGuard;
+  return <Outlet />;
+}

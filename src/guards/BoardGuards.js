@@ -1,8 +1,7 @@
+import { Outlet } from "react-router-dom";
 import useBoardGuard from "../hooks/useBoardGuard";
 
-const BoardGuard = ({ children }) => {
+export default function BoardGuard() {
   useBoardGuard();
-  return children;
-};
-
-export default BoardGuard;
+  return <Outlet />;
+}

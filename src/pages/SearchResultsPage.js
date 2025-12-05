@@ -3,12 +3,13 @@ import React, { useState, useEffect, useContext } from "react";
 import { TeamContext } from "../context/TeamContext";
 import "../styles/SearchResultsPage.css";
 import AxiosApi from "../api/AxiosApi";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 function SearchResultsPage() {
   const { selectedTeam } = useContext(TeamContext);
-  const { teamId } = useParams();
+  const [searchParams] = useSearchParams();
+  const teamId = searchParams.get("teamId");
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState([]);
@@ -159,7 +160,9 @@ function SearchResultsPage() {
                 <div
                   key={item.id}
                   className="result-item"
-                  onClick={() => navigate(`/notice/detail/${item.id}`)}
+                  onClick={() =>
+                    navigate(`/team/${teamId}/notice/detail/${item.id}`)
+                  }
                 >
                   <p
                     dangerouslySetInnerHTML={{

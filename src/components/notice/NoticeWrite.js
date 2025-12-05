@@ -125,6 +125,11 @@ const NoticeWrite = ({
 
         {previewUrl && <PreviewImage src={previewUrl} alt="미리보기" />}
 
+        {/* 이미지가 아닐 때 파일명 표시 */}
+        {notice.file && !previewUrl && (
+          <span>📄 첨부파일: {notice.file.name}</span>
+        )}
+
         <UploadButton
           disabled={!notice.file}
           onClick={onUploadClick}

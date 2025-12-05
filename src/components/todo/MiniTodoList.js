@@ -72,6 +72,7 @@ export default function MiniTodoList() {
             type="checkbox"
             checked={todo.done}
             onChange={() => toggleTodo(boardId, todo.id, !todo.done)}
+            style={{ marginRight: "10px" }}
           />
 
           <span style={{ flex: 1, fontSize: "13px", cursor: "pointer" }}>

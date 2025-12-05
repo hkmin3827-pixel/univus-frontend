@@ -23,7 +23,7 @@ const NoticeEditPage = () => {
   useEffect(() => {
     if (role !== "PROFESSOR") {
       alert("공지사항 수정 권한이 없습니다.");
-      navigate("/notice");
+      navigate(`/team/${teamId}/notice`);
       return;
     }
 
@@ -38,7 +38,7 @@ const NoticeEditPage = () => {
           "공지사항 불러오기에 실패하였습니다.";
 
         alert(message);
-        navigate("/notice");
+        navigate(`/team/${teamId}/notice`);
       }
     };
     load();

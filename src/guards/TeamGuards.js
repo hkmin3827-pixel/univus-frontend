@@ -1,8 +1,7 @@
+import { Outlet } from "react-router-dom";
 import useTeamGuard from "../hooks/useTeamGuard";
 
-const TeamGuard = ({ children }) => {
+export default function TeamGuard() {
   useTeamGuard();
-  return children;
-};
-
-export default TeamGuard;
+  return <Outlet />;
+}
