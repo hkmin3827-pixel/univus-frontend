@@ -1,8 +1,7 @@
+import { Outlet } from "react-router-dom";
 import useNoticeGuard from "../hooks/useNoticeGuard";
 
-const NoticeGuard = ({ children }) => {
+export default function NoticeGuard() {
   useNoticeGuard();
-  return children;
-};
-
-export default NoticeGuard;
+  return <Outlet />;
+}

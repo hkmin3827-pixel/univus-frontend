@@ -128,6 +128,7 @@ const NoticeListPage = () => {
   };
 
   useEffect(() => {
+    if (!selectedTeam) return;
     setCurrentPage(0); // 정렬이나 팀 변경 시 1페이지로 초기화
     fetchList(0);
   }, [sort, selectedTeam]);

@@ -36,7 +36,8 @@ const NoticeEditPage = () => {
   useEffect(() => {
     if (user.role && user.role !== "PROFESSOR") {
       alert("공지사항 수정 권한이 없습니다.");
-      navigate(-1);
+      navigate(`/team/${teamId}/notice`);
+      return;
     }
   }, [user.role, navigate]);
 
@@ -45,16 +46,15 @@ const NoticeEditPage = () => {
     const loadNotice = async () => {
       try {
         const res = await NoticeApi.getNotice(teamId, noticeId);
-        setNotice({
-          title: res.data.title,
-          content: res.data.content,
-          fileUrl: res.data.fileUrl,
-          fileName: res.data.fileName,
-          file: null,
-        });
-      } catch (err) {
-        alert("공지사항 불러오기 실패");
-        navigate(`/team/${teamId}/notice/list`);
+        setNotice(res.data);
+      } catch (e) {
+        const message =
+          e.response?.data?.message ||
+          e.response?.data ||
+          "공지사항 불러오기에 실패하였습니다.";
+
+        alert(message);
+        navigate(`/team/${teamId}/notice`);
       }
     };
     loadNotice();

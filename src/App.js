@@ -55,169 +55,91 @@ function App() {
                 <Route element={<Layout />}>
                   <Route path="/home" element={<Home />} />
                   <Route path="/teams/new" element={<TeamCreate />} />
+                  <Route path="/teamentry/:token" element={<TeamEntry />} />
+                  <Route path="/team/entry" element={<TeamLink />} />
+                  <Route path="/profile" element={<Profile />} />
 
-                  <Route
+                  <Route element={<TeamGuard />}>
+                    <Route path="/team/:teamId" element={<TeamPage />} />
+                    <Route path="/team/:teamId/info" element={<TeamInfo />} />
+                    <Route path="/team/:teamId/edit" element={<TeamEdit />} />
+                    <Route
+                      path="/team/:teamId/userprofile/:userId"
+                      element={<UserProfile />}
+                    />
+                    <Route
+                      path="/team/:teamId/activity"
+                      element={<ActivityLog />}
+                    />
+                    <Route
+                      path="/team/:teamId/notice"
+                      element={<NoticeListPage />}
+                    />
+                    <Route
+                      path="/team/:teamId/notice/create"
+                      element={<NoticeWritePage />}
+                    />
+
+                    {/* NoticeGuard */}
+                    <Route element={<NoticeGuard />}>
+                      <Route
+                        path="/team/:teamId/notice/detail/:noticeId"
+                        element={<NoticeDetailPage />}
+                      />
+                      <Route
+                        path="/team/:teamId/notice/edit/:noticeId"
+                        element={<NoticeEditPage />}
+                      />
+                    </Route>
+
+                    {/* BoardGuard */}
+                    <Route element={<BoardGuard />}>
+                      <Route
+                        path="/team/:teamId/board/:boardId"
+                        element={<BoardPage />}
+                      />
+                      <Route
+                        path="/team/:teamId/board/:boardId/todo"
+                        element={<TodoPage />}
+                      />
+                      <Route
+                        path="/team/:teamId/boards/:boardId/insight"
+                        element={<BoardInsightPage />}
+                      />
+                      <Route
+                        path="/team/:teamId/boards/:boardId/insight/member/:userId"
+                        element={<MemberInsightPage />}
+                      />
+                      <Route
+                        path="/team/:teamId/board/:boardId/post/create"
+                        element={<CreatePostPage />}
+                      />
+                      {/* PostGuard */}
+                      <Route element={<PostGuard />}>
+                        <Route
+                          path="/team/:teamId/board/:boardId/post/detail/:postId"
+                          element={<PostDetailPage />}
+                        />
+                        <Route
+                          path="/team/:teamId/board/:boardId/posts/:postId/edit"
+                          element={<EditPostPage />}
+                        />
+                      </Route>
+                    </Route>
+
+                    {/* <Route
                     path="/teams/:teamId"
                     element={
                       <TeamGuard>
                         <TeamDetail />
                       </TeamGuard>
                     }
-                  />
-                  <Route path="/teamentry/:token" element={<TeamEntry />} />
-                  <Route
-                    path="/team/:teamId"
-                    element={
-                      <TeamGuard>
-                        <TeamPage />
-                      </TeamGuard>
-                    }
-                  />
-                  <Route path="/team/entry" element={<TeamLink />} />
-                  <Route
-                    path="/team/:teamId/info"
-                    element={
-                      <TeamGuard>
-                        <TeamInfo />
-                      </TeamGuard>
-                    }
-                  />
-                  <Route
-                    path="/teams/:teamId/edit"
-                    element={
-                      <TeamGuard>
-                        <TeamEdit />
-                      </TeamGuard>
-                    }
-                  />
+                  /> */}
+                  </Route>
+
+                  <Route path="/search" element={<SearchResultsPage />} />
                   <Route path="/schedulepage" element={<SchedulePage />} />
                   <Route path="/profiledetail" element={<ProfileDetail />} />
-                  <Route
-                    path="/userprofile/:userId"
-                    element={<UserProfile />}
-                  />
-                  <Route path="/profile" element={<Profile />} />
-                  <Route
-                    path="/team/:teamId/board/:boardId"
-                    element={
-                      <TeamGuard>
-                        <BoardGuard>
-                          <BoardPage />
-                        </BoardGuard>
-                      </TeamGuard>
-                    }
-                  />
-                  <Route
-                    path="/team/:teamId/board/:boardId/post/create"
-                    element={
-                      <TeamGuard>
-                        <BoardGuard>
-                          <CreatePostPage />
-                        </BoardGuard>
-                      </TeamGuard>
-                    }
-                  />
-                  <Route
-                    path="/team/:teamId/board/:boardId/post/detail/:postId"
-                    element={
-                      <TeamGuard>
-                        <BoardGuard>
-                          <PostGuard>
-                            <PostDetailPage />
-                          </PostGuard>
-                        </BoardGuard>
-                      </TeamGuard>
-                    }
-                  />
-                  <Route
-                    path="/team/:teamId/board/:boardId/posts/:postId/edit"
-                    element={
-                      <TeamGuard>
-                        <BoardGuard>
-                          <PostGuard>
-                            <EditPostPage />
-                          </PostGuard>
-                        </BoardGuard>
-                      </TeamGuard>
-                    }
-                  />
-                  <Route
-                    path="/team/:teamId/notice"
-                    element={
-                      <TeamGuard>
-                        <NoticeListPage />
-                      </TeamGuard>
-                    }
-                  />
-                  <Route
-                    path="/team/:teamId/notice/create"
-                    element={
-                      <TeamGuard>
-                        <NoticeWritePage />
-                      </TeamGuard>
-                    }
-                  />
-                  <Route
-                    path="/team/:teamId/notice/detail/:noticeId"
-                    element={
-                      <TeamGuard>
-                        <NoticeGuard>
-                          <NoticeDetailPage />
-                        </NoticeGuard>
-                      </TeamGuard>
-                    }
-                  />
-                  <Route
-                    path="/team/:teamId/notice/edit/:noticeId"
-                    element={
-                      <TeamGuard>
-                        <NoticeGuard>
-                          <NoticeEditPage />
-                        </NoticeGuard>
-                      </TeamGuard>
-                    }
-                  />
-
-                  <Route
-                    path="/team/:teamId/board/:boardId/todo"
-                    element={
-                      <TeamGuard>
-                        <BoardGuard>
-                          <TodoPage />
-                        </BoardGuard>
-                      </TeamGuard>
-                    }
-                  />
-
-                  <Route
-                    path="/team/:teamId/boards/:boardId/insight"
-                    element={
-                      <TeamGuard>
-                        <BoardGuard>
-                          <BoardInsightPage />
-                        </BoardGuard>
-                      </TeamGuard>
-                    }
-                  />
-                  <Route
-                    path="/team/:teamId/boards/:boardId/insight/member/:userId"
-                    element={
-                      <TeamGuard>
-                        <BoardGuard>
-                          <MemberInsightPage />
-                        </BoardGuard>
-                      </TeamGuard>
-                    }
-                  />
-                  <Route path="/search" element={<SearchResultsPage />} />
-                  <Route
-                    path="/team/:teamId/activity"
-                    element={
-                      <TeamGuard>
-                        <ActivityLog />
-                      </TeamGuard>
-                    }
-                  />
                 </Route>
               </Routes>
             </TodoProvider>

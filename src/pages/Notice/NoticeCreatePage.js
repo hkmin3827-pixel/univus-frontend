@@ -38,7 +38,7 @@ const NoticeCreatePage = () => {
   useEffect(() => {
     if (user.role && user.role !== "PROFESSOR") {
       alert("공지사항 작성 권한이 없습니다.");
-      navigate(-1); // 이전 페이지로
+      navigate(`/team/${teamId}/notice`); // 이전 페이지로
     }
   }, [user.role, navigate]);
   useEffect(() => {
@@ -52,7 +52,11 @@ const NoticeCreatePage = () => {
     if (!file) return;
 
     setNotice((prev) => ({ ...prev, file }));
-    setPreviewUrl(URL.createObjectURL(file));
+    if (file.type.startsWith("image/")) {
+      setPreviewUrl(URL.createObjectURL(file));
+    } else {
+      setPreviewUrl(null); // PDF는 미리보기 이미지 없음
+    }
   };
 
   // Firebase v9 업로드
@@ -85,18 +89,30 @@ const NoticeCreatePage = () => {
       return;
     }
 
-    // 파일을 선택했는데 업로드 안 했을 경우
-    if (notice.file && !notice.fileUrl) {
-      return alert("파일을 업로드한 뒤 등록해주세요.");
-    }
+    let fileUrl = notice.fileUrl;
+    let fileName = notice.fileName;
 
+    // 업로드가 안되어 있으면 즉시 업로드
+    if (notice.file && !notice.fileUrl) {
+      const fileRef = ref(storage, `notice/${Date.now()}_${notice.file.name}`);
+      await uploadBytes(fileRef, notice.file);
+      fileUrl = await getDownloadURL(fileRef);
+      fileName = notice.file.name;
+
+      // 🔥 상태에 반영
+      setNotice((prev) => ({
+        ...prev,
+        fileUrl,
+        fileName,
+      }));
+    }
     try {
       const res = await NoticeApi.createNotice(teamId, {
         title: notice.title,
         content: notice.content,
         teamId: notice.teamId,
-        fileUrl: notice.fileUrl,
-        fileName: notice.fileName,
+        fileUrl,
+        fileName,
       });
 
       alert("공지사항 등록 완료");
@@ -112,6 +128,9 @@ const NoticeCreatePage = () => {
     }
   };
 
+  const handleCancel = () => {
+    navigate(`/team/${teamId}/notice`); // 이전 페이지로 이동
+  };
   return (
     <PageWrapper>
       <NoticeWrite
@@ -121,6 +140,7 @@ const NoticeCreatePage = () => {
         onFileChange={handleFileChange}
         onUploadClick={handleUploadClick}
         onSubmit={handleSubmit}
+        onCancel={handleCancel}
       />
     </PageWrapper>
   );

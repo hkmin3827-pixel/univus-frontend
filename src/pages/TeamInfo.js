@@ -98,7 +98,7 @@ const TeamInfo = () => {
     <Container>
       <FormBox style={{ position: "relative" }}>
         {selectedTeam.leaderId === user.id && (
-          <EditButton onClick={() => navigate(`/teams/${teamId}/edit`)}>
+          <EditButton onClick={() => navigate(`/team/${teamId}/edit`)}>
             <span className="material-symbols-outlined">edit</span>
           </EditButton>
         )}
@@ -132,7 +132,7 @@ const TeamInfo = () => {
                 key={m.userId}
                 className="member-card"
                 onClick={() => {
-                  navigate(`/userprofile/${m.userId}`);
+                  navigate(`/team/${teamId}/userprofile/${m.userId}`);
                 }}
               >
                 {m.userImage && m.userImage.trim() !== "" ? (
