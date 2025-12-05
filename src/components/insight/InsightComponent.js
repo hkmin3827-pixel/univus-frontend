@@ -2,9 +2,11 @@ import styled from "styled-components";
 
 // 페이지 전체 컨테이너
 export const PageContainer = styled.div`
+  width: 100%; /* 화면 전체 너비 */
+  max-width: 100%; /* 가로 최대도 화면 전체 */
   padding: 24px 32px;
   background: #f5f7ff;
-  min-height: 100vh;
+  min-height: 100%;
   box-sizing: border-box;
   border-radius: 30px;
 `;
@@ -19,7 +21,7 @@ export const Title = styled.h2`
 // 2 x 2 카드 레이아웃
 export const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 20px;
 
   @media (max-width: 900px) {
@@ -34,6 +36,8 @@ export const Card = styled.div`
   padding: 20px 24px;
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
   box-sizing: border-box;
+  width: 100%;
+  overflow: hidden;
 `;
 
 export const CardTitle = styled.div`
@@ -72,9 +76,10 @@ export const MemberLeft = styled.div`
 `;
 
 export const Avatar = styled.div`
-  width: 28px;
-  height: 28px;
+  width: ${(props) => props.size || 40}px;
+  height: ${(props) => props.size || 40}px;
   border-radius: 50%;
+  overflow: hidden; /* 🔥 핵심 */
   background-size: cover;
   background-position: center;
   background-image: url(${(props) => props.src});

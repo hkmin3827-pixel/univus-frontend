@@ -35,10 +35,6 @@ const BackBtn = styled.button`
   &:hover span {
     color: #333;
   }
-
-  &:active span {
-    color: #333;
-  }
 `;
 
 /* 제목 */
@@ -48,7 +44,7 @@ const Title = styled.h1`
   margin: 0;
 `;
 
-/* 상단 정보: 프로필 + 작성자 + 메뉴 + 날짜 */
+/* 상단 정보 */
 const InfoRow = styled.div`
   display: flex;
   justify-content: space-between;
@@ -85,22 +81,10 @@ const MenuButton = styled.button`
   outline: none;
   cursor: pointer;
   padding: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
   span {
     font-size: 28px;
     color: #999;
-    transition: 0.15s;
-  }
-
-  &:hover span {
-    color: #333;
-  }
-
-  &:active span {
-    color: #333;
   }
 `;
 
@@ -113,15 +97,14 @@ const Dropdown = styled.div`
   border-radius: 6px;
   overflow: hidden;
   z-index: 2000;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 
   button {
     border: none;
     background: white;
     padding: 10px 16px;
     cursor: pointer;
-    text-align: left;
     font-size: 14px;
+    text-align: left;
   }
 
   button:hover {
@@ -150,6 +133,34 @@ const Content = styled.div`
   margin-bottom: 22px;
 `;
 
+/* 파일 다운로드 박스 */
+const FileBox = styled.div`
+  margin: 16px 0;
+  padding: 12px 16px;
+  background: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  span {
+    font-size: 16px;
+  }
+`;
+
+const FileButton = styled.button`
+  background: #e6e6e6;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+
+  &:hover {
+    background: #dcdcdc;
+  }
+`;
+
 const NoticeDetail = ({ notice, onBack, onEdit, onDelete }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   if (!notice) return null;
@@ -166,6 +177,14 @@ const NoticeDetail = ({ notice, onBack, onEdit, onDelete }) => {
     )}:${String(d.getMinutes()).padStart(2, "0")}`;
   };
 
+  const handleFileDownload = () => {
+    if (notice.fileUrl) {
+      window.open(notice.fileUrl, "_blank");
+    } else {
+      alert("파일 URL이 없습니다.");
+    }
+  };
+
   return (
     <Container>
       <BackBtn onClick={onBack}>
@@ -175,22 +194,20 @@ const NoticeDetail = ({ notice, onBack, onEdit, onDelete }) => {
       <Title>{notice.title}</Title>
 
       <InfoRow>
-        {/* 프로필 + 작성자 */}
         <WriterRow>
           <WriterImg
             src={
-              notice.professorImage && notice.professorImage.trim() !== ""
+              notice.professorImage?.trim()
                 ? notice.professorImage
                 : profileDefaultImg
             }
             alt="작성자"
           />
-          <span className="writer">
+          <span>
             {notice.professorName} ({notice.email})
           </span>
         </WriterRow>
 
-        {/* 오른쪽 메뉴 + 날짜 */}
         <RightMenu>
           <MenuButton onClick={() => setMenuOpen((prev) => !prev)}>
             <span className="material-symbols-outlined">more_vert</span>
@@ -208,6 +225,15 @@ const NoticeDetail = ({ notice, onBack, onEdit, onDelete }) => {
       </InfoRow>
 
       <Divider />
+
+      {/* 파일이 있을 경우에만 표시 */}
+      {notice.fileName && (
+        <FileBox>
+          <span className="material-symbols-outlined">attach_file</span>
+          <span>{notice.fileName}</span>
+          <FileButton onClick={handleFileDownload}>다운로드</FileButton>
+        </FileBox>
+      )}
 
       <Content>{notice.content}</Content>
     </Container>

@@ -77,6 +77,11 @@ const NoticeCreatePage = () => {
       return;
     }
 
+    // 파일을 선택했는데 업로드 안 했을 경우
+    if (notice.file && !notice.fileUrl) {
+      return alert("파일을 업로드한 뒤 등록해주세요.");
+    }
+
     try {
       const res = await NoticeApi.createNotice({
         title: notice.title,
@@ -88,6 +93,7 @@ const NoticeCreatePage = () => {
 
       alert("공지사항 등록 완료");
       navigate(`/notice/detail/${res.data.id}`);
+      console.log("create response: ", res.data);
     } catch (err) {
       console.error(err);
       alert("공지사항 등록 실패");

@@ -1,4 +1,3 @@
-// NoticeWrite.jsx
 import React from "react";
 import styled from "styled-components";
 
@@ -9,6 +8,10 @@ const Card = styled.div`
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+
+  @media (max-width: 480px) {
+    padding: 20px;
+  }
 `;
 
 const Title = styled.h1`
@@ -24,13 +27,6 @@ const TitleInput = styled.input`
   border: 1px solid #ddd;
   border-radius: 10px;
   margin-bottom: 20px;
-  transition: 0.2s;
-
-  &:focus {
-    border-color: #5f5fff;
-    box-shadow: 0 0 0 2px rgba(95, 95, 255, 0.2);
-    outline: none;
-  }
 `;
 
 const ContentTextArea = styled.textarea`
@@ -42,13 +38,6 @@ const ContentTextArea = styled.textarea`
   border-radius: 10px;
   resize: none;
   margin-bottom: 24px;
-  transition: 0.2s;
-
-  &:focus {
-    border-color: #5f5fff;
-    box-shadow: 0 0 0 2px rgba(95, 95, 255, 0.2);
-    outline: none;
-  }
 `;
 
 const FileSection = styled.div`
@@ -72,17 +61,11 @@ const UploadButton = styled.button`
   border-radius: 8px;
   border: none;
   cursor: pointer;
-
-  &:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
 `;
 
 const PreviewImage = styled.img`
   max-width: 50%;
   border-radius: 10px;
-  margin-top: 10px;
 `;
 
 const ButtonGroup = styled.div`
@@ -90,20 +73,21 @@ const ButtonGroup = styled.div`
   justify-content: center;
   gap: 16px;
   margin-top: 20px;
+  flex-wrap: wrap;
 `;
 
 const SubmitButton = styled.button`
-  padding: 12px 28px;
+  padding: 12px 20px; // 좌우 폭 줄임
+  flex: 1 1 120px;
+  min-width: 0;
+  max-width: 200px;
+  text-align: center;
   background: #5f5fff;
   color: white;
   border-radius: 10px;
   border: none;
   cursor: pointer;
   font-weight: 600;
-
-  &:hover {
-    opacity: 0.85;
-  }
 `;
 
 const CancelButton = styled(SubmitButton)`
@@ -121,20 +105,18 @@ const NoticeWrite = ({
 }) => {
   return (
     <Card>
+      {" "}
       <Title>공지사항 작성</Title>
-
       <TitleInput
         placeholder="제목을 입력하세요"
         value={notice.title}
         onChange={(e) => setNotice({ ...notice, title: e.target.value })}
       />
-
       <ContentTextArea
         placeholder="내용을 입력하세요"
         value={notice.content}
         onChange={(e) => setNotice({ ...notice, content: e.target.value })}
       />
-
       <FileSection>
         <FileLabel>
           📎 파일 선택
@@ -143,11 +125,17 @@ const NoticeWrite = ({
 
         {previewUrl && <PreviewImage src={previewUrl} alt="미리보기" />}
 
-        <UploadButton disabled={!notice.file} onClick={onUploadClick}>
+        <UploadButton
+          disabled={!notice.file}
+          onClick={onUploadClick}
+          style={{
+            opacity: notice.file ? 1 : 0.4,
+            cursor: notice.file ? "pointer" : "not-allowed",
+          }}
+        >
           Upload
         </UploadButton>
       </FileSection>
-
       <ButtonGroup>
         <SubmitButton onClick={onSubmit}>등록</SubmitButton>
         <CancelButton onClick={onCancel}>취소</CancelButton>
