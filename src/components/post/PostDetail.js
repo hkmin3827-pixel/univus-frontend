@@ -142,7 +142,12 @@ const PostDetail = () => {
             navigate("/board"); // 라우트 path와 일치하게 수정
           }
         } catch (e) {
-          console.log(e);
+          const message =
+            e.response?.data?.message ||
+            e.response?.data ||
+            "게시글 삭제에 실패하였습니다.";
+
+          alert(message);
         }
       };
       delPostApi();
@@ -158,7 +163,12 @@ const PostDetail = () => {
         const response2 = await AxiosApi.commentList(id);
         setComments(response2.data || []);
       } catch (error) {
-        console.log(error);
+        const message =
+          error.response?.data?.message ||
+          error.response?.data ||
+          "오류가 발생했습니다.";
+
+        alert(message);
       }
     };
     getPostDetail();
@@ -177,7 +187,12 @@ const PostDetail = () => {
       setInputComment("");
       setComAddFlag((prev) => !prev); // 댓글 목록 재조회 트리거
     } catch (error) {
-      console.log(error);
+      const message =
+        error.response?.data?.message ||
+        error.response?.data ||
+        "오류가 발생했습니다.";
+
+      alert(message);
     }
   };
 

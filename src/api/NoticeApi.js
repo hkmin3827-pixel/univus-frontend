@@ -1,29 +1,30 @@
 import axios from "axios";
 
 const BASE_URL = "http://localhost:8111";
-const API = `${BASE_URL}/notice`;
 
 // 팀별 공지 목록 조회
 export const getNoticeListByTeam = (teamId, page = 0, size = 10) => {
-  return axios.get(`${API}/list/${teamId}?page=${page}&size=${size}`);
+  return axios.get(
+    `${BASE_URL}/team/${teamId}/notice/list?page=${page}&size=${size}`
+  );
 };
 
 // 공지 상세 조회
-export const getNotice = (id) => {
-  return axios.get(`${API}/${id}`);
+export const getNotice = (teamId, id) => {
+  return axios.get(`${BASE_URL}/team/${teamId}/notice/${id}`);
 };
 
 // 공지 생성
-export const createNotice = (data) => {
-  return axios.post(`${API}/create`, data);
+export const createNotice = (teamId, data) => {
+  return axios.post(`${BASE_URL}/team/${teamId}/notice/create`, data);
 };
 
 // 공지 수정
-export const updateNotice = (id, data) => {
-  return axios.put(`${API}/modify/${id}`, data);
+export const updateNotice = (teamId, id, data) => {
+  return axios.put(`${BASE_URL}/team/${teamId}/notice/modify/${id}`, data);
 };
 
 // 공지 삭제
-export const deleteNotice = (id) => {
-  return axios.delete(`${API}/delete/${id}`);
+export const deleteNotice = (teamId, id) => {
+  return axios.delete(`${BASE_URL}/team/${teamId}/notice/delete/${id}`);
 };

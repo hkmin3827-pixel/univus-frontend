@@ -4,37 +4,46 @@ import * as NoticeApi from "../../api/NoticeApi";
 import NoticeDetail from "../../components/notice/NoticeDetail";
 
 const NoticeDetailPage = () => {
-  const { noticeId } = useParams();
+  const { teamId, noticeId } = useParams();
   const navigate = useNavigate();
   const [notice, setNotice] = useState(null);
-
   useEffect(() => {
     const fetchNotice = async () => {
       try {
-        const res = await NoticeApi.getNotice(noticeId);
+        const res = await NoticeApi.getNotice(teamId, noticeId);
         setNotice(res.data);
       } catch (err) {
-        alert("공지사항 조회 실패");
-        navigate("/notice");
+        const message =
+          err.response?.data?.message ||
+          err.response?.data ||
+          "공지사항 조회에 실패하였습니다.";
+
+        alert(message);
+        navigate(`/team/${teamId}/notice`);
       }
     };
     fetchNotice();
-  }, [noticeId]);
+  }, [teamId, noticeId]);
 
   return (
     <div style={{ width: "100%" }}>
       <NoticeDetail
         notice={notice}
-        onBack={() => navigate("/notice")}
-        onEdit={() => navigate(`/notice/edit/${noticeId}`)}
+        onBack={() => navigate(`/team/${teamId}/notice`)}
+        onEdit={() => navigate(`/team/${teamId}/notice/edit/${noticeId}`)}
         onDelete={async () => {
           if (window.confirm("정말 삭제하시겠습니까?")) {
             try {
-              await NoticeApi.deleteNotice(noticeId);
+              await NoticeApi.deleteNotice(teamId, noticeId);
               alert("공지사항이 삭제되었습니다.");
-              navigate("/notice");
-            } catch {
-              alert("삭제 실패");
+              navigate(`/team/${teamId}/notice`);
+            } catch (e) {
+              const message =
+                e.response?.data?.message ||
+                e.response?.data ||
+                "오류가 발생했습니다.";
+
+              alert(message);
             }
           }
         }}

@@ -1,8 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "../../styles/NoticesList.css";
 
 function NoticesList({ notices }) {
   const navigate = useNavigate();
+  const { teamId } = useParams();
   const formatDateTime = (dateTimeString) => {
     if (!dateTimeString) return "";
     const [datePart, timeWithMs] = dateTimeString.split("T");
@@ -12,7 +13,7 @@ function NoticesList({ notices }) {
   };
 
   const handleClick = (noticeId) => {
-    navigate(`/notice/detail/${noticeId}`);
+    navigate(`/team/${teamId}/notice/detail/${noticeId}`);
   };
 
   return (

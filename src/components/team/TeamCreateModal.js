@@ -20,7 +20,12 @@ function TeamCreateModal({ isOpen, onClose }) {
       setDescription("");
     } catch (e) {
       console.error(e);
-      alert("팀 생성 실패");
+      const message =
+        e.response?.data?.message ||
+        e.response?.data ||
+        "팀 생성에 실패하였습니다.";
+
+      alert(message);
     }
   };
 

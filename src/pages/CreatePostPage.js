@@ -40,7 +40,12 @@ function CreatePostPage() {
 
       alert("업로드 완료");
     } catch (e) {
-      console.log(e);
+      const message =
+        e.response?.data?.message ||
+        e.response?.data ||
+        "업로드에 실패하였습니다.";
+
+      alert(message);
     }
   };
 
@@ -53,6 +58,7 @@ function CreatePostPage() {
 
     try {
       const res = await PostApi.createPost(
+        teamId,
         boardId,
         title,
         content,
@@ -62,8 +68,12 @@ function CreatePostPage() {
       alert("리포트가 등록되었습니다.");
       navigate(`/team/${teamId}/board/${boardId}/post/detail/${res.data}`); // 저장 후 상세로 이동
     } catch (err) {
-      alert("리포트 작성에 실패하였습니다. 다시 시도해주세요. ");
-      console.error(err);
+      const message =
+        err.response?.data?.message ||
+        err.response?.data ||
+        "리포트 작성에 실패하였습니다.";
+
+      alert(message);
     }
   };
 

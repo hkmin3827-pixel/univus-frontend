@@ -5,6 +5,7 @@ import "../styles/BoardPage.css";
 import AxiosApi from "../api/AxiosApi";
 import styled from "styled-components";
 import profileDefaultImg from "../images/profileDefaultImg.png";
+import BoardApi from "../api/BoardApi";
 const ProfileImg = styled.img`
   width: 27px;
   height: 27px;
@@ -62,21 +63,31 @@ function BoardPage() {
   useEffect(() => {
     const fetchBoardName = async () => {
       try {
-        const res = await AxiosApi.getBoard(teamId, boardId);
+        const res = await BoardApi.getBoardDetail(teamId, boardId);
         setBoardName(res.data.name);
         setBoardDescription(res.data.description);
       } catch (err) {
-        console.error("프로젝트 정보 불러오기 실패:", err);
+        const message =
+          err.response?.data?.message ||
+          err.response?.data ||
+          "프로젝트 정보를 불러오는데 실패하였습니다.";
+
+        alert(message);
       }
     };
     const fetchPosts = async () => {
       try {
-        const res = await PostApi.getPostList(boardId, page, 7);
+        const res = await PostApi.getPostList(teamId, boardId, page, 7);
         console.log("리포트 목록:", res.data); // 확인용
         setPosts(res.data.content ?? []);
         setTotalPages(res.data.totalPages ?? 1);
       } catch (err) {
-        console.error("리포트 목록 불러오기 실패:", err);
+        const message =
+          err.response?.data?.message ||
+          err.response?.data ||
+          "리포트 목록을 불러오는데 실패하였습니다.";
+
+        alert(message);
       }
     };
     fetchBoardName();

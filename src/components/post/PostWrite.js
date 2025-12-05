@@ -135,7 +135,10 @@ const PostWrite = () => {
 
       console.log("Firebase 업로드 성공:", url);
     } catch (e) {
-      console.log(e);
+      const message =
+        e.response?.data?.message || e.response?.data || "오류가 발생했습니다.";
+
+      alert(message);
     }
   };
 
@@ -154,7 +157,10 @@ const PostWrite = () => {
         setModalOpen(true);
       }
     } catch (e) {
-      console.log(e);
+      const message =
+        e.response?.data?.message || e.response?.data || "오류가 발생했습니다.";
+
+      alert(message);
     }
   };
 

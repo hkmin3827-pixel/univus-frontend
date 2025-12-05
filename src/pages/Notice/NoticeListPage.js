@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as NoticeApi from "../../api/NoticeApi";
 import styled from "styled-components";
 import { TeamContext } from "../../context/TeamContext";
@@ -94,6 +94,7 @@ const PageButton = styled.button`
 const NoticeListPage = () => {
   const navigate = useNavigate();
   const { selectedTeam } = useContext(TeamContext);
+  const { teamId } = useParams();
 
   const [noticeList, setNoticeList] = useState([]);
   const [sort, setSort] = useState("latest");
@@ -101,14 +102,10 @@ const NoticeListPage = () => {
   const [totalPages, setTotalPages] = useState(0);
 
   const fetchList = async (page = 0) => {
-    if (!selectedTeam) return;
+    if (!teamId) return;
 
     try {
-      const res = await NoticeApi.getNoticeListByTeam(
-        selectedTeam.id,
-        page,
-        10
-      );
+      const res = await NoticeApi.getNoticeListByTeam(teamId, page, 10);
       const arr = res.data?.content || [];
       const total = res.data?.totalPages || 1;
 
@@ -120,8 +117,13 @@ const NoticeListPage = () => {
 
       setNoticeList(arr);
       setTotalPages(total);
-    } catch {
-      alert("공지 목록 불러오기 실패");
+    } catch (e) {
+      const message =
+        e.response?.data?.message ||
+        e.response?.data ||
+        "공지사항 목록 불러오기에 실패하였습니다.";
+
+      alert(message);
     }
   };
 
@@ -144,7 +146,9 @@ const NoticeListPage = () => {
             <option value="latest">최신순</option>
             <option value="oldest">오래된순</option>
           </SortSelect>
-          <Button onClick={() => navigate("/notice/create")}>공지 작성</Button>
+          <Button onClick={() => navigate(`/team/${teamId}/notice/create`)}>
+            공지 작성
+          </Button>
         </Controls>
       </Header>
 
@@ -161,7 +165,10 @@ const NoticeListPage = () => {
           </div>
         ) : (
           noticeList.map((n) => (
-            <Row key={n.id} onClick={() => navigate(`/notice/detail/${n.id}`)}>
+            <Row
+              key={n.id}
+              onClick={() => navigate(`/team/${teamId}/notice/detail/${n.id}`)}
+            >
               <div>{n.title}</div>
               <div>{n.email}</div>
               <div>{new Date(n.createTime).toLocaleDateString()}</div>

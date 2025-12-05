@@ -17,7 +17,7 @@ const NoticeEditPage = () => {
   const { noticeId } = useParams();
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
-
+  const { teamId } = useParams();
   const [notice, setNotice] = useState(null);
 
   useEffect(() => {
@@ -29,10 +29,15 @@ const NoticeEditPage = () => {
 
     const load = async () => {
       try {
-        const res = await NoticeApi.getNotice(noticeId);
+        const res = await NoticeApi.getNotice(teamId, noticeId);
         setNotice(res.data);
-      } catch {
-        alert("공지사항 조회 실패");
+      } catch (e) {
+        const message =
+          e.response?.data?.message ||
+          e.response?.data ||
+          "공지사항 불러오기에 실패하였습니다.";
+
+        alert(message);
         navigate("/notice");
       }
     };
@@ -46,11 +51,16 @@ const NoticeEditPage = () => {
     }
 
     try {
-      await NoticeApi.updateNotice(noticeId, notice);
+      await NoticeApi.updateNotice(teamId, noticeId, notice);
       alert("공지사항이 수정되었습니다.");
-      navigate(`/notice/detail/${noticeId}`);
-    } catch {
-      alert("수정 실패");
+      navigate(`/team/${teamId}/notice/detail/${noticeId}`);
+    } catch (e) {
+      const message =
+        e.response?.data?.message ||
+        e.response?.data ||
+        "공지사항 수정에 실패하였습니다.";
+
+      alert(message);
     }
   };
 
@@ -63,7 +73,7 @@ const NoticeEditPage = () => {
         setNotice={setNotice}
         onSubmit={handleSubmit}
         editMode={true}
-        onCancel={() => navigate(`/notice/detail/${noticeId}`)}
+        onCancel={() => navigate(`/team/${teamId}/notice/detail/${noticeId}`)}
       />
     </PageWrapper>
   );

@@ -201,10 +201,10 @@ const NoticeDetail = ({ notice, onBack, onEdit, onDelete }) => {
                 ? notice.professorImage
                 : profileDefaultImg
             }
-            alt="작성자"
+            alt="작성자이미지"
           />
           <span>
-            {notice.professorName} ({notice.email})
+            {notice.professorName} ({notice.email}) 교수
           </span>
         </WriterRow>
 

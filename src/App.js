@@ -33,6 +33,10 @@ import TeamEdit from "./pages/TeamEdit";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import { ActivityLogProvider } from "./context/ActivityLogContext";
 import ActivityLog from "./pages/ActivityLog";
+import TeamGuard from "./guards/TeamGuards";
+import BoardGuard from "./guards/BoardGuards";
+import PostGuard from "./guards/PostGuard";
+import NoticeGuard from "./guards/NoticeGuards";
 
 function App() {
   return (
@@ -52,12 +56,40 @@ function App() {
                   <Route path="/home" element={<Home />} />
                   <Route path="/teams/new" element={<TeamCreate />} />
 
-                  <Route path="/teams/:teamId" element={<TeamDetail />} />
+                  <Route
+                    path="/teams/:teamId"
+                    element={
+                      <TeamGuard>
+                        <TeamDetail />
+                      </TeamGuard>
+                    }
+                  />
                   <Route path="/teamentry/:token" element={<TeamEntry />} />
-                  <Route path="/team/:teamId" element={<TeamPage />} />
+                  <Route
+                    path="/team/:teamId"
+                    element={
+                      <TeamGuard>
+                        <TeamPage />
+                      </TeamGuard>
+                    }
+                  />
                   <Route path="/team/entry" element={<TeamLink />} />
-                  <Route path="/team/:teamId/info" element={<TeamInfo />} />
-                  <Route path="/teams/:teamId/edit" element={<TeamEdit />} />
+                  <Route
+                    path="/team/:teamId/info"
+                    element={
+                      <TeamGuard>
+                        <TeamInfo />
+                      </TeamGuard>
+                    }
+                  />
+                  <Route
+                    path="/teams/:teamId/edit"
+                    element={
+                      <TeamGuard>
+                        <TeamEdit />
+                      </TeamGuard>
+                    }
+                  />
                   <Route path="/schedulepage" element={<SchedulePage />} />
                   <Route path="/profiledetail" element={<ProfileDetail />} />
                   <Route
@@ -67,48 +99,124 @@ function App() {
                   <Route path="/profile" element={<Profile />} />
                   <Route
                     path="/team/:teamId/board/:boardId"
-                    element={<BoardPage />}
+                    element={
+                      <TeamGuard>
+                        <BoardGuard>
+                          <BoardPage />
+                        </BoardGuard>
+                      </TeamGuard>
+                    }
                   />
                   <Route
                     path="/team/:teamId/board/:boardId/post/create"
-                    element={<CreatePostPage />}
+                    element={
+                      <TeamGuard>
+                        <BoardGuard>
+                          <CreatePostPage />
+                        </BoardGuard>
+                      </TeamGuard>
+                    }
                   />
                   <Route
                     path="/team/:teamId/board/:boardId/post/detail/:postId"
-                    element={<PostDetailPage />}
+                    element={
+                      <TeamGuard>
+                        <BoardGuard>
+                          <PostGuard>
+                            <PostDetailPage />
+                          </PostGuard>
+                        </BoardGuard>
+                      </TeamGuard>
+                    }
                   />
                   <Route
                     path="/team/:teamId/board/:boardId/posts/:postId/edit"
-                    element={<EditPostPage />}
+                    element={
+                      <TeamGuard>
+                        <BoardGuard>
+                          <PostGuard>
+                            <EditPostPage />
+                          </PostGuard>
+                        </BoardGuard>
+                      </TeamGuard>
+                    }
                   />
-                  <Route path="/notice" element={<NoticeListPage />} />
-                  <Route path="/notice/create" element={<NoticeWritePage />} />
                   <Route
-                    path="/notice/detail/:noticeId"
-                    element={<NoticeDetailPage />}
+                    path="/team/:teamId/notice"
+                    element={
+                      <TeamGuard>
+                        <NoticeListPage />
+                      </TeamGuard>
+                    }
                   />
                   <Route
-                    path="/notice/edit/:noticeId"
-                    element={<NoticeEditPage />}
+                    path="/team/:teamId/notice/create"
+                    element={
+                      <TeamGuard>
+                        <NoticeWritePage />
+                      </TeamGuard>
+                    }
+                  />
+                  <Route
+                    path="/team/:teamId/notice/detail/:noticeId"
+                    element={
+                      <TeamGuard>
+                        <NoticeGuard>
+                          <NoticeDetailPage />
+                        </NoticeGuard>
+                      </TeamGuard>
+                    }
+                  />
+                  <Route
+                    path="/team/:teamId/notice/edit/:noticeId"
+                    element={
+                      <TeamGuard>
+                        <NoticeGuard>
+                          <NoticeEditPage />
+                        </NoticeGuard>
+                      </TeamGuard>
+                    }
                   />
 
                   <Route
                     path="/team/:teamId/board/:boardId/todo"
-                    element={<TodoPage />}
+                    element={
+                      <TeamGuard>
+                        <BoardGuard>
+                          <TodoPage />
+                        </BoardGuard>
+                      </TeamGuard>
+                    }
                   />
 
                   <Route
                     path="/team/:teamId/boards/:boardId/insight"
-                    element={<BoardInsightPage />}
+                    element={
+                      <TeamGuard>
+                        <BoardGuard>
+                          <BoardInsightPage />
+                        </BoardGuard>
+                      </TeamGuard>
+                    }
                   />
                   <Route
                     path="/team/:teamId/boards/:boardId/insight/member/:userId"
-                    element={<MemberInsightPage />}
+                    element={
+                      <TeamGuard>
+                        <BoardGuard>
+                          <MemberInsightPage />
+                        </BoardGuard>
+                      </TeamGuard>
+                    }
                   />
                   <Route path="/search" element={<SearchResultsPage />} />
                   <Route
                     path="/team/:teamId/activity"
-                    element={<ActivityLog />}
+                    element={
+                      <TeamGuard>
+                        <ActivityLog />
+                      </TeamGuard>
+                    }
                   />
                 </Route>
               </Routes>

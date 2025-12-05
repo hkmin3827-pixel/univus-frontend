@@ -61,8 +61,12 @@ const TeamEdit = () => {
         setDescription(res.data.description || "");
         setSelectedTeam(res.data);
       } catch (err) {
-        console.error(err);
-        alert("팀 정보를 불러오는데 실패했습니다.");
+        const message =
+          err.response?.data?.message ||
+          err.response?.data ||
+          "팀 정보를 불러오는 데 실패하였습니다.";
+
+        alert(message);
       }
     };
     fetchTeam();
@@ -75,13 +79,17 @@ const TeamEdit = () => {
       alert("팀 정보가 수정되었습니다.");
       navigate(`/team/${teamId}`);
     } catch (err) {
-      console.error(err);
-      alert("팀 정보 수정에 실패했습니다.");
+      const message =
+        err.response?.data?.message ||
+        err.response?.data ||
+        "팀 정보 수정에 실패하였습니다.";
+
+      alert(message);
     }
   };
 
   const handleCancel = () => {
-    navigate(`/teams/${teamId}`);
+    navigate(`/team/${teamId}/info`);
   };
 
   return (

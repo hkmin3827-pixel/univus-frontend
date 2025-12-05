@@ -6,7 +6,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../api/Firebase";
 
 function EditPostPage() {
-  const { postId } = useParams();
+  const { teamId, boardId, postId } = useParams();
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
@@ -25,7 +25,7 @@ function EditPostPage() {
   useEffect(() => {
     const fetchPostDetail = async () => {
       try {
-        const res = await PostApi.getPostDetail(postId);
+        const res = await PostApi.getPostDetail(teamId, boardId, postId);
         const post = res.data;
 
         setTitle(post.title);
@@ -37,7 +37,12 @@ function EditPostPage() {
           setFileName(post.fileName);
         }
       } catch (err) {
-        console.error("수정 데이터 조회 실패:", err);
+        const message =
+          err.response?.data?.message ||
+          err.response?.data ||
+          "수정 데이터 조회에 실패하였습니다.";
+
+        alert(message);
       }
     };
 
@@ -69,7 +74,12 @@ function EditPostPage() {
 
       alert("파일 업로드 완료!");
     } catch (e) {
-      console.log("업로드 실패:", e);
+      const message =
+        e.response?.data?.message ||
+        e.response?.data ||
+        "파일 업로드에 실패하였습니다.";
+
+      alert(message);
     }
   };
 
@@ -88,11 +98,24 @@ function EditPostPage() {
     }
 
     try {
-      await PostApi.updatePost(postId, title, content, fileUrl, fileName);
+      await PostApi.updatePost(
+        teamId,
+        boardId,
+        postId,
+        title,
+        content,
+        fileUrl,
+        fileName
+      );
       alert("리포트 수정 완료!");
       navigate(-1);
     } catch (err) {
-      console.log("수정 실패:", err);
+      const message =
+        err.response?.data?.message ||
+        err.response?.data ||
+        "리포트 수정에 실패하였습니다.";
+
+      alert(message);
     }
   };
 

@@ -122,7 +122,7 @@ function SideBar({
             {selectedTeam && (
               <span
                 className="material-symbols-outlined info-btn"
-                onClick={() => navigate(`/team/${teamId}/info`)}
+                onClick={() => navigate(`/team/${selectedTeam.id}/info`)}
               >
                 info
               </span>
@@ -175,7 +175,7 @@ function SideBar({
                       }`}
                       onClick={() => {
                         setSelectedBoardId(b.id);
-                        navigate(`/team/${selectedTeam.id}/board/${b.id}`);
+                        navigate(`/team/${teamId}/board/${b.id}`);
                       }}
                     >
                       {b.name}
@@ -207,7 +207,7 @@ function SideBar({
                 setSelectedMenu("notice");
                 setOpenProject(false);
                 setSelectedBoardId(null);
-                navigate("/notice");
+                navigate(`team/${teamId}/notice`);
               }}
             >
               공지사항

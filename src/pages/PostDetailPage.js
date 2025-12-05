@@ -19,9 +19,8 @@ const ProfileImg = styled.img`
 `;
 
 function PostDetailPage() {
-  const { boardId, teamId } = useParams();
+  const { boardId, teamId, postId } = useParams();
   const { selectedTeam } = useContext(TeamContext);
-  const { postId } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [EditMenuOpen, setEditMenuOpen] = useState(false);
@@ -32,11 +31,16 @@ function PostDetailPage() {
   useEffect(() => {
     const fetchPostDetail = async () => {
       try {
-        const res = await PostApi.getPostDetail(postId);
+        const res = await PostApi.getPostDetail(teamId, boardId, postId);
         console.log("상세 조회 데이터:", res.data);
         setPost(res.data);
       } catch (err) {
-        console.error("리포트 조회 실패:", err);
+        const message =
+          err.response?.data?.message ||
+          err.response?.data ||
+          "리포트 조회에 실패하였습니다.";
+
+        alert(message);
       }
     };
     fetchPostDetail();
@@ -56,11 +60,16 @@ function PostDetailPage() {
   const handleDelete = async () => {
     if (!window.confirm("정말 삭제하시겠습니까?")) return;
     try {
-      await PostApi.deletePost(postId);
+      await PostApi.deletePost(teamId, boardId, postId);
       alert("삭제되었습니다.");
       navigate(-1);
     } catch (err) {
-      console.error("삭제 실패:", err);
+      const message =
+        err.response?.data?.message ||
+        err.response?.data ||
+        "리포트 삭제에 실패하였습니다.";
+
+      alert(message);
     }
   };
   const formatDateTime = (dateTimeString) => {

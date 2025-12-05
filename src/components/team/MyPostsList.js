@@ -1,9 +1,10 @@
 // src/components/team/MyPostsList.jsx
 import React, { useEffect, useState } from "react";
 import "../../styles/MyPostsList.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function MyPostsList({ posts }) {
+  const { teamId } = useParams();
   const navigate = useNavigate();
   const formatDateTime = (dateTimeString) => {
     if (!dateTimeString) return "";
@@ -12,8 +13,8 @@ function MyPostsList({ posts }) {
     const timePart = timeWithMs.split(".")[0];
     return `${datePart} ${timePart}`;
   };
-  const handleClick = (postId) => {
-    navigate(`/post/detail/${postId}`);
+  const handleClick = (boardId, postId) => {
+    navigate(`/team/${teamId}/board/${boardId}/post/detail/${postId}`);
   };
 
   return (
@@ -26,7 +27,7 @@ function MyPostsList({ posts }) {
           <div
             key={item.id}
             className="team-list-item"
-            onClick={() => handleClick(item.id)}
+            onClick={() => handleClick(item.boardId, item.id)}
             style={{ cursor: "pointer" }}
           >
             <p className="title">

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import CommentApi from "../../api/CommentApi";
 import "../../styles/MyPostsList.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function MyCommentsList({ comments }) {
   const navigate = useNavigate();
+  const { teamId } = useParams();
   const formatDateTime = (dateTimeString) => {
     if (!dateTimeString) return "";
     const [datePart, timeWithMs] = dateTimeString.split("T");
@@ -12,8 +13,8 @@ function MyCommentsList({ comments }) {
     const timePart = timeWithMs.split(".")[0];
     return `${datePart} ${timePart}`;
   };
-  const handleClick = (postId) => {
-    navigate(`/post/detail/${postId}`);
+  const handleClick = (boardId, postId) => {
+    navigate(`/team/${teamId}/board/${boardId}/post/detail/${postId}`);
   };
 
   return (
@@ -26,7 +27,7 @@ function MyCommentsList({ comments }) {
           <div
             key={item.id}
             className="team-list-item"
-            onClick={() => handleClick(item.postId)}
+            onClick={() => handleClick(item.boardId, item.postId)}
             style={{ cursor: "pointer" }}
           >
             <p className="title">

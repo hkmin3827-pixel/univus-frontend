@@ -11,21 +11,22 @@ import MyCommentsList from "../components/team/MyCommentsList";
 import { TeamContext } from "../context/TeamContext";
 import "../styles/TeamPage.css";
 import TeamApi from "../api/TeamApi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getNoticeListByTeam } from "../api/NoticeApi";
 import NoticesList from "../components/team/NoticesList";
 
 function TeamPage() {
+  const { selectedTeam } = useContext(TeamContext);
   const [myPosts, setMyPosts] = useState([]);
   const [myComments, setMyComments] = useState([]);
   const [notices, setNotices] = useState([]);
   const navigate = useNavigate();
 
-  const teamId = localStorage.getItem("recentTeamId");
-  const userEmail = localStorage.getItem("email");
-  const { selectedTeam } = useContext(TeamContext);
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  useEffect(() => {
+    console.log("내 리포트:", myPosts); // boardId 값 있는지 확인
+  }, [myPosts]);
 
   // ✏ 수정 모달 상태
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -50,15 +51,29 @@ function TeamPage() {
 
     setMyPosts([]); // 이전 팀 데이터 초기화
     setMyComments([]);
+    setNotices([]);
 
     loadSchedules();
     loadMyPosts();
     loadMyComments();
     fetchNotices();
   }, [selectedTeam?.id]);
+  // const fetchNotices = async () => {
+  //   const res = await getNoticeListByTeam(selectedTeam.id, 0, 5);
+  //   setNotices(res.data.content);
+  // };
   const fetchNotices = async () => {
-    const res = await getNoticeListByTeam(selectedTeam.id, 0, 5);
-    setNotices(res.data.content);
+    try {
+      const res = await getNoticeListByTeam(selectedTeam?.id, 0, 5); // 🔥 size=5
+      setNotices(res.data.content); // 🔥 Page 객체 content 반영
+    } catch (err) {
+      const message =
+        err.response?.data?.message ||
+        err.response?.data ||
+        "공지사항 조회에 실패하였습니다.";
+
+      alert(message);
+    }
   };
   const loadSchedules = async () => {
     try {
@@ -72,7 +87,12 @@ function TeamPage() {
         }))
       );
     } catch (err) {
-      console.error(err);
+      const message =
+        err.response?.data?.message ||
+        err.response?.data ||
+        "일정 조회에 실패하였습니다.";
+
+      alert(message);
     }
   };
 
@@ -87,8 +107,12 @@ function TeamPage() {
       setSelectedEvent(null);
       alert("일정이 삭제되었습니다.");
     } catch (err) {
-      console.error(err);
-      alert("삭제에 실패했습니다.");
+      const message =
+        err.response?.data?.message ||
+        err.response?.data ||
+        "일정 삭제에 실패하였습니다.";
+
+      alert(message);
     }
   };
 
@@ -134,19 +158,23 @@ function TeamPage() {
       await loadSchedules();
       setIsEditOpen(false);
       alert("일정이 수정되었습니다.");
-    } catch (err) {
-      console.error(err);
-      alert("수정에 실패했습니다.");
+    } catch (e) {
+      const message =
+        e.response?.data?.message ||
+        e.response?.data ||
+        "일정 수정에 실패하였습니다.";
+
+      alert(message);
     }
   };
 
   const loadMyPosts = async () => {
-    const res = await TeamApi.getMyPosts(selectedTeam.id);
+    const res = await TeamApi.getMyPosts(selectedTeam?.id);
     setMyPosts(res.data);
   };
 
   const loadMyComments = async () => {
-    const res = await TeamApi.getMyComments(selectedTeam.id);
+    const res = await TeamApi.getMyComments(selectedTeam?.id);
     setMyComments(res.data);
   };
 

@@ -1,10 +1,11 @@
 // src/pages/TeamDetail.js
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import TeamApi from "../api/TeamApi";
 
 const TeamDetail = () => {
   const { teamId } = useParams();
+  const navigate = useNavigate();
   const [team, setTeam] = useState(null);
   const [inviteUrl, setInviteUrl] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -16,7 +17,16 @@ const TeamDetail = () => {
         setTeam(res.data);
       } catch (err) {
         console.error(err);
-        setErrorMsg("팀 정보를 불러오지 못했습니다.");
+        const msg = err.response?.data?.message;
+        if (msg === "팀을 찾을 수 없습니다.") {
+          setErrorMsg(msg);
+          navigate("/home"); // 팀이 없으면 홈으로 돌려보냄
+        } else if (msg === "권한이 없습니다.") {
+          setErrorMsg("이 팀에 접근할 권한이 없습니다.");
+          navigate("/home");
+        } else {
+          setErrorMsg("팀 정보를 불러오지 못했습니다.");
+        }
       }
     };
     fetchTeam();

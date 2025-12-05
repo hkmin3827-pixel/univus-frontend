@@ -42,7 +42,8 @@ const TeamApi = {
 
   getMyTeams: () => teamApi.get(`/teams/my`),
 
-  getMyPosts: (teamId) => teamApi.get(`/post/my/${teamId}`),
+  getMyPosts: (teamId, boardId) =>
+    teamApi.get(`team/${teamId}/board/${boardId}/post/my`),
 
   getMyComments: (teamId) => teamApi.get(`/comment/my/${teamId}`),
 

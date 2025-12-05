@@ -8,14 +8,15 @@ const boardApi = axios.create({
 });
 const BoardApi = {
   createBoard: (teamId, name, description) =>
-    boardApi.post(`/teams/${teamId}/board/create`, {
+    boardApi.post(`/team/${teamId}/board/create`, {
       teamId,
       name,
       description,
     }),
 
-  getBoardsByTeam: (teamId) => boardApi.get(`/teams/${teamId}/board/list`),
-  getBoardDetail: (boardId) => boardApi.get(`/teams/board/${boardId}`),
+  getBoardsByTeam: (teamId) => boardApi.get(`/team/${teamId}/board/list`),
+  getBoardDetail: (teamId, boardId) =>
+    boardApi.get(`/team/${teamId}/board/${boardId}`),
 };
 
 export default BoardApi;

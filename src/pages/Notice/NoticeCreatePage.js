@@ -1,12 +1,13 @@
 // NoticeCreatePage.jsx
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { storage } from "../../api/Firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import * as NoticeApi from "../../api/NoticeApi";
 import NoticeWrite from "../../components/notice/NoticeWrite";
 import styled from "styled-components";
 import { TeamContext } from "../../context/TeamContext";
+import { UserContext } from "../../context/UserContext";
 
 const PageWrapper = styled.div`
   width: 100%;
@@ -21,6 +22,8 @@ const PageWrapper = styled.div`
 const NoticeCreatePage = () => {
   const navigate = useNavigate();
   const { selectedTeam } = useContext(TeamContext);
+  const { teamId } = useParams();
+  const { user } = useContext(UserContext);
 
   const [notice, setNotice] = useState({
     title: "",
@@ -32,7 +35,12 @@ const NoticeCreatePage = () => {
   });
 
   const [previewUrl, setPreviewUrl] = useState(null);
-
+  useEffect(() => {
+    if (user.role && user.role !== "PROFESSOR") {
+      alert("공지사항 작성 권한이 없습니다.");
+      navigate(-1); // 이전 페이지로
+    }
+  }, [user.role, navigate]);
   useEffect(() => {
     if (selectedTeam)
       setNotice((prev) => ({ ...prev, teamId: selectedTeam.id }));
@@ -83,7 +91,7 @@ const NoticeCreatePage = () => {
     }
 
     try {
-      const res = await NoticeApi.createNotice({
+      const res = await NoticeApi.createNotice(teamId, {
         title: notice.title,
         content: notice.content,
         teamId: notice.teamId,
@@ -92,11 +100,15 @@ const NoticeCreatePage = () => {
       });
 
       alert("공지사항 등록 완료");
-      navigate(`/notice/detail/${res.data.id}`);
+      navigate(`/team/${teamId}/notice/detail/${res.data.id}`);
       console.log("create response: ", res.data);
     } catch (err) {
-      console.error(err);
-      alert("공지사항 등록 실패");
+      const message =
+        err.response?.data?.message ||
+        err.response?.data ||
+        "공지사항 작성에 실패하였습니다.";
+
+      alert(message);
     }
   };
 
