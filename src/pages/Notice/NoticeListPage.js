@@ -75,18 +75,42 @@ const Row = styled.div`
   }
 `;
 
+const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 8px;
+`;
+
+const PageButton = styled.button`
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: ${(props) => (props.active ? "#5f5fff" : "white")};
+  color: ${(props) => (props.active ? "white" : "#333")};
+  cursor: pointer;
+`;
+
 const NoticeListPage = () => {
   const navigate = useNavigate();
-  const [noticeList, setNoticeList] = useState([]);
-  const [sort, setSort] = useState("latest");
   const { selectedTeam } = useContext(TeamContext);
 
-  const fetchList = async () => {
+  const [noticeList, setNoticeList] = useState([]);
+  const [sort, setSort] = useState("latest");
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const fetchList = async (page = 0) => {
     if (!selectedTeam) return;
 
     try {
-      const res = await NoticeApi.getNoticeListByTeam(selectedTeam.id, 0, 10);
+      const res = await NoticeApi.getNoticeListByTeam(
+        selectedTeam.id,
+        page,
+        10
+      );
       const arr = res.data?.content || [];
+      const total = res.data?.totalPages || 1;
 
       arr.sort((a, b) =>
         sort === "latest"
@@ -95,26 +119,31 @@ const NoticeListPage = () => {
       );
 
       setNoticeList(arr);
+      setTotalPages(total);
     } catch {
       alert("공지 목록 불러오기 실패");
     }
   };
 
   useEffect(() => {
-    fetchList();
+    setCurrentPage(0); // 정렬이나 팀 변경 시 1페이지로 초기화
+    fetchList(0);
   }, [sort, selectedTeam]);
+
+  const handlePageClick = (page) => {
+    setCurrentPage(page);
+    fetchList(page);
+  };
 
   return (
     <PageWrapper>
       <Header>
         <Title>공지사항</Title>
-
         <Controls>
           <SortSelect value={sort} onChange={(e) => setSort(e.target.value)}>
             <option value="latest">최신순</option>
             <option value="oldest">오래된순</option>
           </SortSelect>
-
           <Button onClick={() => navigate("/notice/create")}>공지 작성</Button>
         </Controls>
       </Header>
@@ -126,20 +155,35 @@ const NoticeListPage = () => {
           <div>작성일</div>
         </HeadRow>
 
-        {noticeList.map((n) => (
-          <Row key={n.id} onClick={() => navigate(`/notice/detail/${n.id}`)}>
-            <div>{n.title}</div>
-            <div>{n.email}</div>
-            <div>{new Date(n.createTime).toLocaleDateString()}</div>
-          </Row>
-        ))}
-
-        {noticeList.length === 0 && (
+        {noticeList.length === 0 ? (
           <div style={{ padding: "30px", textAlign: "center", color: "#777" }}>
             등록된 공지사항이 없습니다.
           </div>
+        ) : (
+          noticeList.map((n) => (
+            <Row key={n.id} onClick={() => navigate(`/notice/detail/${n.id}`)}>
+              <div>{n.title}</div>
+              <div>{n.email}</div>
+              <div>{new Date(n.createTime).toLocaleDateString()}</div>
+            </Row>
+          ))
         )}
       </ListWrapper>
+
+      {/* 페이지네이션 */}
+      {totalPages > 1 && (
+        <PaginationWrapper>
+          {Array.from({ length: totalPages }, (_, idx) => (
+            <PageButton
+              key={idx}
+              active={idx === currentPage}
+              onClick={() => handlePageClick(idx)}
+            >
+              {idx + 1}
+            </PageButton>
+          ))}
+        </PaginationWrapper>
+      )}
     </PageWrapper>
   );
 };
