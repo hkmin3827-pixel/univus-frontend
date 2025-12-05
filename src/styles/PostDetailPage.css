@@ -129,4 +129,11 @@ hr {
   .post-detail-container {
     margin: 5px auto;
   }
+
+  .post-content {
+    display: block !important; /* 혹시 다른 곳에서 display:none;을 걸어도 덮어쓰기 */
+    width: 100%;
+    font-size: 16px; /* 모바일에서 글자 조금 줄이기 (선택 사항) */
+    line-height: 1.6;
+  }
 }
