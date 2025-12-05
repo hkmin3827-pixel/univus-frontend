@@ -135,17 +135,43 @@ const Content = styled.div`
 
 /* 파일 다운로드 박스 */
 const FileBox = styled.div`
-  margin: 16px 0;
-  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   background: #f8f8f8;
   border: 1px solid #ddd;
   border-radius: 6px;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+  padding: 12px;
 
+  /* 파일명 */
   span {
-    font-size: 16px;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* 버튼 */
+  button {
+    flex-shrink: 0;
+    padding: 6px 12px;
+  }
+
+  /* 모바일 대응 */
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+
+    span {
+      white-space: normal; /* 줄바꿈 허용 */
+      overflow: visible;
+    }
+
+    button {
+      width: 100%; /* 버튼 폭 맞춤 */
+    }
   }
 `;
 
@@ -158,6 +184,65 @@ const FileButton = styled.button`
 
   &:hover {
     background: #dcdcdc;
+  }
+`;
+
+const FileContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 16px 0;
+`;
+
+const FileItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 8px 12px;
+  flex: 1 1 100%;
+  min-width: 0;
+
+  img {
+    max-width: 60px;
+    max-height: 60px;
+    border-radius: 4px;
+    object-fit: cover;
+  }
+
+  span {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  button {
+    flex-shrink: 0;
+  }
+
+  /* 모바일 대응 */
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+
+    span {
+      white-space: normal; /* 줄바꿈 허용 */
+      overflow: visible;
+    }
+
+    button {
+      width: 100%; /* 버튼 폭 맞춤 */
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
   }
 `;
 
@@ -226,13 +311,17 @@ const NoticeDetail = ({ notice, onBack, onEdit, onDelete }) => {
 
       <Divider />
 
-      {/* 파일이 있을 경우에만 표시 */}
-      {notice.fileName && (
-        <FileBox>
-          <span className="material-symbols-outlined">attach_file</span>
-          <span>{notice.fileName}</span>
-          <FileButton onClick={handleFileDownload}>다운로드</FileButton>
-        </FileBox>
+      {/* 파일이 있을 경우 */}
+      {notice.fileName && notice.fileUrl && (
+        <FileContainer>
+          <FileItem>
+            {notice.fileUrl.match(/\.(jpeg|jpg|png|gif)$/i) && (
+              <img src={notice.fileUrl} alt={notice.fileName} />
+            )}
+            <span>{notice.fileName}</span>
+            <FileButton onClick={handleFileDownload}>다운로드</FileButton>
+          </FileItem>
+        </FileContainer>
       )}
 
       <Content>{notice.content}</Content>

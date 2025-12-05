@@ -36,6 +36,13 @@ const PostImage = styled.img`
   margin-right: 15px;
   margin-bottom: 10px;
   float: left;
+
+  @media (max-width: 600px) {
+    float: none;
+    width: 100%;
+    height: auto;
+    margin-right: 0;
+  }
 `;
 
 const CommentInput = styled.input`
@@ -114,32 +121,68 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-// 게시글 상세 보기 + 댓글 목록
+const FileContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 15px;
+`;
+
+const FileItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(50% - 12px); /* 2개씩 배치 */
+  min-width: 120px;
+
+  @media (max-width: 600px) {
+    width: 100%; /* 모바일에서 한 줄 */
+  }
+`;
+
+const FileThumbnail = styled.img`
+  width: 100%;
+  max-height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 6px;
+`;
+
+const FileLink = styled.a`
+  font-size: 0.9rem;
+  color: #007bff;
+  text-decoration: none;
+  word-break: break-all;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 const PostDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [post, setPost] = useState(null); // 게시글 정보
-  const [comments, setComments] = useState([]); // 댓글 목록
+  const [post, setPost] = useState(null);
+  const [comments, setComments] = useState([]);
   const [inputComment, setInputComment] = useState("");
   const [comAddFlag, setComAddFlag] = useState(false);
   const [showComments, setShowComments] = useState(false);
 
-  const email = localStorage.getItem("email"); // 현재 로그인 사용자
+  const email = localStorage.getItem("email");
 
   const toggleComments = () => {
     setShowComments((prev) => !prev);
   };
 
-  // 게시글 삭제
   const deletePost = () => {
     if (window.confirm("정말 삭제하시겠습니까?")) {
       const delPostApi = async () => {
         try {
-          const rsp = await AxiosApi.postDelete(id); // 필요 시 parseInt(id, 10)
+          const rsp = await AxiosApi.postDelete(id);
           if (rsp.data) {
             alert("게시글이 삭제되었습니다.");
-            navigate("/board"); // 라우트 path와 일치하게 수정
+            navigate("/board");
           }
         } catch (e) {
           const message =
@@ -185,7 +228,7 @@ const PostDetail = () => {
     try {
       await AxiosApi.commentWrite(email, id, inputComment);
       setInputComment("");
-      setComAddFlag((prev) => !prev); // 댓글 목록 재조회 트리거
+      setComAddFlag((prev) => !prev);
     } catch (error) {
       const message =
         error.response?.data?.message ||
@@ -200,14 +243,34 @@ const PostDetail = () => {
     <Container>
       {post && (
         <>
-          <PostImage
-            src={post.img || "https://via.placeholder.com/160"}
-            alt={post.title || "Board image"}
-          />
+          {post.img && (
+            <PostImage src={post.img} alt={post.title || "Board image"} />
+          )}
           <Title>{post.title}</Title>
           <Content>{post.content}</Content>
           {post.regDate && (
             <PostDate>{Commons.timeFromNow(post.regDate)}</PostDate>
+          )}
+
+          {/* 파일/이미지 표시 */}
+          {post.files && post.files.length > 0 && (
+            <FileContainer>
+              {post.files.map((file, idx) => (
+                <FileItem key={idx}>
+                  {file.fileUrl.match(/\.(jpeg|jpg|png|gif)$/i) ? (
+                    <FileThumbnail src={file.fileUrl} alt={file.fileName} />
+                  ) : (
+                    <FileLink
+                      href={file.fileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      📄 {file.fileName}
+                    </FileLink>
+                  )}
+                </FileItem>
+              ))}
+            </FileContainer>
           )}
         </>
       )}

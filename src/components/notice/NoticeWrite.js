@@ -131,9 +131,14 @@ const NoticeWrite = ({
       />
 
       {/* 수정 모드일 때 기존 파일 표시 */}
-      {editMode && notice.fileName && (
-        <ExistingFileBox>
-          📎 기존 업로드 파일: <strong>{notice.fileName}</strong>
+      {editMode && notice.fileName && !notice.file && (
+        <div style={{ marginBottom: "12px" }}>
+          {notice.fileUrl && notice.fileUrl.match(/\.(jpeg|jpg|png|gif)$/i) ? (
+            <PreviewImage src={notice.fileUrl} alt="기존 이미지" />
+          ) : (
+            <span>📄 {notice.fileName}</span>
+          )}
+
           <FileRemoveButton
             onClick={() =>
               setNotice({
@@ -143,10 +148,15 @@ const NoticeWrite = ({
                 file: null,
               })
             }
+            style={{
+              marginLeft: "8px",
+              padding: "2px 6px",
+              fontSize: "0.8rem",
+            }}
           >
             삭제
           </FileRemoveButton>
-        </ExistingFileBox>
+        </div>
       )}
 
       {/* 새 파일 선택 */}
