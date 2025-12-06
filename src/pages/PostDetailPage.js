@@ -106,8 +106,19 @@ function PostDetailPage() {
                 : profileDefaultImg
             }
             alt="프로필"
+            onClick={() =>
+              navigate(`/team/${teamId}/userprofile/${post.writerId}`)
+            }
           />
-          <span className="writer">{post?.userName}</span>
+          <span
+            className="writer"
+            onClick={() =>
+              navigate(`/team/${teamId}/userprofile/${post.writerId}`)
+            }
+            style={{ cursor: "pointer" }}
+          >
+            {post?.userName}
+          </span>
         </div>
         <div className="post-right">
           {isOwner && (

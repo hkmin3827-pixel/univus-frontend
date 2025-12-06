@@ -2,11 +2,6 @@ import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import ReactionApi from "../../api/ReactionApi";
 
-<link
-  rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@12,400,0,0&icon_names=sentiment_satisfied,sentiment_neutral,sentiment_dissatisfied"
-/>;
-
 const Wrapper = styled.div`
   margin: 16px 0;
   padding: 12px 0;
@@ -36,15 +31,6 @@ const ReactionButton = styled.button`
   justify-content: center;
   gap: 4px;
 
-  /* 아이콘과 숫자 둘 다 이 크기를 쓰게 됨 */
-  font-size: 20px;
-
-  /* 아이콘도 동일한 크기로 강제 */
-  .material-symbols-outlined {
-    font-size: 18px;
-    line-height: 1;
-  }
-
   &:not(:disabled):hover {
     border-color: #9484ffff;
     background: #f5efff;
@@ -57,8 +43,8 @@ const ReactionButton = styled.button`
   ${(props) =>
     props.active &&
     css`
-      border-color: #a294f9;
-      background: #eef2ff;
+      border-color: #9484ffff;
+      background: #e5d9f2;
       font-weight: 600;
     `}
 
@@ -132,7 +118,7 @@ const ReactionBar = ({ postId }) => {
           active={myReaction === "POSITIVE"}
           disabled={loading}
         >
-          <span class="material-symbols-outlined">sentiment_satisfied</span>
+          <span>😆</span>
           {positiveCount}
         </ReactionButton>
 
@@ -141,7 +127,7 @@ const ReactionBar = ({ postId }) => {
           active={myReaction === "NEUTRAL"}
           disabled={loading}
         >
-          <span class="material-symbols-outlined">sentiment_neutral</span>
+          <span>🤨</span>
           {neutralCount}
         </ReactionButton>
 
@@ -150,7 +136,7 @@ const ReactionBar = ({ postId }) => {
           active={myReaction === "NEGATIVE"}
           disabled={loading}
         >
-          <span class="material-symbols-outlined">sentiment_dissatisfied</span>
+          <span>☹️</span>
           {negativeCount}
         </ReactionButton>
       </ButtonGroup>
