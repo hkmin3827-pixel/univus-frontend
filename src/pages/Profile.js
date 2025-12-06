@@ -113,6 +113,11 @@ const Profile = () => {
     setSubmitError("");
     setSubmitSuccess("");
 
+    const phoneRegex = /^010\d{8}$/;
+    if (!phoneRegex.test(tel)) {
+      alert("전화번호 형식이 올바르지 않습니다. (예: 01012345678)");
+      return;
+    }
     try {
       let finalImageUrl = imageUrl;
 
@@ -181,7 +186,8 @@ const Profile = () => {
         {/* 이메일 */}
         <Row>
           <Label>이메일</Label>
-          <InputComponent type="email" value={email} readOnly />
+          <p style={{ padding: "5px 10px" }}>{email}</p>
+          {/* <InputComponent type="email" value={email} readOnly /> */}
         </Row>
 
         {/* 이름 */}
