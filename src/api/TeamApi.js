@@ -50,6 +50,7 @@ const TeamApi = {
   getTeamMembers: (teamId) => teamApi.get(`/team/${teamId}/members`),
 
   leaveTeam: (teamId) => teamApi.delete(`/team/${teamId}/leave`),
+  deleteTeam: (teamId) => teamApi.delete(`/teams/${teamId}`),
 
   kickMember: (teamId, targetUserId) =>
     teamApi.delete(`/team/${teamId}/kick?targetUserId=${targetUserId}`, {

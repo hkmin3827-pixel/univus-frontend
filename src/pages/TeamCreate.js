@@ -1,13 +1,16 @@
 // src/pages/TeamCreate.jsx
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import TeamApi from "../api/TeamApi";
 import InviteModal from "../components/team/InviteModal";
 import "../styles/TeamCreate.css";
 import { TeamContext } from "../context/TeamContext";
+import { useSearchParams } from "react-router-dom";
 
 const TeamCreate = () => {
   const { fetchTeams, setSelectedTeam } = useContext(TeamContext);
+  const [searchParams] = useSearchParams();
+  const teamId = searchParams.get("teamId");
 
   const [teamName, setTeamName] = useState("");
   const [description, setDescription] = useState("");
@@ -33,7 +36,7 @@ const TeamCreate = () => {
       setSelectedTeam(newTeam);
       localStorage.setItem("selectedTeamId", newTeam.id);
       setCreatedTeamId(newTeam.id);
-      // navigate(`/team/${newTeam.id}`); // 페이지 이동
+      navigate(`/teams/new?teamId=${newTeam.id}`);
     } catch (err) {
       console.error(err);
 
@@ -59,6 +62,22 @@ const TeamCreate = () => {
       alert("초대 링크 생성 실패");
     }
   };
+
+  useEffect(() => {
+    const loadTeam = async () => {
+      if (teamId) {
+        try {
+          const res = await TeamApi.getTeam(teamId); // 팀 조회 API
+          setSelectedTeam(res.data); // 전체 team 객체 저장
+          localStorage.setItem("selectedTeamId", teamId);
+        } catch (err) {
+          console.error("팀 정보 로딩 실패:", err);
+        }
+      }
+    };
+
+    loadTeam();
+  }, [teamId]);
 
   return (
     <div className="team-create-container">
@@ -90,6 +109,7 @@ const TeamCreate = () => {
           팀 생성하기
         </button>
         <button
+          type="button"
           className={`secondary-btn ${!createdTeamId ? "disabled" : ""}`}
           disabled={!createdTeamId}
           onClick={handleInviteClick}

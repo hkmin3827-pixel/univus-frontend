@@ -19,11 +19,20 @@ function CreatePostPage() {
 
   // 파일 선택
   const handleFileChange = (e) => {
-    const selected = e.target.files[0];
+    const selected = e.target.files && e.target.files[0];
+    if (!selected) {
+      setPreviewUrl(null);
+      setFile(null);
+      return;
+    }
+
     setFile(selected);
 
-    if (selected) {
-      setPreviewUrl(URL.createObjectURL(selected));
+    if (selected.type && selected.type.startsWith("image/")) {
+      const previewUrl = URL.createObjectURL(selected);
+      setPreviewUrl(previewUrl);
+    } else {
+      setPreviewUrl(null);
     }
   };
 
@@ -116,6 +125,12 @@ function CreatePostPage() {
             <img src={previewUrl} alt="파일 Upload 준비 완료" />
           </div>
         )}
+        {file && !previewUrl && (
+          <div className="fileInfo-box">
+            <span>📄 첨부파일: {file.name}</span>
+          </div>
+        )}
+
         <button
           onClick={handleUploadClick}
           disabled={!file}

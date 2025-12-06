@@ -12,7 +12,6 @@ import Profile from "./pages/Profile";
 import ProfileDetail from "./pages/ProfileDetail";
 import SchedulePage from "./pages/SchedulePage";
 import TeamEntry from "./pages/TeamEntry";
-import TeamDetail from "./pages/TeamDetail";
 import TeamPage from "./pages/TeamPage";
 import TeamLink from "./pages/TeamLink";
 import CreatePostPage from "./pages/CreatePostPage";
@@ -137,15 +136,6 @@ function App() {
                         />
                       </Route>
                     </Route>
-
-                    {/* <Route
-                    path="/teams/:teamId"
-                    element={
-                      <TeamGuard>
-                        <TeamDetail />
-                      </TeamGuard>
-                    }
-                  /> */}
                   </Route>
 
                   <Route path="/search" element={<SearchResultsPage />} />

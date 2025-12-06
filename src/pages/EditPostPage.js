@@ -51,14 +51,18 @@ function EditPostPage() {
 
   const handleFileChange = (e) => {
     const selected = e.target.files[0];
+    if (!selected) return;
     setFile(selected);
 
-    if (selected) {
-      setPreviewUrl(URL.createObjectURL(selected));
-      setRemoveOriginFile(true);
-      setOriginFileUrl("");
-      setOriginFileName("");
+    if (selected.type.startsWith("image/")) {
+      setPreviewUrl(URL.createObjectURL(file));
+    } else {
+      setPreviewUrl(null);
     }
+    setFileName(selected.name);
+    setRemoveOriginFile(true);
+    setOriginFileUrl("");
+    setOriginFileName("");
   };
 
   const handleUploadClick = async () => {
@@ -140,7 +144,7 @@ function EditPostPage() {
         onChange={(e) => setContent(e.target.value)}
       />
 
-      {originFileUrl && (
+      {originFileUrl && !removeOriginFile && (
         <div className="preview-origin">
           <img src={originFileUrl} alt="origin preview" width="200px" />
           <div className="file-bottom-row">
@@ -162,7 +166,12 @@ function EditPostPage() {
 
         {previewUrl && (
           <div className="preview-box">
-            <img src={previewUrl} alt="preview" />
+            <img src={previewUrl} alt="파일 Upload 준비 완료" />
+          </div>
+        )}
+        {file && !previewUrl && removeOriginFile && (
+          <div className="fileInfo-box">
+            <span>📄 첨부파일: {file.name}</span>
           </div>
         )}
         <button
