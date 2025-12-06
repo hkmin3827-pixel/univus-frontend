@@ -215,8 +215,6 @@ function SideBar({
               </>
             ) : (
               <li className="empty-team">
-                환영합니다.
-                <br />
                 팀 생성 또는 가입으로
                 <br />
                 프로젝트를 시작해보세요.

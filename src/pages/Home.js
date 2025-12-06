@@ -7,8 +7,41 @@ import ScheduleApi from "../api/ScheduleApi";
 import ScheduleModal from "../components/home/ScheduleModal";
 import ScheduleCreateModal from "./ScheduleCreateModal";
 import "../styles/HomeSchedule.css";
+import "../styles/HomePage.css";
 
 function Home() {
+  const message1 = "UNIV-US에 오신 걸 환영합니다!";
+  const message2 = "팀 생성 또는 가입으로 프로젝트를 시작해보세요.";
+  const [text1, setText1] = useState("");
+  const [text2, setText2] = useState("");
+  const [index, setIndex] = useState(0);
+  const [step, setStep] = useState(1);
+  useEffect(() => {
+    if (step === 1) {
+      if (index < message1.length) {
+        const timeout = setTimeout(() => {
+          setText1((prev) => prev + message1[index]);
+          setIndex(index + 1);
+        }, 80);
+        return () => clearTimeout(timeout);
+      } else {
+        // 첫 문장 완료 → 두 번째 문장 시작
+        setStep(2);
+        setIndex(0);
+      }
+    }
+
+    if (step === 2) {
+      if (index < message2.length) {
+        const timeout = setTimeout(() => {
+          setText2((prev) => prev + message2[index]);
+          setIndex(index + 1);
+        }, 80);
+        return () => clearTimeout(timeout);
+      }
+    }
+  }, [index, step]);
+
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
@@ -111,67 +144,78 @@ function Home() {
 
   return (
     <div className="home-container">
-      {/* 캘린더 */}
-      <div className="calendar-box">
-        <FullCalendar
-          plugins={[dayGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-          events={events}
-          eventClick={(info) => {
-            const event = events.find((e) => e.id === info.event.id);
-            setSelectedEvent(event);
-          }}
-          dayMaxEvents={2}
-          height="100%"
-          displayEventTime={false}
-          dayMaxEventRows={false}
-          headerToolbar={{
-            left: "title",
-            right: "today prev,next",
-          }}
-        />
+      <div className="typing-box">
+        <span className="typing-text1">{text1}</span>
+        <br />
+        <span className="typing-text2">{text2}</span>
       </div>
+      <div className="cal-container">
+        {/* 🔥 타이핑 박스 */}
 
-      {/* 예정된 일정 리스트 */}
-      <div className="schedule-box">
-        <h3>📌 예정된 일정 &lt;7days later&gt;</h3>
-        {upcomingEvents.length === 0 ? (
-          <p className="empty">등록된 일정이 없습니다.</p>
-        ) : (
-          upcomingEvents.map((item) => (
-            <div
-              key={item.id}
-              className="schedule-item"
-              onClick={() => setSelectedEvent(item)}
-            >
-              <div className="dot"></div>
-              <div>
-                <p className="title">{item.title}</p>
-                <p className="date">{new Date(item.start).toLocaleString()}</p>
+        {/* 캘린더 */}
+        <div className="calendar-box">
+          <FullCalendar
+            plugins={[dayGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            events={events}
+            eventClick={(info) => {
+              const event = events.find((e) => e.id === info.event.id);
+              setSelectedEvent(event);
+            }}
+            dayMaxEvents={2}
+            height="100%"
+            displayEventTime={false}
+            dayMaxEventRows={false}
+            headerToolbar={{
+              left: "title",
+              right: "today prev,next",
+            }}
+          />
+        </div>
+
+        {/* 예정된 일정 리스트 */}
+        <div className="schedule-box">
+          <h3>📌 예정된 일정 &lt;7days later&gt;</h3>
+          {upcomingEvents.length === 0 ? (
+            <p className="empty">등록된 일정이 없습니다.</p>
+          ) : (
+            upcomingEvents.map((item) => (
+              <div
+                key={item.id}
+                className="schedule-item"
+                onClick={() => setSelectedEvent(item)}
+              >
+                <div className="dot"></div>
+                <div>
+                  <p className="title">{item.title}</p>
+                  <p className="date">
+                    {new Date(item.start).toLocaleString()}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))
+            ))
+          )}
+        </div>
+        {/* 🔍 상세 모달 (보기 + 수정/삭제 버튼) */}
+        {selectedEvent && (
+          <ScheduleModal
+            event={selectedEvent}
+            onClose={() => setSelectedEvent(null)}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        )}
+
+        {/* ✏ 수정 모달 (날짜/시간 따로 입력) */}
+        {isEditOpen && (
+          <ScheduleCreateModal
+            mode="edit"
+            initialData={editInitialData}
+            onClose={() => setIsEditOpen(false)}
+            onSubmit={handleEditSubmit}
+          />
         )}
       </div>
-      {/* 🔍 상세 모달 (보기 + 수정/삭제 버튼) */}
-      {selectedEvent && (
-        <ScheduleModal
-          event={selectedEvent}
-          onClose={() => setSelectedEvent(null)}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-        />
-      )}
-
-      {/* ✏ 수정 모달 (날짜/시간 따로 입력) */}
-      {isEditOpen && (
-        <ScheduleCreateModal
-          mode="edit"
-          initialData={editInitialData}
-          onClose={() => setIsEditOpen(false)}
-          onSubmit={handleEditSubmit}
-        />
-      )}
     </div>
   );
 }
