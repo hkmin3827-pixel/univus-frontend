@@ -167,9 +167,20 @@ const LogIn = () => {
           {/* 비밀번호 찾기 */}
           <Items
             variant="item2"
-            style={{ alignItems: "flex-end", marginTop: error ? "0" : "4px" }}
+            style={{
+              alignItems: "flex-end",
+              marginTop: error ? "0" : "6px",
+            }}
           >
-            <FindPwButton type="button">비밀번호 찾기</FindPwButton>
+            <FindPwButton
+              type="button"
+              onClick={() => {
+                console.log("비밀번호 찾기 클릭!");
+                navigate("/auth/find-password");
+              }}
+            >
+              비밀번호 찾기에욘
+            </FindPwButton>
           </Items>
 
           {/* 로그인 버튼 */}

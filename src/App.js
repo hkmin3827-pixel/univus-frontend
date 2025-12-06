@@ -37,6 +37,8 @@ import TeamGuard from "./guards/TeamGuards";
 import BoardGuard from "./guards/BoardGuards";
 import PostGuard from "./guards/PostGuard";
 import NoticeGuard from "./guards/NoticeGuards";
+import FindPasswordPage from "./pages/FindPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 function App() {
   return (
@@ -48,6 +50,15 @@ function App() {
               <Routes>
                 <Route path="/" element={<LogIn />} />
                 <Route path="/signup" element={<SignUp />} />
+
+                <Route
+                  path="/auth/find-password"
+                  element={<FindPasswordPage />}
+                />
+                <Route
+                  path="/auth/reset-password/:token"
+                  element={<ResetPasswordPage />}
+                />
 
                 <Route path="/admin/" element={<Members />} />
                 <Route path="/admin/:email" element={<MemberDetails />} />
