@@ -98,7 +98,10 @@ const TeamInfo = () => {
     <Container>
       <FormBox style={{ position: "relative" }}>
         {selectedTeam.leaderId === user.id && (
-          <EditButton onClick={() => navigate(`/team/${teamId}/edit`)}>
+          <EditButton
+            type="button"
+            onClick={() => navigate(`/team/${teamId}/edit`)}
+          >
             <span className="material-symbols-outlined">edit</span>
           </EditButton>
         )}
