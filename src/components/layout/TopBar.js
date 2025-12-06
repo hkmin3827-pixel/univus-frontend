@@ -20,7 +20,6 @@ const TopBarContainer = styled.header`
   left: 0;
   right: 0;
   z-index: 200;
-  margin-top: 15px;
   padding-bottom: 15px;
 `;
 
