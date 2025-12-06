@@ -108,7 +108,7 @@ function SideBar({
     setSelectedMenu("insight");
     setOpenProject(false);
 
-    navigate(`/team/${teamId}/boards/${selectedBoardId}/insight`, {
+    navigate(`/team/${selectedTeam.id}/boards/${selectedBoardId}/insight`, {
       state: {
         boardName: selectedBoard?.name, // ← ⭐ 이거 때문에 제목이 제대로 표시됨
       },
@@ -176,7 +176,7 @@ function SideBar({
                       }`}
                       onClick={() => {
                         setSelectedBoardId(b.id);
-                        navigate(`/team/${teamId}/board/${b.id}`);
+                        navigate(`/team/${selectedTeam.id}/board/${b.id}`);
                       }}
                     >
                       {b.name}
@@ -208,7 +208,7 @@ function SideBar({
                 setSelectedMenu("notice");
                 setOpenProject(false);
                 setSelectedBoardId(null);
-                navigate(`team/${teamId}/notice`);
+                navigate(`team/${selectedTeam.id}/notice`);
               }}
             >
               공지사항

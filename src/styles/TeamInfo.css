@@ -57,10 +57,19 @@
 .profile-img {
   margin-right: 10px;
 }
-.team-out {
+.team-out,
+.team-delete {
   color: rgb(185, 39, 39);
   cursor: pointer;
   font-size: 14px;
   display: block;
-  margin: 10px auto;
+  margin: 0 auto;
+}
+.team-out {
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+.team-out:hover,
+.team-delete:hover {
+  color: rgb(128, 28, 28);
 }

@@ -17,6 +17,7 @@ import ButtonComponent from "../components/common/ButtonComponent";
 import { TeamContext } from "../context/TeamContext";
 import { UserContext } from "../context/UserContext";
 import TeamApi from "../api/TeamApi";
+import profileDefaultImg from "../images/profileDefaultImg.png";
 
 function UserProfile() {
   const navigate = useNavigate();
@@ -81,10 +82,11 @@ function UserProfile() {
           <Value>
             <ProfileImage
               src={
-                userInfo.image?.trim()
+                userInfo?.image && userInfo.image.trim() !== ""
                   ? userInfo.image
-                  : "/images/default-profile.png"
+                  : profileDefaultImg
               }
+              alt="프로필"
             />
           </Value>
         </Row>

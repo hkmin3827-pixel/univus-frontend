@@ -15,6 +15,7 @@ import {
 import "../styles/TeamInfo.css";
 import styled from "styled-components";
 import { UserContext } from "../context/UserContext";
+import profileDefaultImg from "../images/profileDefaultImg.png";
 const ProfileImg = styled.img`
   width: 35px;
   height: 35px;
@@ -92,6 +93,25 @@ const TeamInfo = () => {
     }
   };
 
+  const handleDeleteTeam = async () => {
+    if (!window.confirm("팀을 삭제하시겠습니까?")) return;
+    if (!window.confirm("삭제된 팀의 모든 데이터들은 영구히 삭제됩니다."))
+      return;
+    console.log("삭제 요청 teamId:", selectedTeam?.id, teamId);
+    try {
+      if (Number(selectedTeam.leaderId) !== Number(user.id)) {
+        alert("팀장 권한이 없습니다.");
+        return;
+      }
+
+      await TeamApi.deleteTeam(teamId);
+      navigate("/home");
+    } catch (err) {
+      console.error("팀 삭제 실패:", err);
+      alert("삭제 중 오류가 발생했습니다.");
+    }
+  };
+
   // 진입 시 로그인 정보 + 프로필 불러오기
 
   return (
@@ -135,18 +155,15 @@ const TeamInfo = () => {
                   navigate(`/team/${teamId}/userprofile/${m.userId}`);
                 }}
               >
-                {m.userImage && m.userImage.trim() !== "" ? (
-                  <ProfileImg
-                    className="profile-img"
-                    src={m.userImage}
-                    alt="프로필"
-                  />
-                ) : (
-                  <span className="material-symbols-outlined circle">
-                    account_circle
-                  </span>
-                )}
-
+                <ProfileImg
+                  src={
+                    m?.userImage && m.userImage.trim() !== ""
+                      ? m.userImage
+                      : profileDefaultImg
+                  }
+                  alt="프로필"
+                  style={{ marginRight: "10px" }}
+                />
                 <div className="member-info">
                   <p className="member-name">{m.userName}</p>
                   <p className="member-email">{m.userEmail}</p>
@@ -162,6 +179,11 @@ const TeamInfo = () => {
         <span className="team-out" onClick={handleLeaveTeam}>
           팀 탈퇴하기
         </span>
+        {selectedTeam.leaderId === user.id && (
+          <span className="team-delete" onClick={handleDeleteTeam}>
+            팀 삭제하기
+          </span>
+        )}
       </FormBox>
     </Container>
   );
