@@ -138,7 +138,13 @@ function TopBar({
         <span className="material-symbols-outlined" onClick={goToTeamEntry}>
           add_link
         </span>
-        <span className="material-symbols-outlined" onClick={toggleActivity}>
+        <span
+          className="material-symbols-outlined activity-icon-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleActivity();
+          }}
+        >
           inventory
         </span>
 
