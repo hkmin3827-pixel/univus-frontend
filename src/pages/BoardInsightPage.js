@@ -65,6 +65,10 @@ const BoardInsightPage = () => {
 
         console.log("📌 board contribution =", res.data);
 
+        const filteredMembers = (res.data || []).filter(
+          (m) => m.role !== "PROFESSOR"
+        );
+
         setMembers(res.data || []);
         console.log("Member data: ", members);
       } catch (e) {
@@ -93,6 +97,16 @@ const BoardInsightPage = () => {
         console.log("📌 postTop5 =", postRes.data);
         console.log("📌 commentTop5 =", commentRes.data);
         console.log("📌 reactionTop5 =", reactionRes.data);
+
+        const postData = (postRes.data || []).filter(
+          (item) => item.role !== "PROFESSOR"
+        );
+        const commentData = (commentRes.data || []).filter(
+          (item) => item.role !== "PROFESSOR"
+        );
+        const reactionData = (reactionRes.data || []).filter(
+          (item) => item.role !== "PROFESSOR"
+        );
 
         setPostTop5(postRes.data || []);
         setCommentTop5(commentRes.data || []);
