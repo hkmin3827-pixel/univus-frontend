@@ -332,6 +332,20 @@ textarea {
   font-weight: 700;
   color: black;
 }
+.menu-list .empty-team {
+  font-size: 13px;
+  color: #888;
+  cursor: pointer;
+  padding: 6px 8px;
+  padding: 20px;
+  text-align: center;
+  background-color: white;
+}
+.menu-list .empty-team:hover {
+  background-color: white;
+  color: inherit;
+  cursor: default;
+}
 
 /* =========================================================
    MAIN CONTENT

@@ -214,7 +214,13 @@ function SideBar({
                 </li>
               </>
             ) : (
-              <li className="empty">팀을 선택해주세요</li>
+              <li className="empty-team">
+                환영합니다.
+                <br />
+                팀 생성 또는 가입으로
+                <br />
+                프로젝트를 시작해보세요.
+              </li>
             )}
 
             {/* 캘린더는 항상 노출 */}
