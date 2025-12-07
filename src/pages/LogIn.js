@@ -29,6 +29,13 @@ const FindPwButton = styled.button`
   color: #6b7280;
   cursor: pointer;
   padding: 0;
+  margin-bottom: 20px;
+
+  &:hover {
+    color: #333; /* 더 진한 회색 */
+    text-decoration: underline;
+    background: transparent;
+  }
 `;
 
 // 에러 메시지 (비밀번호 입력 아래, 오른쪽 정렬)
@@ -179,7 +186,7 @@ const LogIn = () => {
                 navigate("/auth/find-password");
               }}
             >
-              비밀번호 찾기에욘
+              비밀번호 찾기
             </FindPwButton>
           </Items>
 
