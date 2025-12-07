@@ -57,8 +57,7 @@ textarea {
 
 .logo {
   width: 180px;
-
-  line-height: 1;
+  cursor: pointer;
 }
 
 .search-box {
@@ -140,7 +139,6 @@ textarea {
   box-shadow: none !important;
   outline: none !important;
 }
-
 
 /* 모바일 전용 검색 버튼: 기본은 숨김 */
 .mobile-search-trigger {
@@ -508,7 +506,7 @@ textarea {
     gap: 5px;
   }
   .topbar .logo {
-    width: 150px;
+    width: 130px;
     display: flex; /* ← flex container */
     align-items: center; /* ← 내부 요소 세로 중앙 */
     justify-content: center;
@@ -516,7 +514,7 @@ textarea {
     margin-top: 8px;
   }
   .logo img {
-    height: 32px; /* 원하는 로고 크기 */
+    height: 30px; /* 원하는 로고 크기 */
     object-fit: contain;
   }
   .sidebar.show {
