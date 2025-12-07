@@ -6,16 +6,16 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   background: #f5f7ff;
-  padding: 24px 16px 40px;
+  padding: 20px 20px 40px;
 
   .logo {
     align-self: flex-start;
-    margin-left: 32px;
+    margin-left: 20px;
     margin-bottom: 8px;
   }
   @media (max-width: 960px) {
     .logo {
-      left: 8px;
+      left: 5px;
       top: 20px;
       width: 140px;
     }
