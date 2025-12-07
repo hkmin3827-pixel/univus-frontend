@@ -138,13 +138,12 @@ function TopBar({
 
         <div className="top-icons">
           {/* 모바일 전용 검색 버튼 (PC에서는 CSS로 display: none) */}
-          <button
-            type="button"
-            className="mobile-search-trigger"
+          <span
             onClick={openMobileSearch}
+            className="material-symbols-outlined mobile-search-trigger"
           >
-            <span className="material-symbols-outlined">search</span>
-          </button>
+            search
+          </span>
 
           <span className="material-symbols-outlined" onClick={goToTeamInvite}>
             group_add
@@ -182,9 +181,7 @@ function TopBar({
 
       {/* 모바일 검색 오버레이 */}
       <div
-        className={`mobile-search-overlay ${
-          isMobileSearchOpen ? "show" : ""
-        }`}
+        className={`mobile-search-overlay ${isMobileSearchOpen ? "show" : ""}`}
         onClick={closeMobileSearch}
       >
         <div
@@ -202,13 +199,12 @@ function TopBar({
             onKeyDown={handleSearch}
             autoFocus
           />
-          <button
-            type="button"
-            className="mobile-search-close"
+          <span
             onClick={closeMobileSearch}
+            className="material-symbols-outlined mobile-search-close"
           >
-            <span className="material-symbols-outlined">close</span>
-          </button>
+            close
+          </span>
         </div>
       </div>
     </>
