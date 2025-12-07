@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import profileDefaultImg from "../../images/profileDefaultImg.png";
+import "../../styles/PostDetailPage.css";
 
 /* 컨테이너 */
 const Container = styled.div`
@@ -21,7 +22,6 @@ const Container = styled.div`
 const BackBtn = styled.button`
   border: none;
   background: none;
-  outline: none;
   cursor: pointer;
   color: #999;
   padding: 4px;
@@ -29,11 +29,19 @@ const BackBtn = styled.button`
 
   span {
     font-size: 28px;
-    transition: 0.15s;
   }
 
-  &:hover span {
+  &:hover {
+    background-color: inherit;
     color: #333;
+
+    span {
+      color: #333;
+    }
+  }
+
+  &:focus {
+    outline: none;
   }
 `;
 
@@ -75,16 +83,31 @@ const RightMenu = styled.div`
   position: relative;
 `;
 
-const MenuButton = styled.button`
+const MenuIcon = styled.button`
   background: none;
   border: none;
-  outline: none;
   cursor: pointer;
   padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   span {
     font-size: 28px;
     color: #999;
+    transition: 0.15s ease;
+  }
+
+  &:hover span {
+    color: #333;
+  }
+
+  &:active span {
+    color: #333;
+  }
+
+  &:focus {
+    outline: none;
   }
 `;
 
@@ -294,15 +317,18 @@ const NoticeDetail = ({ notice, onBack, onEdit, onDelete }) => {
         </WriterRow>
 
         <RightMenu>
-          <MenuButton onClick={() => setMenuOpen((prev) => !prev)}>
+          <button
+            className="menu-icon"
+            onClick={() => setMenuOpen((prev) => !prev)}
+          >
             <span className="material-symbols-outlined">more_vert</span>
-          </MenuButton>
+          </button>
 
           {menuOpen && (
-            <Dropdown>
+            <div className="dropdown">
               <button onClick={onEdit}>수정</button>
               <button onClick={onDelete}>삭제</button>
-            </Dropdown>
+            </div>
           )}
 
           <DateText>{formatDateTime(notice.createTime)}</DateText>
