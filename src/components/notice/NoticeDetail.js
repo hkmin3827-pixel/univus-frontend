@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import profileDefaultImg from "../../images/profileDefaultImg.png";
 import "../../styles/PostDetailPage.css";
+import { useNavigate, useParams } from "react-router-dom";
+import TeamApi from "../../api/TeamApi";
 
 /* 컨테이너 */
 const Container = styled.div`

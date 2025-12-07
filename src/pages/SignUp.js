@@ -41,7 +41,9 @@ const SignUp = () => {
   // 오류 메시지
   const [emailMsg, setEmailMsg] = useState(""); // 이메일 가입 여부 검사, 정규식 검사
   const [pwMsg, setPwMsg] = useState(""); // 패스워드 정규식 검사
-  const [conPwMsg, setConPwMsg] = useState(""); // 비밀번호 일치 여부 검사
+  const [conPwMsg, setConPwMsg] = useState(""); // 비밀번호 일치
+  const [telMsg, setTelMsg] = useState("");
+  // 여부 검사
 
   // const onChangeImg = (e) => {
   //   const file = e.target.files[0];
@@ -115,8 +117,16 @@ const SignUp = () => {
   };
 
   const onChangeTelNum = (e) => {
-    setInputTelNum(e.target.value);
-    setIsTelNum(true);
+    const value = e.target.value.replace(/[^0-9]/g, ""); // 숫자만
+    const phoneRegex = /^010\d{8}$/;
+    setInputTelNum(value);
+    if (phoneRegex.test(value)) {
+      setIsTelNum(true);
+      setTelMsg("");
+    } else {
+      setIsTelNum(false);
+      setTelMsg("전화번호 형식이 올바르지 않습니다. (예: 01012345678)");
+    }
   };
 
   const onChangeRole = (e) => {
@@ -235,6 +245,9 @@ const SignUp = () => {
               value={inputTelNum}
               onChange={onChangeTelNum}
             />
+          </Items>
+          <Items variant="hint">
+            <p>{telMsg}</p>
           </Items>
 
           <Items variant="item2">

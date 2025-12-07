@@ -29,7 +29,7 @@ function SideBar({
   const [modalOpen, setModalOpen] = useState(false);
 
   const navigate = useNavigate();
-  const { teamId } = useParams(); // URL에서 팀 ID 가져오기
+  const { teamId, boardId } = useParams(); // URL에서 팀 ID 가져오기
   const { resetTodos } = useTodo();
 
   /** 🔹 팀 목록 불러오기 */
@@ -107,26 +107,27 @@ function SideBar({
     const selectedBoard = boards.find((b) => b.id === selectedBoardId);
     setSelectedMenu("insight");
     setOpenProject(false);
-    navigate(`/team/${teamId}/boards/${selectedBoardId}/insight`, {
-      state: { boardName: selectedBoard?.name },
+
+    navigate(`/team/${selectedTeam.id}/boards/${selectedBoardId}/insight`, {
+      state: {
+        boardName: selectedBoard?.name, // ← ⭐ 이거 때문에 제목이 제대로 표시됨
+      },
     });
   };
 
   return (
     <>
       <aside className={`sidebar ${isOpen ? "show" : ""}`}>
-        {" "}
         <div className="sidebar-top-group">
-          {" "}
           <div className="team-select-row">
             {selectedTeam && (
               <span
                 className="material-symbols-outlined info-btn"
                 onClick={() => navigate(`/team/${selectedTeam.id}/info`)}
               >
-                info{" "}
+                info
               </span>
-            )}{" "}
+            )}
             <TeamSelect myTeams={myTeams} size="sidebar" />{" "}
           </div>
           <button
@@ -139,7 +140,7 @@ function SideBar({
         </div>
         <nav className="menu-list">
           <ul>
-            {selectedTeam && teamId ? (
+            {selectedTeam ? (
               <>
                 {/* 내 프로젝트 */}
                 <li
@@ -175,7 +176,7 @@ function SideBar({
                           }`}
                           onClick={() => {
                             setSelectedBoardId(b.id);
-                            navigate(`/team/${teamId}/board/${b.id}`);
+                            navigate(`/team/${selectedTeam.id}/board/${b.id}`);
                           }}
                         >
                           {b.name}
@@ -186,14 +187,16 @@ function SideBar({
                 )}
 
                 {/* 인사이트 */}
-                <li
-                  className={`menu-item ${
-                    selectedMenu === "insight" && !openProject ? "active" : ""
-                  }`}
-                  onClick={handleInsightClick}
-                >
-                  인사이트
-                </li>
+                {boardId && (
+                  <li
+                    className={`menu-item ${
+                      selectedMenu === "insight" && !openProject ? "active" : ""
+                    }`}
+                    onClick={handleInsightClick}
+                  >
+                    인사이트
+                  </li>
+                )}
 
                 {/* 공지사항 */}
                 <li
@@ -204,14 +207,18 @@ function SideBar({
                     setSelectedMenu("notice");
                     setOpenProject(false);
                     setSelectedBoardId(null);
-                    navigate(`team/${teamId}/notice`);
+                    navigate(`team/${selectedTeam.id}/notice`);
                   }}
                 >
                   공지사항
                 </li>
               </>
             ) : (
-              <li className="empty">팀을 선택해주세요</li>
+              <li className="empty-team">
+                팀 생성 또는 가입으로
+                <br />
+                프로젝트를 시작해보세요.
+              </li>
             )}
 
             {/* 캘린더는 항상 노출 */}

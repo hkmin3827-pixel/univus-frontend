@@ -4,6 +4,7 @@ import "../../styles/CommentSection.css";
 import { UserContext } from "../../context/UserContext";
 import styled from "styled-components";
 import profileDefaultImg from "../../images/profileDefaultImg.png";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ProfileImg = styled.img`
   width: 25px;
@@ -15,6 +16,7 @@ const ProfileImg = styled.img`
 `;
 
 function CommentSection({ postId }) {
+  const { teamId } = useParams();
   const [page, setPage] = useState(0);
   const [comments, setComments] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
@@ -23,6 +25,7 @@ function CommentSection({ postId }) {
   const [editContent, setEditContent] = useState("");
   const [menuOpenId, setMenuOpenId] = useState(null);
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const loginUserEmail = localStorage.getItem("email");
 
@@ -114,6 +117,9 @@ function CommentSection({ postId }) {
                 {/* 아바타 + 정보 */}
                 <div className="comment-header-left">
                   <ProfileImg
+                    onClick={() =>
+                      navigate(`/team/${teamId}/userprofile/${c.writerId}`)
+                    }
                     src={
                       c?.writerImage && c.writerImage.trim() !== ""
                         ? c.writerImage
@@ -122,7 +128,15 @@ function CommentSection({ postId }) {
                     alt="프로필"
                   />
                   <div className="comment-info">
-                    <span className="comment-writer">{c.userName}</span>
+                    <span
+                      className="comment-writer"
+                      onClick={() =>
+                        navigate(`/team/${teamId}/userprofile/${c.writerId}`)
+                      }
+                      style={{ cursor: "pointer" }}
+                    >
+                      {c.userName}
+                    </span>
                     <span className="comment-date">
                       {formatDateTime(c.createTime)}
                     </span>

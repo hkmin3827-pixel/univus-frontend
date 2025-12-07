@@ -12,7 +12,6 @@ import Profile from "./pages/Profile";
 import ProfileDetail from "./pages/ProfileDetail";
 import SchedulePage from "./pages/SchedulePage";
 import TeamEntry from "./pages/TeamEntry";
-import TeamDetail from "./pages/TeamDetail";
 import TeamPage from "./pages/TeamPage";
 import TeamLink from "./pages/TeamLink";
 import CreatePostPage from "./pages/CreatePostPage";
@@ -37,6 +36,8 @@ import TeamGuard from "./guards/TeamGuards";
 import BoardGuard from "./guards/BoardGuards";
 import PostGuard from "./guards/PostGuard";
 import NoticeGuard from "./guards/NoticeGuards";
+import FindPasswordPage from "./pages/FindPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 function App() {
   return (
@@ -48,6 +49,15 @@ function App() {
               <Routes>
                 <Route path="/" element={<LogIn />} />
                 <Route path="/signup" element={<SignUp />} />
+
+                <Route
+                  path="/auth/find-password"
+                  element={<FindPasswordPage />}
+                />
+                <Route
+                  path="/auth/reset-password/:token"
+                  element={<ResetPasswordPage />}
+                />
 
                 <Route path="/admin/" element={<Members />} />
                 <Route path="/admin/:email" element={<MemberDetails />} />
@@ -126,15 +136,6 @@ function App() {
                         />
                       </Route>
                     </Route>
-
-                    {/* <Route
-                    path="/teams/:teamId"
-                    element={
-                      <TeamGuard>
-                        <TeamDetail />
-                      </TeamGuard>
-                    }
-                  /> */}
                   </Route>
 
                   <Route path="/search" element={<SearchResultsPage />} />

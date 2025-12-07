@@ -32,6 +32,20 @@ const AxiosApi = {
       role,
     });
   },
+
+  requestPasswordReset: (email) =>
+    axios.post(`${DOMAIN}/auth/password-reset/request`, { email }),
+
+  validatePasswordResetToken: (token) =>
+    axios.get(`${DOMAIN}/auth/password-reset/validate`, {
+      params: { token },
+    }),
+
+  confirmPasswordReset: (token, newPassword) =>
+    axios.post(`${DOMAIN}/auth/password-reset/confirm`, {
+      token,
+      newPassword,
+    }),
   // 회원 목록 가져 오기
 
   // 유저 공통 정보 수정

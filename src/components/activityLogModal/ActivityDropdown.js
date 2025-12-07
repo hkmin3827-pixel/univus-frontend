@@ -4,6 +4,7 @@ import { TeamContext } from "../../context/TeamContext";
 import { useActivityLog } from "../../context/ActivityLogContext";
 
 const Wrapper = styled.div`
+  margin-top: 10px;
   position: absolute;
   top: 60px;
   right: 20px;
@@ -46,26 +47,41 @@ const Item = styled.div`
   border-bottom: 1px solid #eee;
 `;
 
-function ActivityDropdown({ closeDropdown }) {
+function ActivityDropdown({ isOpen, closeDropdown }) {
   const { selectedTeam } = useContext(TeamContext);
   const { activities, refreshActivities } = useActivityLog();
   const ref = useRef();
 
   useEffect(() => {
-    if (selectedTeam) refreshActivities(selectedTeam.id);
+    if (!isOpen) return;
+    if (selectedTeam) {
+      refreshActivities(selectedTeam.id);
+    }
 
     const handleClickOutside = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) {
-        closeDropdown();
-      }
+      if (!ref.current) return;
+
+      // 1) 드롭다운 안 클릭이면 무시
+      if (ref.current.contains(e.target)) return;
+
+      // 2) 알림 아이콘(activity-icon-btn) 클릭이면 무시
+      if (e.target.closest(".activity-icon-btn")) return;
+
+      // 3) 그 외는 진짜 바깥 클릭 → 닫기
+      closeDropdown();
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [selectedTeam]);
+  }, [isOpen, selectedTeam, closeDropdown]);
+  if (!isOpen) return null;
 
   return (
-    <Wrapper ref={ref} onClick={(e) => e.stopPropagation()}>
+    <Wrapper
+      ref={ref}
+      style={{ display: isOpen ? "block" : "none" }}
+      onClick={(e) => e.stopPropagation()}
+    >
       <Tail />
       <h4 style={{ marginBottom: "10px" }}>
         {selectedTeam?.teamName} 활동 알림

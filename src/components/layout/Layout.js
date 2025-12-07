@@ -44,9 +44,10 @@ function Layout() {
           toggleActivity={() => setActivityModalOpen((prev) => !prev)}
         />
 
-        {activityModalOpen && (
-          <ActivityDropdown closeDropdown={() => setActivityModalOpen(false)} />
-        )}
+        <ActivityDropdown
+          isOpen={activityModalOpen}
+          closeDropdown={() => setActivityModalOpen(false)}
+        />
 
         <div className="content-wrapper">
           <SideBar
