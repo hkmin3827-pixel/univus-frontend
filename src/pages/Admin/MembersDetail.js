@@ -17,7 +17,20 @@ const Container = styled.div`
   direction: column;
   flex-wrap: wrap;
   margin: 20px auto;
+  padding: 2%;
 `;
+
+const Box = styled.div`
+display: flex;
+width: 100%;
+flex-wrap: wrap;
+padding: 1%;  
+border: 1px solid #A294F9;
+
+@media (max-width: 960px){
+  padding: 5%;
+}
+`
 
 const Header = styled.div`
 display: flex;
@@ -25,6 +38,15 @@ width:100%;
 padding-bottom: 20px;
 border-bottom: 1px solid #A294F9;
 `;
+
+const Title = styled.h1`
+  font-size: 24px;
+
+  @media (max-width: 960px) {
+    font-size: 18px;
+  }
+`;
+
   const Body = styled.div`
     width: 100%;
     padding: 20px;
@@ -137,8 +159,9 @@ const handleAdminRecover = async () => {
   const isActive = member.active;
   return (
     <Container>
+      <Box>
       <Header>
-        <h1>회원 상세 정보</h1>
+        <Title>회원 상세 정보</Title>
       </Header>
 
       <Body>
@@ -188,6 +211,7 @@ const handleAdminRecover = async () => {
 
       <ActionButton onClick={() => navigate(-1)}>뒤로가기</ActionButton>
       </ButtonRow>
+      </Box>
     </Container>
   );
 };

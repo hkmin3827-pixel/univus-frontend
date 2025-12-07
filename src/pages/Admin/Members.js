@@ -10,7 +10,19 @@ const Container = styled.div`
   direction: column;
   flex-wrap: wrap;
   margin: 20px auto;
+  padding: 2%;
 `;
+const Box = styled.div`
+display: flex;
+width: 100%;
+flex-wrap: wrap;
+padding: 1%;  
+border: 1px solid #A294F9;
+
+@media (max-width: 960px){
+  padding: 5%;
+}
+`
 
 const Header = styled.div`
 display: flex;
@@ -18,6 +30,16 @@ width:100%;
 padding-bottom: 20px;
 border-bottom: 1px solid #A294F9;
 `
+
+const Title = styled.h1`
+  font-size: 24px;
+
+  @media (max-width: 960px) {
+    font-size: 18px;
+  }
+`;
+
+
 const FilterSection = styled.div`
   margin-top: 20px;     /* 위 간격 */
   margin-bottom: 10px;  /* 아래 간격 */
@@ -97,6 +119,7 @@ const FilterButton = styled.button`
 
 
 
+
 const Members = () => {
   const navigate = useNavigate();
   const [members, setMembers] = useState([]);
@@ -157,8 +180,9 @@ const filteredMembers = members.filter((member) => {
     <div>
       {localStorage.getItem("role") !== "ADMIN" ? null : (
         <Container>
+          <Box>
           <Header>
-            <h1>어드민 페이지 - 회원정보조회</h1>
+            <Title>어드민 페이지 - 회원정보조회</Title>
           </Header>
 
           {/* 역할 필터 버튼 영역 */}
@@ -243,6 +267,7 @@ const filteredMembers = members.filter((member) => {
                 </UserInfo>
               </MemberInfoWrapper>
             ))}
+            </Box>
         </Container>
       )}
     </div>
