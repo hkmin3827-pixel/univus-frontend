@@ -141,6 +141,114 @@ textarea {
   outline: none !important;
 }
 
+
+/* 모바일 전용 검색 버튼: 기본은 숨김 */
+.mobile-search-trigger {
+  display: none;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.mobile-search-trigger .material-symbols-outlined {
+  font-size: 28px;
+}
+
+/* 모바일 검색 오버레이: 기본은 숨김 */
+.mobile-search-overlay {
+  display: none;
+}
+
+/* =========================================
+   960px 이하: 모바일 레이아웃
+========================================= */
+@media (max-width: 960px) {
+  /* 중앙 검색박스는 모바일에서 숨김 (오버레이만 사용) */
+  .search-box {
+    display: none;
+  }
+
+  /* 햄버거 버튼은 모바일에서만 보이게 */
+  .menu-btn {
+    display: block;
+  }
+
+  /* 모바일 검색 버튼은 모바일에서만 보이게 */
+  .mobile-search-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 오버레이 배경 */
+  .mobile-search-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 2200;
+  }
+
+  .mobile-search-overlay.show {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  /* 상단 검색창 박스 */
+  .mobile-search-container {
+    margin-top: 10px;
+    padding: 10px 16px;
+    background: #ffffff;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+  }
+
+  .mobile-search-container input {
+    flex: 1;
+    height: 40px;
+    border-radius: 999px;
+    border: 1px solid #ddd;
+    padding: 0 40px 0 40px; /* 왼쪽 search 아이콘, 오른쪽 close 버튼 여유 */
+    outline: none;
+  }
+
+  .mobile-search-container input:focus {
+    border-color: #6c63ff;
+    box-shadow: 0px 0px 6px rgba(108, 99, 255, 0.35);
+  }
+
+  .mobile-search-icon {
+    position: absolute;
+    left: 26px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 26px;
+    color: #999;
+    pointer-events: none;
+  }
+
+  .mobile-search-close {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-search-close .material-symbols-outlined {
+    font-size: 28px;
+    color: #444;
+  }
+}
+
 /* =========================================================
    SIDEBAR (PC 기준)
 ========================================================= */

@@ -45,6 +45,8 @@ function TopBar({
 
   // 검색어 상태
   const [searchKeyword, setSearchKeyword] = useState("");
+  // 모바일 검색 오버레이 on/off 상태
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
 
   const goToProfile = () => {
     navigate("/profiledetail");
@@ -60,22 +62,18 @@ function TopBar({
 
   const goToActivityLog = () => {
     if (!selectedTeam) return alert("팀을 먼저 선택해주세요.");
-    // setActivityModalOpen((prev) => !prev);
     toggleActivity();
   };
 
   const handleClickLogo = () => {
     resetMenuState();
     closeSidebar();
-    // const recentTeamId = localStorage.getItem("recentTeamId");
 
     if (selectedTeam && myTeams.length > 0) {
-      if (selectedTeam) {
-        setSelectedTeam(selectedTeam);
-        setOpenProject(false);
-        navigate(`/team/${selectedTeam.id}`);
-        return;
-      }
+      setSelectedTeam(selectedTeam);
+      setOpenProject(false);
+      navigate(`/team/${selectedTeam.id}`);
+      return;
     }
 
     if (myTeams.length > 0) {
@@ -89,6 +87,10 @@ function TopBar({
       navigate("/home");
     }
   };
+
+  // 모바일 검색 열기/닫기
+  const openMobileSearch = () => setIsMobileSearchOpen(true);
+  const closeMobileSearch = () => setIsMobileSearchOpen(false);
 
   // 검색 input 엔터 이벤트 핸들러
   const handleSearch = (e) => {
@@ -107,64 +109,109 @@ function TopBar({
         )}`
       );
       setSearchKeyword("");
+      setIsMobileSearchOpen(false); // 모바일에서는 검색 후 오버레이 닫기
     }
   };
 
   return (
-    <header className="topbar">
-      <img
-        className="logo"
-        onClick={handleClickLogo}
-        style={{ cursor: "pointer" }}
-        src={logo}
-        alt="univus 로고"
-      />
-
-      <div className="search-box">
-        <span className="material-symbols-outlined search-icon">search</span>
-        <input
-          type="text"
-          placeholder="검색어를 입력해주세요"
-          value={searchKeyword}
-          onChange={(e) => setSearchKeyword(e.target.value)}
-          onKeyDown={handleSearch}
+    <>
+      <header className="topbar">
+        <img
+          className="logo"
+          onClick={handleClickLogo}
+          style={{ cursor: "pointer" }}
+          src={logo}
+          alt="univus 로고"
         />
-      </div>
 
-      <div className="top-icons">
-        <span className="material-symbols-outlined" onClick={goToTeamInvite}>
-          group_add
-        </span>
-        <span className="material-symbols-outlined" onClick={goToTeamEntry}>
-          add_link
-        </span>
-        <span
-          className="material-symbols-outlined activity-icon-btn"
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleActivity();
-          }}
+        {/* PC용 중앙 검색창 (모바일에서는 CSS로 숨김) */}
+        <div className="search-box">
+          <span className="material-symbols-outlined search-icon">search</span>
+          <input
+            type="text"
+            placeholder="검색어를 입력해주세요"
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+            onKeyDown={handleSearch}
+          />
+        </div>
+
+        <div className="top-icons">
+          {/* 모바일 전용 검색 버튼 (PC에서는 CSS로 display: none) */}
+          <button
+            type="button"
+            className="mobile-search-trigger"
+            onClick={openMobileSearch}
+          >
+            <span className="material-symbols-outlined">search</span>
+          </button>
+
+          <span className="material-symbols-outlined" onClick={goToTeamInvite}>
+            group_add
+          </span>
+          <span className="material-symbols-outlined" onClick={goToTeamEntry}>
+            add_link
+          </span>
+          <span
+            className="material-symbols-outlined activity-icon-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              goToActivityLog();
+            }}
+          >
+            inventory
+          </span>
+
+          <ProfileImg
+            src={
+              user.image && user.image.trim() !== ""
+                ? user.image
+                : profileDefaultImg
+            }
+            alt="프로필"
+            onClick={goToProfile}
+          />
+        </div>
+
+        <button className="menu-btn" onClick={onMenuClick}>
+          <span className="material-symbols-outlined">
+            {isOpen ? "close" : "menu"}
+          </span>
+        </button>
+      </header>
+
+      {/* 모바일 검색 오버레이 */}
+      <div
+        className={`mobile-search-overlay ${
+          isMobileSearchOpen ? "show" : ""
+        }`}
+        onClick={closeMobileSearch}
+      >
+        <div
+          className="mobile-search-container"
+          onClick={(e) => e.stopPropagation()}
         >
-          inventory
-        </span>
-
-        <ProfileImg
-          src={
-            user.image && user.image.trim() !== ""
-              ? user.image
-              : profileDefaultImg
-          }
-          alt="프로필"
-          onClick={goToProfile}
-        />
+          <span className="material-symbols-outlined mobile-search-icon">
+            search
+          </span>
+          <input
+            type="text"
+            placeholder="검색어를 입력해주세요"
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+            onKeyDown={handleSearch}
+            autoFocus
+          />
+          <button
+            type="button"
+            className="mobile-search-close"
+            onClick={closeMobileSearch}
+          >
+            <span className="material-symbols-outlined">close</span>
+          </button>
+        </div>
       </div>
-
-      <button className="menu-btn" onClick={onMenuClick}>
-        <span className="material-symbols-outlined">
-          {isOpen ? "close" : "menu"}
-        </span>
-      </button>
-    </header>
+    </>
   );
 }
 
