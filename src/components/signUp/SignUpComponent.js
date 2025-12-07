@@ -13,6 +13,21 @@ export const Container = styled.div`
     margin-left: 32px;
     margin-bottom: 8px;
   }
+  @media (max-width: 960px) {
+    .logo {
+      left: 8px;
+      top: 20px;
+      width: 140px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .logo {
+      left: 1px;
+      top: 20px;
+      width: 140px;
+    }
+  }
 `;
 
 export const TopMenu = styled.header`
@@ -25,7 +40,7 @@ export const TopMenu = styled.header`
 
 export const TabButton = styled.button`
   min-width: 90px;
-  padding: 8px 18px;
+  padding: 8px 10px;
   border-radius: 999px;
   border: 1px solid #5f5fff;
   background: ${(props) => (props.active ? "#5f5fff" : "#ffffff")};
