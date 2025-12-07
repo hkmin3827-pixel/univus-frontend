@@ -71,7 +71,7 @@ const ListWrapper = styled.div`
 
 const HeadRow = styled.div`
   display: grid;
-  grid-template-columns: 1fr 150px 150px;
+  grid-template-columns: 2fr 1fr 150px;
   background: #e7e9ff;
   padding: 16px 20px;
   font-weight: 700;
@@ -88,7 +88,7 @@ const HeadRow = styled.div`
 
 const Row = styled.div`
   display: grid;
-  grid-template-columns: 1fr 150px 150px;
+  grid-template-columns: 2fr 1fr 150px;
   padding: 16px 20px;
   border-bottom: 1px solid #efefef;
   cursor: pointer;
@@ -172,7 +172,7 @@ const NoticeListPage = () => {
   return (
     <PageWrapper>
       <Header>
-        <Title>공지사항</Title>
+        <Title>📢 공지사항</Title>
         <Controls>
           <SortSelect value={sort} onChange={(e) => setSort(e.target.value)}>
             <option value="latest">최신순</option>
@@ -201,8 +201,12 @@ const NoticeListPage = () => {
               key={n.id}
               onClick={() => navigate(`/team/${teamId}/notice/detail/${n.id}`)}
             >
-              <div>{n.title}</div>
-              <div>{n.email}</div>
+              <div>
+                {n.title && n.title.length > 10
+                  ? n.title.slice(0, 20) + "..."
+                  : n.title}
+              </div>
+              <div>{n.name || n.email}</div>
               <div>{new Date(n.createTime).toLocaleDateString()}</div>
             </Row>
           ))
