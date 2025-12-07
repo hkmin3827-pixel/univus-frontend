@@ -4,3 +4,18 @@
   left: 10px;
   top: 10px;
 }
+@media (max-width: 960px) {
+  .logo {
+    left: 8px;
+    top: 20px;
+    width: 140px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    left: 1px;
+    top: 20px;
+    width: 140px;
+  }
+}
