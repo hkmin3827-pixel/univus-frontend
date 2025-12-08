@@ -106,7 +106,7 @@ function SideBar({
     }
     const selectedBoard = boards.find((b) => b.id === selectedBoardId);
     setSelectedMenu("insight");
-    setOpenProject(false);
+    // setOpenProject(false);
 
     navigate(`/team/${selectedTeam.id}/boards/${selectedBoardId}/insight`, {
       state: {
@@ -117,167 +117,173 @@ function SideBar({
 
   return (
     <>
-      <aside className={`sidebar ${isOpen ? "show" : ""}`}>
-        <div className="sidebar-top-group">
-          <div className="team-select-row">
-            {selectedTeam && (
-              <span
-                className="material-symbols-outlined info-btn"
-                onClick={() => navigate(`/team/${selectedTeam.id}/info`)}
-              >
-                info
-              </span>
-            )}
-            <TeamSelect myTeams={myTeams} size="sidebar" />{" "}
-          </div>
-          <button
-            className="new-project-btn"
-            onClick={() => setIsCreateModalOpen(true)}
-          >
-            새 프로젝트
-            <span className="material-symbols-outlined add">add</span>
-          </button>
-        </div>
-        <nav className="menu-list">
-          <ul>
-            {selectedTeam ? (
-              <>
-                {/* 내 프로젝트 */}
-                <li
-                  className={`menu-item ${
-                    "project" && openProject ? "active" : ""
-                  }`}
-                  onClick={() => {
-                    if (openProject) {
-                      setSelectedMenu(null);
-                      setOpenProject(false);
-                    } else {
-                      setSelectedMenu("project");
-                      setOpenProject(true);
-                    }
-                  }}
+      <div className="sidebar-scroll">
+        <aside className={`sidebar ${isOpen ? "show" : ""}`}>
+          <div className="sidebar-top-group">
+            <div className="team-select-row">
+              {selectedTeam && (
+                <span
+                  className="material-symbols-outlined info-btn"
+                  onClick={() => navigate(`/team/${selectedTeam.id}/info`)}
                 >
-                  내 프로젝트
-                  <span className="material-symbols-outlined arrow">
-                    {openProject ? "expand_less" : "expand_more"}
-                  </span>
-                </li>
-
-                {openProject && (
-                  <ul className="project-board-list">
-                    {boards.length === 0 ? (
-                      <li className="empty">새 프로젝트를 생성해주세요</li>
-                    ) : (
-                      boards.map((b) => (
-                        <li
-                          key={b.id}
-                          className={`board-item ${
-                            selectedBoardId === b.id ? "active" : ""
-                          }`}
-                          onClick={() => {
-                            setSelectedBoardId(b.id);
-                            navigate(`/team/${selectedTeam.id}/board/${b.id}`);
-                          }}
-                        >
-                          {b.name}
-                        </li>
-                      ))
-                    )}
-                  </ul>
-                )}
-
-                {/* 인사이트 */}
-                {boardId && (
+                  info
+                </span>
+              )}
+              <TeamSelect myTeams={myTeams} size="sidebar" />{" "}
+            </div>
+            <button
+              className="new-project-btn"
+              onClick={() => setIsCreateModalOpen(true)}
+            >
+              새 프로젝트
+              <span className="material-symbols-outlined add">add</span>
+            </button>
+          </div>
+          <nav className="menu-list">
+            <ul>
+              {selectedTeam ? (
+                <>
+                  {/* 내 프로젝트 */}
                   <li
                     className={`menu-item ${
-                      selectedMenu === "insight" && !openProject ? "active" : ""
+                      "project" && openProject ? "active" : ""
                     }`}
-                    onClick={handleInsightClick}
+                    onClick={() => {
+                      if (openProject) {
+                        setSelectedMenu(null);
+                        setOpenProject(false);
+                      } else {
+                        setSelectedMenu("project");
+                        setOpenProject(true);
+                      }
+                    }}
                   >
-                    인사이트
+                    내 프로젝트
+                    <span className="material-symbols-outlined arrow">
+                      {openProject ? "expand_less" : "expand_more"}
+                    </span>
                   </li>
-                )}
 
-                {/* 공지사항 */}
-                <li
-                  className={`menu-item ${
-                    selectedMenu === "notice" && !openProject ? "active" : ""
-                  }`}
-                  onClick={() => {
-                    setSelectedMenu("notice");
-                    setOpenProject(false);
-                    setSelectedBoardId(null);
-                    navigate(`team/${selectedTeam.id}/notice`);
-                  }}
-                >
-                  공지사항
+                  {openProject && (
+                    <ul className="project-board-list">
+                      {boards.length === 0 ? (
+                        <li className="empty">새 프로젝트를 생성해주세요</li>
+                      ) : (
+                        boards.map((b) => (
+                          <li
+                            key={b.id}
+                            className={`board-item ${
+                              selectedBoardId === b.id ? "active" : ""
+                            }`}
+                            onClick={() => {
+                              setSelectedBoardId(b.id);
+                              navigate(
+                                `/team/${selectedTeam.id}/board/${b.id}`
+                              );
+                            }}
+                          >
+                            {b.name}
+                          </li>
+                        ))
+                      )}
+                    </ul>
+                  )}
+
+                  {/* 인사이트 */}
+                  {boardId && (
+                    <li
+                      className={`menu-item ${
+                        selectedMenu === "insight" ? "active" : ""
+                      }`}
+                      onClick={handleInsightClick}
+                    >
+                      인사이트
+                    </li>
+                  )}
+
+                  {/* 공지사항 */}
+                  <li
+                    className={`menu-item ${
+                      selectedMenu === "notice" && !openProject ? "active" : ""
+                    }`}
+                    onClick={() => {
+                      setSelectedMenu("notice");
+                      setOpenProject(false);
+                      setSelectedBoardId(null);
+                      navigate(`team/${selectedTeam.id}/notice`);
+                    }}
+                  >
+                    공지사항
+                  </li>
+                </>
+              ) : (
+                <li className="empty-team">
+                  팀 생성 또는 가입으로
+                  <br />
+                  프로젝트를 시작해보세요.
                 </li>
-              </>
-            ) : (
-              <li className="empty-team">
-                팀 생성 또는 가입으로
-                <br />
-                프로젝트를 시작해보세요.
-              </li>
-            )}
+              )}
 
-            {/* 캘린더는 항상 노출 */}
-            <li
-              className={`menu-item ${
-                selectedMenu === "calendar" && !openProject ? "active" : ""
-              }`}
-              onClick={() => {
-                setSelectedMenu("calendar");
-                setOpenProject(false);
-                setSelectedBoardId(null);
-                navigate("/schedulepage");
-              }}
-            >
-              캘린더
-            </li>
-          </ul>
-        </nav>
-        {selectedBoardId && <MiniTodoList selectedBoardId={selectedBoardId} />}
-        <div className="bottom-menu">
-          <ul>
-            <li className="invite-link-btn" onClick={openInviteModal}>
-              <span className="material-symbols-outlined">link</span>팀 초대
-              링크 발급
-            </li>
-
-            <li id="zoom">
-              <a
-                href="https://zoom.us/ko/join"
-                target="_blank"
-                rel="noopener noreferrer"
+              {/* 캘린더는 항상 노출 */}
+              <li
+                className={`menu-item ${
+                  selectedMenu === "calendar" && !openProject ? "active" : ""
+                }`}
+                onClick={() => {
+                  setSelectedMenu("calendar");
+                  setOpenProject(false);
+                  setSelectedBoardId(null);
+                  navigate("/schedulepage");
+                }}
               >
-                <span className="material-symbols-outlined">
-                  captive_portal
-                </span>
-                ZOOM으로 이동
-              </a>
-            </li>
+                캘린더
+              </li>
+            </ul>
+          </nav>
+          {selectedBoardId && (
+            <MiniTodoList selectedBoardId={selectedBoardId} />
+          )}
+          <div className="bottom-menu">
+            <ul>
+              <li className="invite-link-btn" onClick={openInviteModal}>
+                <span className="material-symbols-outlined">link</span>팀 초대
+                링크 발급
+              </li>
 
-            <li onClick={handleLogout}>
-              <span className="material-symbols-outlined">logout</span>
-              로그아웃
-            </li>
-          </ul>
-        </div>
-      </aside>
+              <li id="zoom">
+                <a
+                  href="https://zoom.us/ko/join"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span className="material-symbols-outlined">
+                    captive_portal
+                  </span>
+                  ZOOM으로 이동
+                </a>
+              </li>
 
-      <CreateBoardModal
-        isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
-        teamId={selectedTeam?.id}
-        onCreated={() => fetchBoards()}
-      />
+              <li onClick={handleLogout}>
+                <span className="material-symbols-outlined">logout</span>
+                로그아웃
+              </li>
+            </ul>
+          </div>
+        </aside>
 
-      <InviteModal
-        link={inviteLink}
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-      />
+        <CreateBoardModal
+          isOpen={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
+          teamId={selectedTeam?.id}
+          onCreated={() => fetchBoards()}
+        />
+
+        <InviteModal
+          link={inviteLink}
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+        />
+      </div>
     </>
   );
 }

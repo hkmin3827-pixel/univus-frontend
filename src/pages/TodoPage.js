@@ -22,7 +22,7 @@ export default function TodoPage() {
     if (boardId) {
       fetchTodos(Number(boardId));
     }
-  }, [boardId]);
+  }, [teamId, boardId]);
 
   const pendingTodos = currentTodos.filter((t) => !t.done);
   const completedTodos = currentTodos.filter((t) => t.done);

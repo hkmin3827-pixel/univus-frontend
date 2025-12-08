@@ -2,10 +2,10 @@ import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PostApi from "../api/PostApi";
 import "../styles/BoardPage.css";
-import AxiosApi from "../api/AxiosApi";
 import styled from "styled-components";
 import profileDefaultImg from "../images/profileDefaultImg.png";
 import BoardApi from "../api/BoardApi";
+import { UserContext } from "../context/UserContext";
 const ProfileImg = styled.img`
   width: 27px;
   height: 27px;
@@ -50,6 +50,10 @@ function BoardPage() {
   const { boardId, teamId } = useParams();
   const [boardName, setBoardName] = useState("");
   const [boardDescription, setBoardDescription] = useState("");
+  const [creatorId, setCreatorId] = useState(null);
+  const [creatorName, setCreatorName] = useState(null);
+
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   const [page, setPage] = useState(0);
@@ -59,13 +63,23 @@ function BoardPage() {
     const cleanedUrl = fileUrl.split("?")[0];
     return /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(cleanedUrl);
   };
-
+  const goToEdit = () => {
+    if (creatorId === user.id) {
+      navigate(`/team/${teamId}/board/${boardId}/edit`);
+    } else {
+      alert(
+        "프로젝트 생성자만 수정/삭제할 수 있습니다. 생성자 : " + creatorName
+      );
+    }
+  };
   useEffect(() => {
     const fetchBoardName = async () => {
       try {
         const res = await BoardApi.getBoardDetail(teamId, boardId);
         setBoardName(res.data.name);
         setBoardDescription(res.data.description);
+        setCreatorId(res.data.creatorId);
+        setCreatorName(res.data.creatorName);
       } catch (err) {
         const message =
           err.response?.data?.message ||
@@ -92,7 +106,7 @@ function BoardPage() {
     };
     fetchBoardName();
     fetchPosts();
-  }, [boardId, page]);
+  }, [teamId, boardId, page]);
 
   return (
     <div className="board-page-container">
@@ -109,7 +123,22 @@ function BoardPage() {
       </div>
 
       <div className="board-info">
-        <h1 className="board-title">{boardName}</h1>
+        <h1 className="board-title">
+          {boardName}
+          <span
+            class="material-symbols-outlined"
+            onClick={goToEdit}
+            style={{
+              verticalAlign: "middle",
+              cursor: "pointer",
+              marginLeft: "10px",
+              fontSize: "22px",
+              color: creatorId === user.id ? "#350bdcff" : "#BDBDBD", //
+            }}
+          >
+            settings_b_roll
+          </span>
+        </h1>
         <p className="board-description">{boardDescription}</p>
       </div>
       <hr className="divider" />

@@ -63,7 +63,6 @@ textarea {
 .search-box {
   position: relative;
   width: 400px;
-  left: 40%;
 }
 
 .search-box input {
@@ -168,7 +167,7 @@ textarea {
 /* =========================================
    960px 이하: 모바일 레이아웃
 ========================================= */
-@media (max-width: 960px) {
+@media (max-width: 939px) {
   /* 중앙 검색박스는 모바일에서 숨김 (오버레이만 사용) */
   .search-box {
     display: none;
@@ -278,7 +277,15 @@ textarea {
   flex-direction: column;
   justify-content: flex-start;
   gap: 20px;
-  overflow-y: auto;
+  overflow-y: auto; /* overlay 삭제 */
+  box-sizing: border-box;
+}
+.sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
 }
 .sidebar-top-group {
   display: flex;
@@ -524,7 +531,6 @@ textarea {
     display: flex; /* ← flex container */
     align-items: center; /* ← 내부 요소 세로 중앙 */
     justify-content: center;
-    margin: 0 auto;
     margin-top: 8px;
   }
   .logo img {

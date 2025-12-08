@@ -58,3 +58,8 @@ export const getTeamCompletedTodos = (teamId) => {
 export const getTodoByBoardId = (boardId) => {
   return axios.get(`${API}/board/${boardId}/list`);
 };
+
+// 로그인한 사용자 + 게시판 기준 Todo 목록 조회
+export const getMyTodoByBoard = (boardId) => {
+  return axios.get(`${API}/board/${boardId}/mine`);
+};

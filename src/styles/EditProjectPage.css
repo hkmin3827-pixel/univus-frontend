@@ -1,0 +1,69 @@
+.edit-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 50px auto; /* 화면 중앙에 위치하도록 */
+  display: flex;
+  flex-direction: column;
+  gap: 26px; /* 요소 간 간격 넉넉하게 */
+  padding: 0 20px;
+}
+
+.edit-container h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.edit-container label {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.edit-container input,
+.edit-container textarea {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 12px;
+}
+
+.save-btn,
+.delete-btn {
+  width: 100%;
+  padding: 16px;
+  font-size: 18px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.save-btn {
+  background: #5f52ff;
+  color: white;
+  margin-top: 14px;
+}
+
+.delete-btn {
+  background: #ff4d4d;
+  color: white;
+  margin-bottom: 40px; /* 마지막 버튼 아래 여백 */
+}
+@media screen and (max-width: 939px) {
+  .edit-container {
+    margin: 5px auto; /* 화면 중앙에 위치하도록 */
+  }
+}
+.project-delete {
+  color: rgb(185, 39, 39);
+  cursor: pointer;
+  font-size: 14px;
+  display: block;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+.project-delete:hover {
+  color: rgb(128, 28, 28);
+}

@@ -2,11 +2,12 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTodo } from "../../context/TodoContext";
+import { useEffect } from "react";
 
 export default function MiniTodoList() {
   const { teamId, boardId } = useParams();
   const navigate = useNavigate();
-  const { todos, toggleTodo } = useTodo();
+  const { todos, toggleTodo, fetchTodos } = useTodo();
 
   const currentTodos = todos[boardId] || [];
   const pendingTodos = currentTodos.filter((t) => !t.done);
@@ -16,6 +17,11 @@ export default function MiniTodoList() {
     navigate(`/team/${teamId}/board/${boardId}/todo`);
   };
 
+  useEffect(() => {
+    if (boardId) {
+      fetchTodos(Number(boardId)); // 🔥 사이드바에서 boardId 변경 시 자동 fetch
+    }
+  }, [boardId]);
   return (
     <div
       style={{

@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
 import { TeamContext } from "../../context/TeamContext";
 import { UserContext } from "../../context/UserContext";
 import logo from "../../images/layoutLogo.png";
@@ -18,17 +17,6 @@ const ProfileImg = styled.img`
   &:hover {
     opacity: 0.6;
   }
-`;
-
-const Badge = styled.span`
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  background: red;
-  color: white;
-  font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 50%;
 `;
 
 function TopBar({
@@ -49,19 +37,30 @@ function TopBar({
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
 
   const goToProfile = () => {
+    resetMenuState();
+    setOpenProject(false);
+    closeSidebar();
+
     navigate("/profiledetail");
   };
 
   const goToTeamInvite = () => {
+    resetMenuState();
+    setOpenProject(false);
+    closeSidebar();
     navigate("/teams/new");
   };
 
   const goToTeamEntry = () => {
+    resetMenuState();
+    setOpenProject(false);
+    closeSidebar();
     navigate("/team/entry");
   };
 
   const goToActivityLog = () => {
     if (!selectedTeam) return alert("팀을 먼저 선택해주세요.");
+
     toggleActivity();
   };
 

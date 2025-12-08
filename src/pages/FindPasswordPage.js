@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AxiosApi from "../api/AxiosApi";
 import styled from "styled-components";
+import logo from "../images/layoutLogo.png";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -22,6 +23,24 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   gap: 18px;
+`;
+const Logo = styled.img`
+  display: flex;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+
+  @media (max-width: 960px) {
+    left: 8px;
+    top: 10px;
+    width: 140px;
+  }
+
+  @media (max-width: 480px) {
+    left: 1px;
+    top: 10px;
+    width: 140px;
+  }
 `;
 
 const Title = styled.h2`
@@ -122,6 +141,7 @@ const FindPasswordPage = () => {
 
   return (
     <Container>
+      <Logo className="logo" src={logo} alt="univus 로고" />
       <Card>
         <Title>비밀번호 찾기</Title>
         <Description>

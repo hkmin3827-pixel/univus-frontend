@@ -3,7 +3,7 @@ import {
   createTodo,
   modifyTodo,
   deleteTodo,
-  getTodoByBoardId,
+  getMyTodoByBoard,
 } from "../api/TodoApi";
 import { useActivityLog } from "./ActivityLogContext";
 import { TeamContext } from "./TeamContext";
@@ -17,14 +17,14 @@ export const TodoProvider = ({ children }) => {
 
   const resetTodos = () => setTodos({});
 
-  const fetchTodos = async (teamId, boardId) => {
+  const fetchTodos = async (boardId) => {
     if (!boardId) return;
     setLoading(true);
     try {
-      const res = await getTodoByBoardId(boardId);
+      const res = await getMyTodoByBoard(boardId);
       setTodos((prev) => ({
         ...prev,
-        [boardId]: res.data, // key = boardId 로 저장
+        [boardId]: res.data,
       }));
     } catch (err) {
       console.error(err);
@@ -50,6 +50,7 @@ export const TodoProvider = ({ children }) => {
   const toggleTodo = async (boardId, todoId, done) => {
     const target = todos[boardId].find((t) => t.id === todoId);
     if (!target) return;
+    const prevDone = target.done;
     // optimistic UI 업데이트
     setTodos((prev) => ({
       ...prev,
@@ -67,7 +68,7 @@ export const TodoProvider = ({ children }) => {
       setTodos((prev) => ({
         ...prev,
         [boardId]: prev[boardId].map((t) =>
-          t.id === todoId ? { ...t, done } : t
+          t.id === todoId ? { ...t, done: prevDone } : t
         ),
       }));
     }

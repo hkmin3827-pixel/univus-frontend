@@ -5,7 +5,6 @@ import AxiosApi from "../api/AxiosApi";
 import InputComponent from "../components/common/InputComponent";
 import Button from "../components/common/ButtonComponent";
 import logo from "../images/layoutLogo.png";
-import "../styles/login.css";
 import { TeamContext } from "../context/TeamContext";
 import { UserContext } from "../context/UserContext";
 import profileDefaultImg from "../images/profileDefaultImg.png";
@@ -127,17 +126,16 @@ const LogIn = () => {
 
   return (
     <Container>
-      {/* 로고 */}
-      <img className="logo" src={logo} alt="univus 로고" />
-
-      {/* 상단 우측 탭 버튼 */}
       <TopMenu>
-        <TabButton active>로그인</TabButton>
-        <TabButton onClick={onClickToSignUp}>회원가입</TabButton>
+        <img className="logo" src={logo} alt="univus 로고" />
+        <div className="auth-buttons">
+          <TabButton active>로그인</TabButton>
+          <TabButton onClick={onClickToSignUp}>회원가입</TabButton>
+        </div>
       </TopMenu>
 
       {/* 가운데 카드 레이아웃 */}
-      <FormWrapper>
+      <FormWrapper style={{ marginTop: "120px" }}>
         <FormCard>
           {/* 타이틀 */}
           <Items variant="title">

@@ -17,6 +17,13 @@ const BoardApi = {
   getBoardsByTeam: (teamId) => boardApi.get(`/team/${teamId}/board/list`),
   getBoardDetail: (teamId, boardId) =>
     boardApi.get(`/team/${teamId}/board/${boardId}`),
+
+  modifyBoard: (teamId, boardId, data) => {
+    boardApi.put(`/team/${teamId}/board/${boardId}/modify`, data);
+  },
+  deleteBoard: (teamId, boardId) => {
+    boardApi.delete(`/team/${teamId}/board/${boardId}/delete`);
+  },
 };
 
 export default BoardApi;

@@ -7,35 +7,24 @@ export const Container = styled.div`
   align-items: center;
   background: #f5f7ff;
   padding: 20px 20px 40px;
-
-  .logo {
-    align-self: flex-start;
-    margin-left: 20px;
-    margin-bottom: 8px;
-  }
-  @media (max-width: 960px) {
-    .logo {
-      left: 5px;
-      top: 20px;
-      width: 140px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .logo {
-      left: 1px;
-      top: 20px;
-      width: 140px;
-    }
-  }
 `;
 
 export const TopMenu = styled.header`
   width: 100%;
   display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-bottom: 24px;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  .auth-buttons {
+    display: flex;
+    gap: 14px;
+  }
+  @media (max-width: 939px) {
+    .logo {
+      width: 140px;
+    }
+  }
 `;
 
 export const TabButton = styled.button`
@@ -64,7 +53,12 @@ export const FormWrapper = styled.main`
 
   /* 🔥 중앙 기준으로 조금 아래로 배치 */
   align-items: flex-start;
-  margin-top: 80px; /* 10 → 80 (정확히 가운데~조금 아래로) */
+  margin-top: 50px; /* 10 → 80 (정확히 가운데~조금 아래로) */
+  @media screen and (max-width: 939px) {
+    & {
+      margin-top: 10px;
+    }
+  }
 `;
 
 export const FormCard = styled.div`
@@ -95,13 +89,21 @@ export const Items = styled.div`
         font-weight: 700;
         color: #111827;
       }
+      @media screen and (max-width: 939px) {
+         span{
+          font-size: 20px;
+      }
     `}
 
   ${(props) =>
     props.variant === "item2" &&
     css`
       margin-bottom: 6px;
+      @media screen and (max-width: 939px) {
+        margin-bottom: 1px;
+      }
     `}
+    
 
   ${(props) =>
     props.variant === "hint" &&
