@@ -49,7 +49,7 @@ const BackBtn = styled.button`
 
 /* 제목 */
 const Title = styled.h1`
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 700;
   margin: 0;
 `;
@@ -66,14 +66,24 @@ const InfoRow = styled.div`
 const WriterRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 `;
 
 const WriterImg = styled.img`
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
   object-fit: cover;
+  cursor: pointer;
+`;
+
+const WriterName = styled.span`
+  cursor: pointer;
+  font-weight: 500;
+  color: #333;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 /* 우측 메뉴 */
@@ -139,7 +149,7 @@ const Dropdown = styled.div`
 
 const DateText = styled.span`
   color: #777;
-  font-size: 14px;
+  font-size: 12px;
 `;
 
 /* 구분선 */
@@ -272,8 +282,16 @@ const FileItem = styled.div`
 `;
 
 const NoticeDetail = ({ notice, onBack, onEdit, onDelete }) => {
+  const navigate = useNavigate();
+  const { teamId } = useParams();
   const [menuOpen, setMenuOpen] = useState(false);
   if (!notice) return null;
+
+  const handleUserClick = () => {
+    if (!notice.professorId) return;
+    console.log("professorId:", notice.professorId);
+    navigate(`/team/${teamId}/userprofile/${notice.professorId}`);
+  };
 
   const formatDateTime = (value) => {
     if (!value) return "";
@@ -312,10 +330,13 @@ const NoticeDetail = ({ notice, onBack, onEdit, onDelete }) => {
                 : profileDefaultImg
             }
             alt="작성자이미지"
+            onClick={handleUserClick}
           />
-          <span>
-            {notice.professorName} ({notice.email}) 교수
-          </span>
+          <WriterName onClick={handleUserClick}>
+            <span>
+              {notice.professorName} ({notice.email}) 교수
+            </span>
+          </WriterName>
         </WriterRow>
 
         <RightMenu>

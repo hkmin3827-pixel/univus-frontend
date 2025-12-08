@@ -6,12 +6,27 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   background: #f5f7ff;
-  padding: 24px 16px 40px;
+  padding: 20px 20px 40px;
 
   .logo {
     align-self: flex-start;
-    margin-left: 32px;
+    margin-left: 20px;
     margin-bottom: 8px;
+  }
+  @media (max-width: 960px) {
+    .logo {
+      left: 5px;
+      top: 20px;
+      width: 140px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .logo {
+      left: 1px;
+      top: 20px;
+      width: 140px;
+    }
   }
 `;
 
@@ -25,7 +40,7 @@ export const TopMenu = styled.header`
 
 export const TabButton = styled.button`
   min-width: 90px;
-  padding: 8px 18px;
+  padding: 8px 10px;
   border-radius: 999px;
   border: 1px solid #5f5fff;
   background: ${(props) => (props.active ? "#5f5fff" : "#ffffff")};
