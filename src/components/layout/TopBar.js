@@ -153,6 +153,7 @@ function TopBar({
           <span
             className="material-symbols-outlined activity-icon-btn"
             onClick={(e) => {
+              e.preventDefault();
               e.stopPropagation();
               goToActivityLog();
             }}
@@ -210,4 +211,4 @@ function TopBar({
   );
 }
 
-export default TopBar;
+export default React.memo(TopBar);

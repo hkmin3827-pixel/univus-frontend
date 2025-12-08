@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import TopBar from "./TopBar";
 import SideBar from "./SideBar";
 import "../../styles/LayOut.css";
@@ -32,6 +32,10 @@ function Layout() {
     setOpenProject(false);
     setSelectedBoardId(null);
   };
+  const toggleActivity = useCallback(() => {
+    setActivityModalOpen((prev) => !prev);
+  }, []);
+  console.log("activityModalOpen:", activityModalOpen);
   return (
     <>
       <NotificationProvider>
@@ -42,7 +46,7 @@ function Layout() {
             resetMenuState={resetMenuState}
             isOpen={isSidebarOpen}
             closeSidebar={closeSidebar}
-            toggleActivity={() => setActivityModalOpen((prev) => !prev)}
+            toggleActivity={toggleActivity}
           />
 
           {activityModalOpen && (

@@ -4,91 +4,151 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useNotifications } from "../../context/NotificationContext";
 import { UserContext } from "../../context/UserContext";
 
+/* ------------------ Wrapper ------------------ */
 const Wrapper = styled.div`
   position: absolute;
-  top: 60px;
-  right: 0;
-  width: 380px;
-  max-height: 480px;
+  top: 70px;
+  right: 10px;
+  width: 400px;
+  max-height: 560px;
   background: white;
   border-radius: 14px;
-  padding: 16px;
+  padding: 18px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
   z-index: 1000;
   display: flex;
   flex-direction: column;
 `;
 
+/* ------------------ Tabs ------------------ */
 const CategoryTabs = styled.div`
   display: flex;
-  margin-bottom: 10px;
+  gap: 10px;
+  margin-bottom: 12px;
 `;
 
 const CategoryTab = styled.div`
-  margin-right: 10px;
-  padding: 8px 14px;
-  border-radius: 8px;
+  padding: 7px 12px;
+  border-radius: 10px;
   cursor: pointer;
-  font-weight: ${({ active }) => (active ? "700" : "400")};
-  background: ${({ active }) => (active ? "#edf1ff" : "transparent")};
-  color: ${({ active }) => (active ? "#4a68f9" : "#666")};
+  font-weight: ${({ active }) => (active ? "600" : "400")};
+  background: ${({ active }) => (active ? "#A294F9" : "transparent")};
+  color: ${({ active }) => (active ? "rgb(78, 47, 169)" : "#666")};
+  transition: 0.15s;
+
+  &:hover {
+    background: #f5efff;
+  }
 `;
 
 const FilterTabs = styled.div`
   display: flex;
-  margin-bottom: 10px;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding: 10px 10px;
+  background-color: #f7f6f6ff;
+  border-radius: 10px;
 `;
 
 const FilterTab = styled.div`
-  margin-right: 10px;
-  padding: 5px 10px;
-  border-radius: 6px;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 14px;
   cursor: pointer;
-  font-weight: ${({ active }) => (active ? "700" : "400")};
-  background: ${({ active }) => (active ? "#f3f6ff" : "transparent")};
-  color: ${({ active }) => (active ? "#4a68f9" : "#666")};
+  font-weight: ${({ active }) => (active ? "500" : "400")};
+  background: ${({ active }) => (active ? "#A294F9" : "white")};
+  color: ${({ active }) => (active ? "rgb(78, 47, 169)" : "#777")};
+  transition: 0.15s;
+
+  &:hover {
+    background: #f5efff;
+  }
 `;
 
+/* ------------------ List ------------------ */
 const List = styled.div`
   overflow-y: auto;
-  max-height: 380px;
+  max-height: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-right: 4px;
+
+  /* 스크롤바 디자인 */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #d1d5e7;
+    border-radius: 10px;
+  }
 `;
 
 const Item = styled.div`
   background: #fafafa;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 8px;
-  cursor: pointer;
+  padding: 10px;
+  border-radius: 12px;
   display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  position: relative;
+  border: 1px solid #eee;
   transition: 0.15s;
 
   &:hover {
     background: #eef1ff;
+    border-color: #dce2ff;
   }
 `;
 
-const Message = styled.div`
+/* ------------------ Item Content ------------------ */
+const IconArea = styled.div`
+  font-size: 23px;
+  margin-top: 2px;
+`;
+
+const MessageArea = styled.div`
   flex: 1;
+  display: flex;
+  flex-direction: column;
+`;
+
+const UserName = styled.div`
+  font-weight: 700;
+  margin-bottom: 4px;
   color: #333;
+`;
+
+const Text = styled.div`
   white-space: pre-line;
+  word-break: break-word;
+  color: #444;
+  line-height: 1.35;
+  font-size: 14px;
 `;
 
 const Time = styled.div`
   font-size: 11px;
   color: #888;
+  text-align: right;
+  margin-top: 3px;
 `;
 
-const RemoveBtn = styled.span`
-  margin-left: 8px;
-  font-size: 20px;
-  color: #999;
+const RemoveBtn = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 18px;
+  color: #aaa;
   cursor: pointer;
 
   &:hover {
     color: #ff4d4d;
   }
 `;
+
+/* ======================================================== */
 
 export default function ActivityDropdown({ onClose }) {
   const dropdownRef = useRef(null);
@@ -106,36 +166,55 @@ export default function ActivityDropdown({ onClose }) {
     setPage,
   } = useNotifications();
 
-  const [category, setCategory] = useState("todo"); // 기본: 완료과제
-  const [filter, setFilter] = useState("unchecked"); // 기본: 미확인
+  const [category, setCategory] = useState("todo");
+  const [filter, setFilter] = useState("unchecked");
 
+  /* 처음 로딩 및 탭 변경 시 데이터 로드 */
   useEffect(() => {
     if (!user?.id || !teamId) return;
+
     setPage(0);
     setNotifications([]);
-    category === "todo"
-      ? fetchTodo(user.id, teamId, true, filter === "unchecked")
-      : fetchComment(user.id, teamId, true, filter === "unchecked");
+
+    const isUnchecked = filter === "unchecked";
+
+    if (category === "todo") fetchTodo(user.id, teamId, true, isUnchecked);
+    else fetchComment(user.id, teamId, true, isUnchecked);
   }, [user, category, filter]);
 
   const loadMore = () => {
     if (!hasMore) return;
-    category === "todo"
-      ? fetchTodo(user.id, teamId, false, filter === "unchecked")
-      : fetchComment(user.id, teamId, false, filter === "unchecked");
+
+    const isUnchecked = filter === "unchecked";
+    if (category === "todo") fetchTodo(user.id, teamId, false, isUnchecked);
+    else fetchComment(user.id, teamId, false, isUnchecked);
   };
 
+  /* 바깥 클릭 시 닫기 */
   useEffect(() => {
     const handler = (e) => {
+      if (e.target.closest(".topbar")) return;
       if (dropdownRef.current && !dropdownRef.current.contains(e.target))
         onClose?.();
     };
+
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [onClose]);
+  }, []);
+
+  /* 아이콘 타입 */
+  const icon = category === "todo" ? "📘" : "💬";
+
+  /* 메시지 파싱 함수 */
+  const parseMessage = (msg) => {
+    const match = msg.match(/(.+?)님이 '(.+?)'/);
+    if (!match) return { text: msg };
+    return { text: msg };
+  };
 
   return (
     <Wrapper ref={dropdownRef}>
+      {/* 카테고리 선택 */}
       <CategoryTabs>
         <CategoryTab
           active={category === "todo"}
@@ -143,14 +222,16 @@ export default function ActivityDropdown({ onClose }) {
         >
           완료과제
         </CategoryTab>
+
         <CategoryTab
           active={category === "comment"}
           onClick={() => setCategory("comment")}
         >
-          피드백
+          FEEDBACK
         </CategoryTab>
       </CategoryTabs>
 
+      {/* 필터 선택 */}
       <FilterTabs>
         <FilterTab
           active={filter === "unchecked"}
@@ -163,6 +244,7 @@ export default function ActivityDropdown({ onClose }) {
         </FilterTab>
       </FilterTabs>
 
+      {/* 알림 목록 */}
       <List
         onScroll={(e) => {
           const bottom =
@@ -172,40 +254,53 @@ export default function ActivityDropdown({ onClose }) {
         }}
       >
         {notifications.length === 0 && (
-          <div style={{ padding: 15, textAlign: "center", color: "#888" }}>
+          <div
+            style={{
+              padding: 20,
+              textAlign: "center",
+              color: "#999",
+              fontSize: "14px",
+            }}
+          >
             알림 없음
           </div>
         )}
 
-        {notifications.map((n) => (
-          <Item
-            key={n.id}
-            onClick={() => {
-              if (category === "comment") {
-                navigate(
-                  `/team/${n.teamId}/board/${n.boardId}/post/detail/${n.postId}`
-                );
-              }
-              // 전체 탭에서는 절대 사라지지 않음 (checked 처리X)
-              // 미확인 탭에서도 카드 클릭만으로는 체크 처리X
-            }}
-          >
-            <Message>{n.message}</Message>
-            <Time>{n.createdAt?.replace("T", " ").split(".")[0]}</Time>
+        {notifications.map((n) => {
+          const parsed = parseMessage(n.message);
 
-            {/* 미확인 탭에서만 X 버튼 표시 */}
-            {filter === "unchecked" && (
-              <RemoveBtn
-                onClick={(e) => {
-                  e.stopPropagation(); // 카드 클릭 이벤트 막기
-                  markAsChecked(n.id); // 읽음 처리
-                }}
-              >
-                ×
-              </RemoveBtn>
-            )}
-          </Item>
-        ))}
+          return (
+            <Item
+              key={n.id}
+              onClick={() => {
+                if (category === "comment") {
+                  navigate(
+                    `/team/${n.teamId}/board/${n.boardId}/post/detail/${n.postId}`
+                  );
+                }
+              }}
+            >
+              <IconArea>{icon}</IconArea>
+
+              <MessageArea>
+                <UserName>{parsed.user}</UserName>
+                <Text>{parsed.text}</Text>
+                <Time>{n.createdAt?.replace("T", " ").split(".")[0]}</Time>
+              </MessageArea>
+
+              {filter === "unchecked" && (
+                <RemoveBtn
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    markAsChecked(n.id);
+                  }}
+                >
+                  ×
+                </RemoveBtn>
+              )}
+            </Item>
+          );
+        })}
       </List>
     </Wrapper>
   );
