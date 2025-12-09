@@ -31,6 +31,12 @@ const EditWrapper = styled.div`
     padding: 20px;
   }
 `;
+const CancelButton = styled(ButtonComponent)`
+  &:hover {
+    background: #737373ff !important;
+    transform: none;
+  }
+`;
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -269,10 +275,12 @@ const Profile = () => {
         {submitError && <ErrorText>{submitError}</ErrorText>}
 
         <ButtonRow>
-          <ButtonComponent type="submit">저장</ButtonComponent>
-          <ButtonComponent type="button" onClick={() => navigate(-1)}>
-            취소
+          <ButtonComponent type="submit" enabled={true}>
+            저장
           </ButtonComponent>
+          <CancelButton type="button" onClick={() => navigate(-1)}>
+            취소
+          </CancelButton>
         </ButtonRow>
       </FormBox>
     </EditWrapper>

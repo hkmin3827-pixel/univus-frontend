@@ -24,6 +24,7 @@ export const Title = styled.h2`
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 20px;
+  color: #322f2fff;
   @media screen and (max-width: 939px) {
     font-size: 20px;
   }
@@ -56,6 +57,7 @@ export const CardTitle = styled.div`
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 12px;
+  color: #322f2fff;
   @media screen and (max-width: 939px) {
     font-size: 15px;
   }

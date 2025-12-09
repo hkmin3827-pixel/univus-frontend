@@ -217,7 +217,7 @@ const BoardInsightPage = () => {
       <Title>
         {" "}
         {boardName
-          ? `${boardName} 프로젝트 인사이트`
+          ? `📊 ${boardName} 프로젝트 인사이트`
           : `${boardId} 프로젝트 인사이트`}
       </Title>
 

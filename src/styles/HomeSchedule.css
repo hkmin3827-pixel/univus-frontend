@@ -13,6 +13,7 @@
   border-radius: 12px;
   padding: 15px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  color: #322f2fff;
 }
 
 .schedule-box {
@@ -26,6 +27,7 @@
 
 .schedule-box h3 {
   margin-bottom: 10px;
+  color: #322f2fff;
 }
 
 /* 일정 항목 */

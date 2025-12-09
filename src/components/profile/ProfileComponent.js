@@ -41,7 +41,7 @@ export const Title = styled.h2`
   font-weight: 700;
   text-align: center;
   margin: 4px 0 20px;
-  color: #111827;
+  color: #322f2fff;
   @media screen and (max-width: 939px) {
     font-size: 20px;
   }
@@ -116,4 +116,5 @@ export const ButtonRow = styled.div`
   margin-top: 20px;
   display: flex;
   justify-content: flex-end;
+  gap: 20px;
 `;

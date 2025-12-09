@@ -33,7 +33,7 @@ const Header = styled.div`
 const Title = styled.h1`
   font-size: clamp(1.5rem, 4vw, 2rem);
   font-weight: 700;
-  color: #222;
+  color: #322f2fff;
   margin: 0;
 
   @media screen and (max-width: 939px) {

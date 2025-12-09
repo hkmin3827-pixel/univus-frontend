@@ -59,12 +59,8 @@ const TextArea = styled.textarea`
 
 // 🔥 취소 버튼 (ButtonComponent 기반)
 const CancelButton = styled(ButtonComponent)`
-  background: #e5e7eb !important;
-  color: #374151 !important;
-  box-shadow: none !important;
-
   &:hover {
-    background: #d1d5db !important;
+    background: #737373ff !important;
     transform: none;
   }
 `;

@@ -21,6 +21,7 @@
   border-radius: 12px;
   padding: 15px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  color: #322f2fff;
 }
 
 .schedule-box {
@@ -44,6 +45,7 @@
   border-bottom: 1px solid #eee;
   padding: 15px 0 10px 0; /* padding-bottom으로 간격 확보 */
   margin: 0; /* margin-bottom 삭제 */
+  color: #322f2fff;
 }
 .schedule-notice-wrapper {
   display: grid;
@@ -73,6 +75,7 @@
   /* padding: 15px 0; */
   margin: 0;
   z-index: 5; /* 위로 뜨게 */
+  color: #322f2fff;
 }
 .schedule-item {
   display: flex;
@@ -143,6 +146,7 @@
   border-bottom: 1px solid #eee;
   padding: 15px 0 10px 0; /* padding-bottom으로 간격 확보 */
   margin: 0; /* margin-bottom 삭제 */
+  color: #322f2fff;
 }
 .team-list-item {
   /* padding: 16px 20px; 헤더와 겹치지 않도록 충분한 패딩 */

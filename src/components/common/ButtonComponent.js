@@ -1,4 +1,3 @@
-// src/components/common/ButtonComponent.js
 import styled, { css } from "styled-components";
 
 const StyledButton = styled.button`
@@ -12,11 +11,11 @@ const StyledButton = styled.button`
   cursor: pointer;
   transition: all 0.2s ease;
   margin-top: 10px;
-
+  background-color: #b9bbbdff;
   ${(props) =>
     props.disabled &&
     css`
-      background: #d1d5db;
+      background: #b9bbbdff;
       cursor: not-allowed;
       box-shadow: none;
     `}
