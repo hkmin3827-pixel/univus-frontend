@@ -135,7 +135,7 @@ const LogIn = () => {
       </TopMenu>
 
       {/* 가운데 카드 레이아웃 */}
-      <FormWrapper style={{ marginTop: "120px" }}>
+      <FormWrapper>
         <FormCard>
           {/* 타이틀 */}
           <Items variant="title">

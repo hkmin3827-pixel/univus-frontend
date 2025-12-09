@@ -5,8 +5,8 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #f5f7ff;
-  padding: 20px 20px;
+  background: rgba(245, 247, 255, 1);
+  padding: 20px;
   overflow-y: auto;
 
   scrollbar-width: thin;
@@ -19,7 +19,7 @@ export const TopMenu = styled.header`
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   .auth-buttons {
     display: flex;
     gap: 14px;
@@ -54,10 +54,10 @@ export const FormWrapper = styled.main`
   width: 100%;
   display: flex;
   justify-content: center;
-
   /* 🔥 중앙 기준으로 조금 아래로 배치 */
-  align-items: flex-start;
-  margin-top: 50px; /* 10 → 80 (정확히 가운데~조금 아래로) */
+  align-items: center;
+  /* margin-top: 50px; */
+  /* 10 → 80 (정확히 가운데~조금 아래로) */
   @media screen and (max-width: 939px) {
     & {
       margin-top: 10px;
