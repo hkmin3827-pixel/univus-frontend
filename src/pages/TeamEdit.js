@@ -41,6 +41,21 @@ const Input = styled.input`
     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
   }
 `;
+const TextArea = styled.textarea`
+  width: 100%;
+  height: 140px; // 원하는 대로 적용됨
+  padding: 20px 20px;
+  border-radius: 40px;
+  border: 1px solid #e5e7eb;
+  resize: none;
+  font-size: 14px;
+  outline: none;
+
+  &:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+  }
+`;
 
 // 🔥 취소 버튼 (ButtonComponent 기반)
 const CancelButton = styled(ButtonComponent)`
@@ -118,7 +133,7 @@ const TeamEdit = () => {
 
         <Row>
           <Label>팀 설명</Label>
-          <Input
+          <TextArea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="팀 설명을 입력하세요"
