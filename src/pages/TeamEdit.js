@@ -11,13 +11,23 @@ import {
   FormBox,
   Title,
   Label,
-  Row,
   ButtonRow,
 } from "../components/profile/ProfileComponent";
 
 // ⬇ 프로젝트 공통 버튼 컴포넌트
 import ButtonComponent from "../components/common/ButtonComponent";
 
+export const Row = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f3f4f6;
+
+  &:last-child {
+    border-bottom: none;
+  }
+`;
 // 인풋 스타일만 따로
 const Input = styled.input`
   flex: 1;

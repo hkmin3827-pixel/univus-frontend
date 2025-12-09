@@ -19,13 +19,17 @@ import profileDefaultImg from "../images/profileDefaultImg.png";
 
 const EditWrapper = styled.div`
   width: 100%;
-  min-height: 100vh;
   background: #f5f7ff;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 40px 40px 80px;
+  padding: 40px 20px;
   box-sizing: border-box;
+  border-radius: 50px;
+  @media screen and (max-width: 939px) {
+    align-items: flex-start;
+    padding: 20px;
+  }
 `;
 
 const Profile = () => {

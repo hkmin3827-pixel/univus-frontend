@@ -35,11 +35,34 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import styled from "styled-components";
 
+const ChartStyle = styled.div`
+  width: 100%;
+  height: 260px;
+  @media screen and (max-width: 939px) {
+    height: 180px;
+  }
+`;
 const BoardInsightPage = () => {
   const { teamId, boardId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const [radius, setRadius] = useState(getRadius(window.innerWidth));
+
+  function getRadius(w) {
+    if (w < 939) return 60; // 모바일 중간
+    return 90; // PC
+  }
+
+  useEffect(() => {
+    const handleResize = () => {
+      setRadius(getRadius(window.innerWidth));
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const boardName = location.state?.boardName || "";
 
@@ -209,14 +232,14 @@ const BoardInsightPage = () => {
             <EmptyText>데이터가 없습니다.</EmptyText>
           ) : (
             <>
-              <div style={{ width: "100%", height: 260 }}>
+              <ChartStyle>
                 <ResponsiveContainer>
                   <PieChart>
                     <Pie
                       data={pieData}
                       dataKey="value"
                       nameKey="name"
-                      outerRadius={90}
+                      outerRadius={radius}
                       onClick={(_, idx) => handleMemberClick(members[idx])}
                     >
                       {pieData.map((entry, index) => (
@@ -231,7 +254,7 @@ const BoardInsightPage = () => {
                     <Legend />
                   </PieChart>
                 </ResponsiveContainer>
-              </div>
+              </ChartStyle>
 
               <MemberList>
                 {members.map((m, idx) => {

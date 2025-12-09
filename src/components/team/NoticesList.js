@@ -18,7 +18,7 @@ function NoticesList({ notices }) {
 
   return (
     <div className="notice-list-box">
-      <h3>📢 공지사항</h3>
+      <h3>📢 최신 공지사항</h3>
       {notices.length === 0 ? (
         <p className="empty">등록된 공지사항이 없습니다.</p>
       ) : (

@@ -28,10 +28,10 @@
 }
 
 /* 제목 */
-.post-title {
-  font-size: 28px;
-  font-weight: 700;
-  margin: 0;
+.post-detail-title {
+  font-size: 30px;
+  font-weight: 500;
+  margin: 30px 0 10px 0;
 }
 
 /* 작성자 + 점세개 + 날짜 컨테이너 */
@@ -110,7 +110,7 @@ hr {
 }
 
 /* 본문 */
-.post-content {
+.post-detail-content {
   font-size: 18px;
   line-height: 1.7;
   white-space: pre-wrap;
@@ -127,10 +127,23 @@ hr {
 }
 @media (max-width: 940px) {
   .post-detail-container {
-    margin: 5px auto;
+    margin: 0 auto;
+    padding: 2% 5%;
   }
-
-  .post-content {
+  .back-btn {
+    padding: 0;
+  }
+  .menu-icon {
+    padding: 0;
+  }
+  .date {
+    font-size: 12px;
+  }
+  .post-detail-title {
+    font-size: 20px;
+    margin: 10px 0 10px 0;
+  }
+  .post-detail-content {
     display: block !important; /* 혹시 다른 곳에서 display:none;을 걸어도 덮어쓰기 */
     width: 100%;
     font-size: 16px; /* 모바일에서 글자 조금 줄이기 (선택 사항) */

@@ -6,9 +6,10 @@ html,
 body {
   margin: 0;
   padding: 0;
-  width: 100%;
+  height: 100%;
+  /* width: 100%; */
   max-width: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -28,6 +29,9 @@ body {
 .content-wrapper {
   display: flex;
   flex: 1;
+  width: 100%;
+  overflow: hidden;
+  height: calc(100vh - 70px);
 }
 
 textarea {
@@ -43,15 +47,13 @@ textarea {
 .topbar {
   width: 100%;
   height: 70px;
+  min-height: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
   background-color: white;
   border-bottom: 1px solid #ddd;
-  position: fixed;
-  top: 0;
-  left: 0;
   z-index: 2000;
 }
 
@@ -113,10 +115,6 @@ textarea {
   cursor: pointer;
   color: #5f52ff;
 }
-.menu-btn:hover .material-symbols-outlined,
-.menu-btn:active .material-symbols-outlined {
-  color: #4538d3;
-}
 /* 햄버거 버튼 (PC 숨김) */
 .menu-btn {
   background: none !important;
@@ -129,7 +127,7 @@ textarea {
 }
 .top-icons .material-symbols-outlined:hover,
 .top-icons .material-symbols-outlined:active {
-  color: #4538d3;
+  color: #4e0fcb;
 }
 .menu-btn .material-symbols-outlined {
   color: #444;
@@ -266,12 +264,10 @@ textarea {
 
 .sidebar {
   width: 220px;
+  min-width: 220px;
   background: #f8f8f8;
   border-right: 1px solid #ddd;
-  height: calc(100vh - 70px);
-  position: fixed;
-  top: 70px;
-  left: 0;
+  height: 100%;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -279,13 +275,8 @@ textarea {
   gap: 20px;
   overflow-y: auto; /* overlay 삭제 */
   box-sizing: border-box;
-}
-.sidebar::-webkit-scrollbar {
-  width: 5px;
-}
-.sidebar::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: #b0b5ff #f1f1f1;
 }
 .sidebar-top-group {
   display: flex;
@@ -479,26 +470,28 @@ textarea {
 ========================================================= */
 
 .main-content {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  padding: 90px 30px 30px 30px;
+  height: 100%;
+  padding: 20px 20px 20px 20px;
   background: #fff;
-  margin-left: 220px;
   width: calc(100% - 220px);
-  overflow: visible;
-}
+  flex: 1;
 
+  overflow-y: auto; /* 또는 overflow: auto; */
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #b0b5ff #f1f1f1;
+}
+.content-inner {
+}
 /* =========================================================
    반응형 (Mobile)
 ========================================================= */
 
-@media (max-width: 940px) {
+@media (max-width: 939px) {
   /* 검색창 숨김 */
   .search-box {
     display: none;
   }
-
   /* 햄버거 보이기 */
   .menu-btn {
     display: block;
@@ -510,32 +503,34 @@ textarea {
   }
   /* 사이드바 -> 모바일 슬라이드 */
   .sidebar {
+    position: absolute;
     z-index: 2000;
     transform: translateX(100%); /* → 오른쪽으로 숨기기 */
-    top: 70px;
-    left: auto;
     right: 0;
-    height: calc(100vh - 70px);
+    height: 100%;
     transition: transform 0.3s ease;
     overflow-y: auto;
     width: 220px;
+    /* .sidebar.show {
+    right: 0;
+  } */
   }
   .topbar {
     display: flex;
     justify-content: space-between; /* 로고 - 오른쪽 영역 거리 확보 */
     align-items: center;
-    gap: 5px;
+    gap: 10px;
   }
   .topbar .logo {
-    width: 130px;
+    position: absolute;
+    top: 0;
+    left: 20px;
+    background-color: white;
+    width: 60px;
     display: flex; /* ← flex container */
     align-items: center; /* ← 내부 요소 세로 중앙 */
     justify-content: center;
     margin-top: 8px;
-  }
-  .logo img {
-    height: 30px; /* 원하는 로고 크기 */
-    object-fit: contain;
   }
   .sidebar.show {
     transform: translateX(0);
@@ -547,7 +542,7 @@ textarea {
     width: 100%;
   }
   .top-icons {
-    gap: 15px !important;
+    gap: 13px !important;
     display: flex;
     align-items: center;
     margin-left: auto; /* 로고와의 간격 확보 */

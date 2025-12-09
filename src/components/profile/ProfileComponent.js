@@ -3,15 +3,20 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
-  min-height: 100vh;
-  background: #f5f7ff;
-
+  background-color: #f5f7ff;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
+  min-height: calc(100vh - 70px - 40px);
 
-  padding: 30px 20px;
+  padding: 40px 20px;
   box-sizing: border-box;
+  border-radius: 50px;
+  @media screen and (max-width: 939px) {
+    padding: 20px;
+    align-items: flex-start;
+    min-height: auto;
+  }
 `;
 
 // 카드 전체를 감싸는 박스
@@ -37,6 +42,9 @@ export const Title = styled.h2`
   text-align: center;
   margin: 4px 0 20px;
   color: #111827;
+  @media screen and (max-width: 939px) {
+    font-size: 20px;
+  }
 `;
 
 // 섹션 제목 (기본 정보 / 학생 정보 / 교수 정보)
@@ -54,6 +62,11 @@ export const ProfileImage = styled.img`
   object-fit: cover;
   border: 2px solid #e5e7eb;
   background: #f3f4f6;
+
+  @media screen and (max-width: 939px) {
+    width: 40px;
+    height: 40px;
+  }
 `;
 
 // 한 줄: 라벨 + 값

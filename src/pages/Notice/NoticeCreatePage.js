@@ -17,6 +17,13 @@ const PageWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-start;
+
+  @media screen and (max-width: 939px) {
+    & {
+      padding: 20px;
+      min-height: 100%;
+    }
+  }
 `;
 
 const NoticeCreatePage = () => {

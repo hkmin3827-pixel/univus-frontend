@@ -228,3 +228,24 @@
 .pagination button:not(:disabled):hover {
   background: #f5f6ff;
 }
+@media screen and (max-width: 939px) {
+  .comment-title {
+    font-size: 14px;
+    font-weight: 400;
+  }
+  .comment-container {
+    margin: 0;
+  }
+  .pagination,
+  .pagination button {
+    font-size: 11px;
+  }
+
+  .comment-writer {
+    font-size: 13px;
+    font-weight: 400;
+  }
+  .comment-date {
+    font-size: 10px;
+  }
+}

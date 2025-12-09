@@ -8,14 +8,14 @@ export const PageContainer = styled.div`
   background: #f5f7ff;
   display: flex;
   flex-direction: column;
-  min-height: auto;
-  height: auto;
+  min-height: calc(100vh - 70px - 24px * 2);
+  flex: 1;
   box-sizing: border-box;
   border-radius: 30px;
   overflow: visible;
 
-  @media (min-width: 1200px) {
-    min-height: 1200px;
+  @media (max-width: 939px) {
+    min-height: calc(100vh - 60px);
   }
 `;
 
@@ -24,6 +24,9 @@ export const Title = styled.h2`
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 20px;
+  @media screen and (max-width: 939px) {
+    font-size: 20px;
+  }
 `;
 
 // 2 x 2 카드 레이아웃
@@ -53,6 +56,9 @@ export const CardTitle = styled.div`
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 12px;
+  @media screen and (max-width: 939px) {
+    font-size: 15px;
+  }
 `;
 
 // 팀원 리스트
@@ -93,6 +99,11 @@ export const Avatar = styled.div`
   background-position: center;
   background-image: url(${(props) => props.src});
   background-color: #e5e7eb;
+
+  @media screen and (max-width: 939px) {
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 export const MemberName = styled.span`

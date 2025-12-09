@@ -1,5 +1,5 @@
 // PostDetailPage.jsx
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PostApi from "../api/PostApi";
 import CommentSection from "../components/comment/CommentSection";
@@ -25,6 +25,7 @@ function PostDetailPage() {
   const [post, setPost] = useState(null);
   const [EditMenuOpen, setEditMenuOpen] = useState(false);
   const loginUserEmail = localStorage.getItem("email");
+  const menuRef = useRef(null);
 
   const isOwner = post?.userEmail === loginUserEmail;
 
@@ -72,6 +73,25 @@ function PostDetailPage() {
       alert(message);
     }
   };
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (e.target.closest(".menu-icon")) return;
+      // 메뉴가 열려있고, 클릭한 곳이 메뉴 내부가 아닐 때 닫기
+      if (
+        EditMenuOpen &&
+        menuRef.current &&
+        !menuRef.current.contains(e.target)
+      ) {
+        setEditMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [EditMenuOpen]);
   const formatDateTime = (dateTimeString) => {
     if (!dateTimeString) return "";
     const [datePart, timeWithMs] = dateTimeString.split("T");
@@ -94,7 +114,7 @@ function PostDetailPage() {
       >
         <span className="material-symbols-outlined">arrow_back</span>
       </button>
-      <h1 className="post-title">{post?.title}</h1>
+      <h1 className="post-detail-title">{post?.title}</h1>
       <div className="post-info">
         <div className="post-writer">
           {/* 프로필 이미지 */}
@@ -130,7 +150,7 @@ function PostDetailPage() {
             </button>
           )}
           {EditMenuOpen && (
-            <div className="dropdown">
+            <div className="dropdown" ref={menuRef}>
               <button onClick={handleEdit}>수정</button>
               <button onClick={handleDelete}>삭제</button>
             </div>
@@ -142,7 +162,7 @@ function PostDetailPage() {
       </div>
 
       <hr />
-      <div className="post-content">{post?.content}</div>
+      <div className="post-detail-content">{post?.content}</div>
       {post?.fileUrl && post?.fileName && (
         <div className="file-box">
           {isImage(post.fileName) ? (

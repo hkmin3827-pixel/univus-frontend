@@ -14,6 +14,11 @@ const Title = styled.h1`
   font-size: 1.6rem;
   font-weight: 700;
   margin-bottom: 24px;
+
+  @media screen and (max-width: 939px) {
+    font-size: 22px;
+    font-weight: 600;
+  }
 `;
 
 const TitleInput = styled.input`
@@ -23,6 +28,10 @@ const TitleInput = styled.input`
   border: 1px solid #ddd;
   border-radius: 10px;
   margin-bottom: 20px;
+
+  @media screen and (max-width: 939px) {
+    font-size: 16px;
+  }
 `;
 
 const ContentTextArea = styled.textarea`
@@ -34,6 +43,9 @@ const ContentTextArea = styled.textarea`
   border-radius: 10px;
   resize: none;
   margin-bottom: 24px;
+  @media screen and (max-width: 939px) {
+    font-size: 14px;
+  }
 `;
 
 const FileSection = styled.div`

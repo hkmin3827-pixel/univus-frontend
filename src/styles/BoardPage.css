@@ -28,20 +28,6 @@
   font-weight: 300;
   line-height: 1.5;
 }
-
-/* .back-btn {
-  border: none;
-  background: none;
-  color: #999;
-  cursor: pointer;
-}
-.back-btn span {
-  font-size: 30px;
-}
-.back-btn:hover {
-  background-color: inherit;
-  color: #333;
-} */
 .new-post-btn {
   background: #5f52ff;
   border: none;
@@ -51,6 +37,7 @@
   font-weight: 600;
   position: absolute;
   right: 0;
+  top: 5px;
 }
 
 .post-list {
@@ -74,15 +61,15 @@
   background: #f7f7ff;
 }
 .post-title {
-  font-size: 22px !important;
+  font-size: 20px !important;
   font-weight: 500 !important;
   padding-left: 10px;
+  margin-top: 0;
 }
 .post-content {
   font-size: 14px !important;
   color: #666;
-  padding-top: 10px;
-  padding-left: 10px;
+  padding: 10px 0 15px 10px;
 }
 .pagination {
   display: flex;
@@ -133,6 +120,11 @@
 .create-btn-mobile {
   display: none;
 }
+
+.post-card .post-title {
+  margin-top: 0;
+}
+
 @media (max-width: 939px) {
   /* .back-btn {
     display: none;

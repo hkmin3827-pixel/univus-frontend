@@ -18,6 +18,10 @@ const Wrapper = styled.div`
   z-index: 1000;
   display: flex;
   flex-direction: column;
+
+  @media screen and (max-width: 939px) {
+    width: 300px;
+  }
 `;
 
 /* ------------------ Tabs ------------------ */
@@ -38,6 +42,10 @@ const CategoryTab = styled.div`
 
   &:hover {
     background: #f5efff;
+  }
+
+  @media screen and (max-width: 939px) {
+    font-size: 13px;
   }
 `;
 
@@ -62,6 +70,10 @@ const FilterTab = styled.div`
 
   &:hover {
     background: #f5efff;
+  }
+
+  @media screen and (max-width: 939px) {
+    font-size: 12px;
   }
 `;
 

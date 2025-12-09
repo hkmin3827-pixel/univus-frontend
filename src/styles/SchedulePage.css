@@ -48,13 +48,36 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 939px) {
   /* 아주 작은 화면에서는 today 버튼 숨기고 + 버튼만 보이게 */
   .fc-today-button {
-    display: none;
+    display: none !important;
   }
 
   .fc-toolbar-chunk:last-child {
     justify-content: flex-end;
+  }
+  .fc-event-time {
+    display: none !important;
+  }
+
+  /* dayGridMonth 이벤트 칸의 시간 숨김 */
+  .fc-daygrid-event .fc-event-time {
+    display: none !important;
+  }
+
+  /* week/day view 시간 레이블 숨김 */
+  .fc-timegrid-slot-label {
+    display: none !important;
+  }
+
+  /* 시간칸 자체도 더 얇게 */
+  .fc-timegrid-slot {
+    height: 14px !important;
+  }
+
+  /* 이벤트 높이 자동 조절 */
+  .fc-timegrid-event {
+    height: auto !important;
   }
 }

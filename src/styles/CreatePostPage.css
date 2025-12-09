@@ -22,7 +22,7 @@
 .page-title {
   font-size: 26px;
   font-weight: 700;
-  margin: 10px 0 20px;
+  margin: 50px 0 20px;
 }
 
 .title-input {
@@ -105,7 +105,7 @@
 }
 @media (max-width: 939px) {
   .create-post-container {
-    padding: 0 !important;
+    padding: 2% 5%;
   }
   .page-title {
     font-size: 18px;
@@ -120,5 +120,19 @@
   .link-invite-info {
     width: 90%;
     margin: 0 auto;
+  }
+  .title-input {
+    padding: 14px;
+    font-size: 16px;
+    height: 40px;
+  }
+
+  .content-input {
+    height: 200px;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    resize: none;
   }
 }

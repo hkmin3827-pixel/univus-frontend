@@ -35,7 +35,6 @@ function Layout() {
   const toggleActivity = useCallback(() => {
     setActivityModalOpen((prev) => !prev);
   }, []);
-  console.log("activityModalOpen:", activityModalOpen);
   return (
     <>
       <NotificationProvider>
@@ -66,7 +65,9 @@ function Layout() {
             />
 
             <main className="main-content">
-              <Outlet />
+              <div classNave="content-inner">
+                <Outlet />
+              </div>
             </main>
           </div>
         </div>

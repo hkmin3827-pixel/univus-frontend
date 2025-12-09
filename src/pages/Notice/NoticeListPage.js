@@ -6,12 +6,13 @@ import { TeamContext } from "../../context/TeamContext";
 
 const PageWrapper = styled.div`
   width: 100%;
-  min-height: 100vh;
   background: #f3f4ff;
-  padding: 3rem 1rem;
+  padding: 80px 50px;
+  border-radius: 50px;
+  min-height: calc(100vh - 70px - 40px);
 
-  @media (max-width: 768px) {
-    padding: 2rem 0.5rem;
+  @media (max-width: 939px) {
+    padding: 40px 30px;
   }
 `;
 
@@ -22,13 +23,24 @@ const Header = styled.div`
   align-items: center;
   max-width: 1100px;
   margin: 0 auto 2rem;
+  @media (max-width: 939px) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 `;
 
 const Title = styled.h1`
   font-size: clamp(1.5rem, 4vw, 2rem);
-  font-weight: 800;
+  font-weight: 700;
   color: #222;
   margin: 0;
+
+  @media screen and (max-width: 939px) {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
 `;
 
 const Controls = styled.div`
@@ -37,8 +49,9 @@ const Controls = styled.div`
   gap: 0.75rem;
   margin-top: 0.5rem;
 
-  @media (min-width: 768px) {
-    margin-top: 0;
+  @media (max-width: 939px) {
+    width: 100%; /* 줄 맞추기 위해 전체 너비확보 */
+    justify-content: space-between;
   }
 `;
 
@@ -67,6 +80,13 @@ const ListWrapper = styled.div`
   border-radius: 14px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   overflow: hidden;
+  min-height: calc(100vh - 70px - 300px);
+
+  @media screen and (max-width: 939px) {
+    & {
+      min-height: 560px;
+    }
+  }
 `;
 
 const HeadRow = styled.div`

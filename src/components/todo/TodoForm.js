@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../../styles/TodoForm.css";
 
 export default function TodoForm({ onCreate }) {
   const [content, setContent] = useState("");
@@ -36,18 +37,11 @@ export default function TodoForm({ onCreate }) {
       />
       <button
         type="submit"
-        style={{
-          backgroundColor: "#5f5fff",
-          color: "#fff",
-          border: "none",
-          borderRadius: "8px",
-          padding: "12px 20px",
-          fontSize: "14px",
-          cursor: "pointer",
-          transition: "background-color 0.2s",
-        }}
+        className="add-btn"
         onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#4a4acc")}
-        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#5f5fff")}
+        onMouseOut={(e) =>
+          (e.currentTarget.style.backgroundColor = "#050507ff")
+        }
       >
         추가
       </button>

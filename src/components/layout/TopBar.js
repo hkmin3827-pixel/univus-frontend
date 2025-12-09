@@ -5,6 +5,7 @@ import { TeamContext } from "../../context/TeamContext";
 import { UserContext } from "../../context/UserContext";
 import logo from "../../images/layoutLogo.png";
 import profileDefaultImg from "../../images/profileDefaultImg.png";
+import mobileLogo from "../../images/mobile_logo.jpg";
 
 const ProfileImg = styled.img`
   width: 32px;
@@ -115,14 +116,17 @@ function TopBar({
   return (
     <>
       <header className="topbar">
-        <img
-          className="logo"
-          onClick={handleClickLogo}
-          style={{ cursor: "pointer" }}
-          src={logo}
-          alt="univus 로고"
-        />
+        <picture onClick={handleClickLogo} style={{ cursor: "pointer" }}>
+          {/* 939px 이하일 때 이 이미지 사용 */}
+          <source
+            className="logo"
+            media="(max-width: 939px)"
+            srcSet={mobileLogo}
+          />
 
+          {/* 기본 큰 화면용 */}
+          <img className="logo" src={logo} alt="univus 로고" />
+        </picture>
         {/* PC용 중앙 검색창 (모바일에서는 CSS로 숨김) */}
         <div className="search-box">
           <span className="material-symbols-outlined search-icon">search</span>

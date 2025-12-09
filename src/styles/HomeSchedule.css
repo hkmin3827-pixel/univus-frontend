@@ -84,6 +84,10 @@
 .fc-daygrid-dot-event {
   width: auto !important;
 }
+.fc-scroller {
+  scrollbar-width: thin !important; /* Firefox */
+  scrollbar-color: #b0b5ff #f1f1f1 !important;
+}
 
 .fc-daygrid-more-link {
   font-size: 11px;

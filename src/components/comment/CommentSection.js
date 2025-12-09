@@ -1,11 +1,10 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import CommentApi from "../../api/CommentApi";
 import "../../styles/CommentSection.css";
 import { UserContext } from "../../context/UserContext";
 import styled from "styled-components";
 import profileDefaultImg from "../../images/profileDefaultImg.png";
 import { useNavigate, useParams } from "react-router-dom";
-
 const ProfileImg = styled.img`
   width: 25px;
   height: 25px;
@@ -26,6 +25,7 @@ function CommentSection({ postId }) {
   const [menuOpenId, setMenuOpenId] = useState(null);
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+  const menuRefs = useRef({});
 
   const loginUserEmail = localStorage.getItem("email");
 
@@ -91,6 +91,25 @@ function CommentSection({ postId }) {
     return `${datePart} ${timePart}`;
   };
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (e.target.closest(".menu-icon")) return;
+      if (menuOpenId === null) return;
+
+      const currentMenu = menuRefs.current[menuOpenId];
+
+      // 메뉴 ref가 존재하고, 클릭한 부분이 그 안이 아니면 닫기
+      if (currentMenu && !currentMenu.contains(e.target)) {
+        setMenuOpenId(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuOpenId]);
   return (
     <div className="comment-container">
       <h2 className="comment-title">피드백 {comments.length}</h2>
@@ -158,7 +177,10 @@ function CommentSection({ postId }) {
                     </button>
 
                     {menuOpenId === c.id && (
-                      <div className="dropdown">
+                      <div
+                        className="dropdown"
+                        ref={(el) => (menuRefs.current[c.id] = el)}
+                      >
                         <button onClick={() => startEdit(c.id, c.content)}>
                           수정
                         </button>
