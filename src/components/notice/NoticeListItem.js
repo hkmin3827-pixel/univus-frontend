@@ -5,7 +5,7 @@ const Item = styled.div`
   padding: 20px;
   background: #ffffff;
   border-radius: 14px;
-  box-shadow: 0 3px 12px rgba(194, 110, 110, 0.06);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
   cursor: pointer;
   display: flex;
   justify-content: space-between;

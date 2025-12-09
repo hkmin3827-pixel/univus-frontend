@@ -1,12 +1,16 @@
 import styled, { css } from "styled-components";
 
 export const Container = styled.div`
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   background: #f5f7ff;
-  padding: 20px 20px 40px;
+  padding: 20px 20px;
+  overflow-y: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: #b0b5ff #f1f1f1;
 `;
 
 export const TopMenu = styled.header`
@@ -86,8 +90,8 @@ export const Items = styled.div`
 
       span {
         font-size: 30px;
-        font-weight: 700;
-        color: #111827;
+        font-weight: 500;
+        color: #322f2fff;
       }
       @media screen and (max-width: 939px) {
          span{
