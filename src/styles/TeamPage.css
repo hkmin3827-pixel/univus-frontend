@@ -191,7 +191,6 @@
   }
 
   /* 박스 높이 비율 */
-  .schedule-box,
   .notice-list-box,
   .team-lists-container > * {
     height: 22vh;

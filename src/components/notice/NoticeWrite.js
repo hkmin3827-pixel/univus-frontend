@@ -8,6 +8,9 @@ const Card = styled.div`
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  @media screen and (max-width: 939px) {
+    padding: 20px;
+  }
 `;
 
 const Title = styled.h1`
@@ -17,7 +20,7 @@ const Title = styled.h1`
   color: #322f2fff;
 
   @media screen and (max-width: 939px) {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 600;
   }
 `;
@@ -31,7 +34,8 @@ const TitleInput = styled.input`
   margin-bottom: 20px;
 
   @media screen and (max-width: 939px) {
-    font-size: 16px;
+    font-size: 14px;
+    height: 35px;
   }
 `;
 
@@ -46,6 +50,7 @@ const ContentTextArea = styled.textarea`
   margin-bottom: 24px;
   @media screen and (max-width: 939px) {
     font-size: 14px;
+    height: 200px;
   }
 `;
 

@@ -157,6 +157,7 @@ function Home() {
             plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
             events={events}
+            eventDisplay="list-item"
             eventClick={(info) => {
               const event = events.find((e) => e.id === info.event.id);
               setSelectedEvent(event);

@@ -150,6 +150,7 @@ function SchedulePage() {
         dayMaxEvents={false}
         dateClick={handleDateClick}
         eventClick={handleEventClick}
+        eventDisplay="list-item"
         customButtons={{
           addSchedule: {
             text: "일정 추가 +",

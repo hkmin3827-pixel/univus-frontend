@@ -8,27 +8,66 @@
 
 /* dayGrid 셀 안에서 이벤트 높이 숨기지 않게 */
 .fc-daygrid-day-events {
-  overflow: visible !important;
+  overflow: hidden !important;
 }
-
+.fc-daygrid-table {
+  width: 100% !important;
+  table-layout: auto !important; /* 셀 너비를 내용 기반으로 자연스레 늘릴 수 있음 */
+}
+.fc-theme-standard td,
+.fc-theme-standard th {
+  border: 1px solid #ddd;
+}
 /* 각 날짜 셀 프레임이 내용만큼 커질 수 있게 */
 .fc-daygrid-day-frame {
-  min-height: 120px !important; /* 원하는 값으로 조절 */
+  min-height: 100px !important; /* 원하는 값으로 조절 */
   height: auto !important;
-  overflow: visible !important;
+  overflow: hidden !important;
 }
 
 /* 혹시 다른 css에서 max-height 걸려 있으면 덮어쓰기용 */
 .fc-daygrid-day {
+  width: auto !important;
+  padding: 4px !important;
   height: auto !important;
 }
-
+.fc-daygrid-event-dot {
+  border-color: #5f52ff !important;
+  background-color: #5f52ff !important;
+  margin-right: 6px !important;
+  border-radius: 50% !important;
+  display: inline-block !important;
+}
+.fc-daygrid-event .fc-event-title {
+  color: #111 !important;
+  font-weight: 500;
+  font-size: 14px;
+}
+.fc-daygrid-event .fc-event-time {
+  color: #111 !important;
+  font-weight: 400;
+}
+.fc-daygrid-event {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 2px 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
 /* ===== 반응형 헤더/버튼 처리 ===== */
-@media (max-width: 768px) {
+@media (max-width: 939px) {
+  .calendar-container {
+    margin: 0;
+  }
+  .calendar-container h2 {
+    font-size: 20px;
+  }
   /* 전체 버튼 크기 축소 */
   .fc-toolbar-chunk button {
     padding: 4px 8px !important;
-    font-size: 0.8rem !important;
+    font-size: 0.6rem !important;
   }
 
   /* 캘린더 제목 크기 축소 */
@@ -37,7 +76,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 60%;
+    max-width: 100%;
   }
 
   /* 오른쪽 버튼 그룹이 화면 넘치지 않게 조정 */
@@ -65,7 +104,9 @@
   .fc-daygrid-event .fc-event-time {
     display: none !important;
   }
-
+  .fc-daygrid-event {
+    font-size: 0.8rem !important;
+  }
   /* week/day view 시간 레이블 숨김 */
   .fc-timegrid-slot-label {
     display: none !important;
@@ -79,5 +120,16 @@
   /* 이벤트 높이 자동 조절 */
   .fc-timegrid-event {
     height: auto !important;
+  }
+  .fc .fc-daygrid-body {
+    min-height: 300px !important; /* 기본 700~900px인데 과하게 높음 → 낮추기 */
+  }
+
+  .fc-daygrid-day {
+    padding: 2px !important;
+  }
+
+  .fc .fc-daygrid-day-frame {
+    min-height: 50px !important;
   }
 }

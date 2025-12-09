@@ -46,13 +46,6 @@
   border-radius: 6px;
 }
 
-.dot {
-  width: 10px;
-  height: 10px;
-  background: #6c63ff;
-  border-radius: 50%;
-}
-
 .title {
   font-weight: 600;
 }
@@ -97,28 +90,51 @@
   font-weight: 600;
   cursor: pointer;
 }
-.fc-daygrid-day-frame {
-  min-height: 120px !important; /* 원하는 값으로 조절 */
-  height: auto !important;
-  overflow: visible !important;
-}
 .fc-daygrid-day-events {
-  overflow: visible !important;
+  overflow: hidden !important;
 }
 .fc-daygrid-day {
   height: auto !important;
 }
+.fc-daygrid-event-dot {
+  border-color: #5f52ff !important;
+  background-color: #5f52ff !important;
+  margin-right: 6px !important;
+  border-radius: 50% !important;
+  display: inline-block !important;
+}
+.fc-daygrid-event .fc-event-title {
+  color: #111 !important;
+  font-weight: 500;
+  font-size: 14px;
+}
+.fc-daygrid-event .fc-event-time {
+  color: #111 !important;
+  font-weight: 400;
+}
+.fc-daygrid-event {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 2px 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
 @media screen and (max-width: 939px) {
   .home-container {
+    display: flex;
     flex-direction: column;
-    height: auto; /* <--- 이거 */
-    gap: 14px;
-    padding: 14px;
+    height: calc(100vh - 70px);
+    overflow: hidden;
+    box-sizing: border-box;
   }
 
   .schedule-box {
-    height: auto !important; /* 하얀박스 높이 자동 */
-    min-height: 200px; /* 최소 높이 보장 */
-    overflow-y: visible; /* 스크롤 제거 */
+    height: auto !important;
+    /* 하얀박스 높이 자동 */
+    min-height: 200px !important;
+    max-height: 300px !important;
+    overflow-y: auto !important;
   }
 }
