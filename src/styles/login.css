@@ -1,0 +1,30 @@
+.header {
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.logo {
+  display: flex;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+@media (max-width: 939x) {
+  .logo {
+    left: 8px;
+    top: 10px;
+    width: 140px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    left: 1px;
+    top: 10px;
+    width: 140px;
+  }
+}
