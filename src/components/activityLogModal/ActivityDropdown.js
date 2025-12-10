@@ -35,7 +35,7 @@ const CategoryTab = styled.div`
   padding: 7px 12px;
   border-radius: 10px;
   cursor: pointer;
-  font-weight: ${({ active }) => (active ? "600" : "400")};
+  font-weight: ${({ active }) => (active ? "500" : "400")};
   background: ${({ active }) => (active ? "#A294F9" : "transparent")};
   color: ${({ active }) => (active ? "rgb(78, 47, 169)" : "#666")};
   transition: 0.15s;
@@ -232,7 +232,7 @@ export default function ActivityDropdown({ onClose }) {
           active={category === "todo"}
           onClick={() => setCategory("todo")}
         >
-          완료과제
+          완료된 TODO
         </CategoryTab>
 
         <CategoryTab
